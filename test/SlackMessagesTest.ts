@@ -74,7 +74,12 @@ describe("SlackMessageBuilder", () => {
 
         it("should render JSON", () => {
             assert.equal(render(msg),
-                "{\"text\":\"<https://github.com/tanya-coding|@tanya-coding> opened issue: <https://github.com/atomisthq/bot-service/issues/484|This issue has &lt;unsafe&gt; characters &amp; stuff>\",\"attachments\":[{\"text\":\"This is a very important issue with &lt;unsafe&gt; characters &amp; stuff\",\"fallback\":\"This issue has &lt;unsafe&gt; characters &amp; stuff\",\"mrkdwn_in\":[\"text\"],\"actions\":[{\"text\":\"Close issue\",\"type\":\"button\",\"name\":\"rug\",\"value\":\"somebuttonid\"}]}]}",
+                "{\"text\":\"<https://github.com/tanya-coding|@tanya-coding> opened issue: " +
+                "<https://github.com/atomisthq/bot-service/issues/484|This issue has &lt;unsafe&gt; " +
+                "characters &amp; stuff>\",\"attachments\":[{\"text\":\"This is a very important issue " +
+                "with &lt;unsafe&gt; characters &amp; stuff\",\"fallback\":\"This issue has &lt;unsafe&gt; " +
+                "characters &amp; stuff\",\"mrkdwn_in\":[\"text\"],\"actions\":" +
+                "[{\"text\":\"Close issue\",\"type\":\"button\",\"name\":\"rug\",\"value\":\"somebuttonid\"}]}]}",
             );
         });
 
