@@ -6,6 +6,8 @@ branches:
   - "/\\+travis\\d+$/"
 env:
   global:
+  - secure: MpXilU4uTNK3U1zhm6n/hWFbnV/uvIKypMc+7wWJFPmZuuGWMdtxcbcfqEepP084/ZxrdjeRCS/1NObEdSAB2gUr6tEFSS7YGjW99A0NXaFcpAM+z5324LRwvD4Hg73wHgQC6a1K4Vi0yTfi8SJenqcpc6bZM1DaqLgk0YS69lT598KAhyEJ+4uWA6+Lm/zlTCVk7IDnGo7E0Hx/6klWpW7hfKhMi8fzAXglwR2c+PVAcyQ/ibC3ZfkvEWbXI3AGuV/1JoCSsXlnnw8n41pmqMqe2V6VIMaP3JgktILFEyqiUMMmkDRHXXF5WyswM1sdslHipBjwOzWO2ovUowrQNBv80d/LRQw8Z/OXqIoWG/jztQ3CTTf0LILnF0HDSsBcALSQgAjWHTQiN3mLbM0JxwyLx1ffH3/+61ZGt0mmDAOA4H/c7smDgri31Q70B1qnphArFh8lqMs8xhVU3ji3wqu9Sm3R4SW/FJ4gos8kv/xxB1Q53GXrSSDkJfno+9hax5ND7Hw+xja8Q8+bIDB/pajQA7hPx2lX2/R7wWDaLFz8fLpth52ciig22Z4vcsBz7LUkG8qLPiVKoacsZxD+PydrVZR40zWjyPEquntU/DYLJPby7rPugoNqJ+/ccdaL0hlv/+WBquzGcOFLV91eGVXbjnKLVPV6/bZVtHrwb8g=
+  - secure: EE5nrojV3v7EMpYKL2BM/fAY6Aq+uZolg/ggSUb2sQfYdhR611zbxcsY8PGtuL6vzXG/0aSG6b9hrNwzEVqd7j00qtnzz6+/B+zRwSmDF/k0JObXnzPFYltKMaXR2fIIWPIWVPFwUNb68VhQtnt7zdZTGy1f+PC7UEjvz7WYf0w8mpPQPOmwJxl0/qDIOHzJHPEtAxMXj8pSkb6QZ6U2XAKRQ113Cpi9qtkuOG2Fvdbp0daOdYlL7u4c04bwoINfTU0DSIkJBG0g6lZHfUOgIsMxm8ufROzIMpdJyeCr29Cet70vseNnJK9axunoAGFaA3I1LVTsQomZQtRnlgOgeVks0KGDZjPHH1/3x0hHxxEXdudJ0WmKybm1QSKaGKlviXHZZ7BjKFGbb5+2KoF+diUzht7+mEpgdhZ/jl+9SOh0snKUJ36zWVE2wP35Fz+OMy/tcSmzzHvMz9vpgMbchA5sED/RQGso/zCDuQmLDznsbSn76Ewjayj2TnLI+NRFMeE2msQLdt3j2C5yZKoEsKdoVID+8cd1aREaS43im2L4q8otzaKnCKOFgwWjZR7fCpNhhxlh20g9G0h/UqqAdCN7i1KVh66sejUvDA5y+NGDO2qQFcE0xTr/5qca6McClp0JBTMfgG1BRe7v/zuPzQuZIWw9f7TpWzR3ZTUFRqM=
 script: bash travis-build.bash
 notifications:
   email: false
@@ -20,6 +22,8 @@ notifications:
 cache: yarn
 deploy:
   provider: releases
+  api_key:
+    secure: aQ7eYLmVlq6t6BBX9YX+Ej6Ww+HD5LFDaAqYvgPVn1934h11nlAVJDGBTv5Gc73lPoC790X6cV2xLVnpCe6Wi9Bgjfqo4CCwAc7vfRZUGklaOMEDQpSwTUzmS2mxk5IQfYzWQM6m3zGHvMRvjUMsFlDhJ3j75UV/oTWO9jBvVnbe5TGb78ay4Qgg/NOijZa3mswIbaPVPlceRVXBWk4MbKlZYUHtlxgzkZil6pXI7CuEa80qWQsBaJaMTKt67i/9hIev93qzNPD7v1mcmM4noW/DVNCnvmGt60IYo9842aJs9bx6LtWY2tCotEHm8r6f2AlwHHdk1337NhggNemy1tEb/d4kYtEl8ba6Xxhos8R6lB/oH8/T76B8OwCG6/Nvz7yu+dEMhJ4yU/2FopTfP9AmheHzSded/HKSrjY8Q+IhZoLlvYes2E7aLT3X0zPY52myVHC8C2Dvn1AnocBdtAIC/FqZSQ7bsPyWlnV0Ovxh3Q/5LGSkJ0yg/ytm7Nk0TSXlTynDeWeZrxLQGMnBxwlRl5DojZ5wXPhifrXrA0cdal++VCVXhTkZHX3gmTuwwLgRh4IMRiNMgi+vixmHMciMOjAkPGwjzQJjxvOGtysIOsOWmB5o+LIUcBmrJtPo44b1TnhdmjfVE5vHj3BrEGaN0zSIQ8jRSBFR9kReqKM=
   on:
     tags: true
     condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+(-(m|rc)\\.[0-9]+)?$"
