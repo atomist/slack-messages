@@ -1,0 +1,36 @@
+{
+  "name": "@atomist/slack-messages",
+  "version": "0.1.0",
+  "author": "Atomist, Inc",
+  "directories": {
+    "test": "build/test"
+  },
+  "scripts": {
+    "test": "tsc -p . && mocha --require intelli-espower-loader --recursive build/test",
+    "autotest": "supervisor -q -n exit -x ./node_modules/.bin/mocha -- --require intelli-espower-loader --recursive build/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomist/slack-messages.git"
+  },
+  "keywords": [
+    "Atomist"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/atomist/slack-messages/issues"
+  },
+  "homepage": "https://github.com/atomist/slack-messages#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.12",
+    "intelli-espower-loader": "^1.0.1",
+    "power-assert": "^1.4.2",
+    "@types/mocha": "^2.2.40",
+    "@types/power-assert": "^1.4.29",
+    "mocha": "^3.3.0",
+    "supervisor": "^0.12.0"
+  },
+  "dependencies": {
+    "@atomist/rug": "^1.0.0-m.2"
+  }
+}
