@@ -11,9 +11,7 @@ import {
 
 import assert = require("power-assert");
 
-describe("SlackMessageBuilder", () => {
-    // Imagine these coming from model or otherwise built inside the handler;
-    // We might need additional modules for GitHub users & links
+describe("Message rendering", () => {
     const user = {
         url: "https://github.com/tanya-coding",
         name: "tanya-coding",
@@ -29,7 +27,7 @@ describe("SlackMessageBuilder", () => {
         url: "https://github.com/atomisthq/bot-service/issues/484",
     };
     const action = {
-        id: "somebuttonid", // This can be calculated automatically during construction
+        id: "somebuttonid",
         instruction: {
             kind: "command",
             name: "CloseGitHubIssue",
@@ -56,8 +54,6 @@ describe("SlackMessageBuilder", () => {
     });
 
     describe("Given message with attachments and actions", () => {
-        // Now you would construct a more complicated message with attachments and actions
-        // & render it like this:
         const msg = {
             text: `${url(user.url, "@" + user.name)} opened issue: ${url(issue.url, issue.title)}`,
             attachments: [
