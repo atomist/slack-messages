@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+- 7.9.0
+branches:
+  except:
+  - "/\\+travis\\d+$/"
+env:
+  global:
+script: bash travis-build.bash
+notifications:
+  email: false
+  webhooks:
+    urls:
+    - https://webhook.atomist.com/travis
+    on_success: always
+    on_failure: always
+    on_start: always
+    on_cancel: always
+    on_error: always
+cache: yarn
+deploy:
+  provider: releases
+  on:
+    tags: true
+    condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+(-(m|rc)\\.[0-9]+)?$"
+after_deploy:
+- bash npm-publish.bash $TRAVIS_TAG slack-messages
