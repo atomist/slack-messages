@@ -16,7 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 -   `SlackMessage` `text` field should be optional
--   Add missing `author_icon` to `Attachment`
+-   `Attachment` `text` field should be optional
+-   `ActionConfirmation` fields should be optional
+-   Add missing `author_icon` and `callback_id` to `Attachment`
 
 ## [0.1.0]: - 2017-05-09
 

@@ -126,9 +126,12 @@ export interface SlackMessage {
     attachments?: Attachment[];
 }
 
-/** Represent slack attachment. */
+/**
+ * Represent slack attachment.
+ * https://api.slack.com/docs/interactive-message-field-guide#attachment_fields
+ */
 export interface Attachment {
-    text: string;
+    text?: string;
     fallback: string;
     mrkdwn_in?: string[];
     color?: string;
@@ -145,6 +148,8 @@ export interface Attachment {
     footer_icon?: string;
     ts?: number;
     actions?: Action[];
+    callback_id?: string;
+    attachment_type?: string;
 }
 
 /** Represents slack attachment field. */
@@ -169,10 +174,10 @@ export interface Action {
 
 /** Represents Slack action confirmation. */
 export interface ActionConfirmation {
-    title: string;
+    title?: string;
     text: string;
-    ok_text: string;
-    dismiss_text: string;
+    ok_text?: string;
+    dismiss_text?: string;
 }
 
 type ActionType = "button";

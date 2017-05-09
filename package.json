@@ -7,6 +7,7 @@
   },
   "scripts": {
     "test": "tsc -p . && mocha --require intelli-espower-loader --recursive build/test",
+    "cleantest": "rm -rf build && tsc -p . && mocha --require intelli-espower-loader --recursive build/test",
     "autotest": "supervisor -q -n exit -x ./node_modules/.bin/mocha -- --require intelli-espower-loader --recursive build/test"
   },
   "repository": {
