@@ -206,6 +206,16 @@ example:
 
 [semver]: http://semver.org
 
+```
+$ git tag -a 1.2.
+$ git push --tags
+```
+
+The Travis CI build (see badge at the top of this page) will publish
+the NPM module and automatically create a GitHub release using the tag
+name for the release and the comment provided on the annotated tag as
+the contents of the release notes.
+
 ---
 Created by [Atomist][atomist].
 Need Help?  [Join our Slack team][slack].
