@@ -22,17 +22,17 @@
   },
   "homepage": "https://github.com/atomist/slack-messages#readme",
   "devDependencies": {
-    "intelli-espower-loader": "^1.0.1",
-    "power-assert": "^1.4.2",
-    "typescript": "2.2.2",
-    "tslint": "^5.1.0",
-    "@types/node": "^7.0.12",
-    "@types/mocha": "^2.2.40",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.18",
     "@types/power-assert": "^1.4.29",
+    "intelli-espower-loader": "^1.0.1",
     "mocha": "^3.3.0",
-    "supervisor": "^0.12.0"
+    "power-assert": "^1.4.2",
+    "supervisor": "^0.12.0",
+    "tslint": "^5.1.0",
+    "typescript": "2.2.2"
   },
   "dependencies": {
-    "@atomist/rug": "^1.0.0-m.2"
+    "@atomist/rug": "^1.0.0-m.3"
   }
 }

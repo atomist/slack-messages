@@ -2,21 +2,21 @@
 # yarn lockfile v1
 
 
-"@atomist/rug@^1.0.0-m.2":
-  version "1.0.0-m.2"
-  resolved "https://registry.yarnpkg.com/@atomist/rug/-/rug-1.0.0-m.2.tgz#06d14cfe09d66023b6f69aad381fe8ece96b6faa"
+"@atomist/rug@^1.0.0-m.3":
+  version "1.0.0-m.3"
+  resolved "https://registry.yarnpkg.com/@atomist/rug/-/rug-1.0.0-m.3.tgz#5768338bd1e20a6138b1ed0db38e3c881206c867"
 
 "@types/empower@*":
   version "1.2.30"
   resolved "https://registry.yarnpkg.com/@types/empower/-/empower-1.2.30.tgz#c7cfc14b3a61e54c74c674c1fbc91ba2df0d1392"
 
-"@types/mocha@^2.2.40":
-  version "2.2.40"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.40.tgz#9811dd800ece544cd84b5b859917bf584a150c4c"
+"@types/mocha@^2.2.41":
+  version "2.2.41"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.41.tgz#e27cf0817153eb9f2713b2d3f6c68f1e1c3ca608"
 
-"@types/node@^7.0.12":
-  version "7.0.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.12.tgz#ae5f67a19c15f752148004db07cbbb372e69efc9"
+"@types/node@^7.0.18":
+  version "7.0.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.18.tgz#cd67f27d3dc0cfb746f0bdd5e086c4c5d55be173"
 
 "@types/power-assert-formatter@*":
   version "1.4.28"

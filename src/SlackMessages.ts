@@ -1,5 +1,4 @@
-// Waiting on rug release that includes Presentable.id
-// import { Presentable } from "@atomist/rug/operations/Handlers";
+import { Presentable } from "@atomist/rug/operations/Handlers";
 
 /**
  * Construct and render slack messages according to Slack message
@@ -178,7 +177,7 @@ export interface ActionConfirmation {
 type ActionType = "button";
 
 /** Construct Slack button that will execute provided rug instruction. */
-export function rugButtonFrom(action: Action, command: Presentable): Action {
+export function rugButtonFrom(action: Action, command: Presentable<any>): Action {
     const button: Action = { text: action.text };
     for (const attr in action) {
         if (action.hasOwnProperty(attr)) {
@@ -189,16 +188,4 @@ export function rugButtonFrom(action: Action, command: Presentable): Action {
     button.name = "rug";
     button.value = command.id;
     return button;
-}
-
-// These are just temporary stubs until we add dependency to rugs
-export interface Instruction {
-    kind: string;
-    name: string;
-    parameters?: {};
-}
-
-export interface Presentable {
-    id: string;
-    instruction: Instruction;
 }
