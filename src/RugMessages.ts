@@ -28,6 +28,6 @@ export function renderSuccess(msg: string): ResponseMessage {
         const slackMessage = { text: msg };
         return new ResponseMessage(render(slackMessage), MessageMimeTypes.SLACK_JSON);
     } catch (ex) {
-        return new ResponseMessage(`Error rendering error message ${ex}`);
+        return new ResponseMessage(`Error rendering success message ${ex}`);
     }
 }
