@@ -32,7 +32,7 @@ export function url(fullUrl: string, label?: string) {
     }
 }
 
-function emptyString(str: string) {
+export function emptyString(str: string) {
     return !str || str === "";
 }
 
@@ -122,7 +122,7 @@ export function listItem(item: string) {
 
 /** Represents slack message object. */
 export interface SlackMessage {
-    text: string;
+    text?: string;
     attachments?: Attachment[];
 }
 
@@ -135,6 +135,7 @@ export interface Attachment {
     pretext?: string;
     author_name?: string;
     author_link?: string;
+    author_icon?: string;
     title?: string;
     title_link?: string;
     fields?: Field[];
