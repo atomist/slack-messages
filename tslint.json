@@ -5,9 +5,18 @@
     ],
     "jsRules": {},
     "rules": {
-        "interface-name": [true, "never-prefix"],
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
         "max-classes-per-file": false,
-        "object-literal-sort-keys": false
+        "object-literal-sort-keys": false,
+        "ordered-imports": [
+            true,
+            {
+                "import-sources-order": "any"
+            }
+        ]
     },
     "rulesDirectory": []
 }
