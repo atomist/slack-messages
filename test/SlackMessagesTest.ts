@@ -3,9 +3,14 @@ import {
     atEveryone,
     atHere,
     atUser,
+    bold,
+    codeBlock,
+    codeLine,
     escape,
+    italic,
     render,
     rugButtonFrom,
+    strikethrough,
     url,
 } from "../src/SlackMessages";
 
@@ -45,6 +50,20 @@ describe("Message rendering", () => {
         it("should render JSON", () => {
             const rendered = render(msg);
             assert.equal(rendered, "{\"text\":\"This is some message\"}");
+        });
+
+        it("should be able to parse JSON back", () => {
+            const parsed = JSON.parse(render(msg));
+            assert.deepEqual(parsed, msg);
+        });
+    });
+
+    describe("Given simple message with quotes and slashes", () => {
+        const msg = { text: "This is \"some\" \\message" };
+
+        it("should render JSON with escaped quotes", () => {
+            const rendered = render(msg);
+            assert.equal(rendered, "{\"text\":\"This is \\\"some\\\" \\\\message\"}");
         });
 
         it("should be able to parse JSON back", () => {
@@ -134,5 +153,27 @@ describe("Slack variables", () => {
 
     it("Can render @everyone", () => {
         assert.equal("<!everyone>", atEveryone());
+    });
+});
+
+describe("Markdown", () => {
+    it("Can render bold text", () => {
+        assert.equal("*some text*", bold("some text"));
+    });
+
+    it("Can render italic text", () => {
+        assert.equal("_some text_", italic("some text"));
+    });
+
+    it("Can render strike-through text", () => {
+        assert.equal("~some text~", strikethrough("some text"));
+    });
+
+    it("Can render single line code block", () => {
+        assert.equal("`some text`", codeLine("some text"));
+    });
+
+    it("Can render multiline line code block", () => {
+        assert.equal("```some text```", codeBlock("some text"));
     });
 });
