@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.2.0...0.1.0
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.3.0...0.2.0
+
+### Changed
+-   **BREAKING** `Action` fields `name` and `type` are now required in order 
+    to match Slack required fields
 
 ## [0.2.0]: - 2017-05-09
 
