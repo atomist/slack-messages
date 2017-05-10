@@ -165,8 +165,8 @@ export interface Field {
  */
 export interface Action {
     text: string;
-    name?: string;
-    type?: ActionType;
+    name: string;
+    type: ActionType;
     value?: string;
     style?: string;
     confirm?: ActionConfirmation;
@@ -182,16 +182,24 @@ export interface ActionConfirmation {
 
 type ActionType = "button";
 
+export class ButtonSpec {
+    public text: string;
+    public style?: string;
+    public confirm?: ActionConfirmation;
+}
+
 /** Construct Slack button that will execute provided rug instruction. */
-export function rugButtonFrom(action: Action, command: Presentable<any>): Action {
-    const button: Action = { text: action.text };
+export function rugButtonFrom(action: ButtonSpec, command: Presentable<any>): Action {
+    const button: Action = {
+        text: action.text,
+        type: "button",
+        name: "rug",
+        value: command.id,
+    };
     for (const attr in action) {
         if (action.hasOwnProperty(attr)) {
             button[attr] = action[attr];
         }
     }
-    button.type = "button";
-    button.name = "rug";
-    button.value = command.id;
     return button;
 }
