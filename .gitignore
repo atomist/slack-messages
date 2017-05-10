@@ -3,4 +3,5 @@ node_modules
 .idea
 *.iml
 build
+release
 .vscode

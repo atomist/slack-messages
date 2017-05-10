@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.3.1...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.4.0...HEAD
+
+## [0.4.0] - 2017-05-10
+
+[0.4.0]: https://github.com/atomist/slack-messages/compare/0.3.1...0.4.0
+
+### Fixed
+-   **BREAKING** Flatten module structure.  You will need to update your
+    import statements:
+
+    before: `import { ... } from "@atomist/slack-messages/build/src/RugMessages";`
+    
+    after: `import { ... } from "@atomist/slack-messages/RugMessages";`
 
 ## [0.3.1] - 2017-05-10
 

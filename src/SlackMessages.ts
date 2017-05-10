@@ -180,7 +180,7 @@ export interface ActionConfirmation {
     dismiss_text?: string;
 }
 
-type ActionType = "button";
+export type ActionType = "button";
 
 export interface ButtonSpec {
     text: string;
