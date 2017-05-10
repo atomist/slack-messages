@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.3.0...0.2.0
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.3.0...HEAD
+
+## [0.3.0] - 2017-05-10
+
+[0.3.0]: https://github.com/atomist/slack-messages/compare/0.2.0...0.3.0
 
 ### Changed
 -   **BREAKING** `Action` fields `name` and `type` are now required in order 
     to match Slack required fields
 
-## [0.2.0]: - 2017-05-09
+## [0.2.0] - 2017-05-09
+
+[0.2.0]: https://github.com/atomist/slack-messages/compare/0.1.0...0.2.0
 
 ### Added
 -   Add `renderError` and `renderSuccess` generic success and error rug messages
@@ -24,11 +30,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   `ActionConfirmation` fields should be optional
 -   Add missing `author_icon` and `callback_id` to `Attachment`
 
-## [0.1.0]: - 2017-05-09
+## [0.1.0] - 2017-05-09
 
 Initial release
 
-[0.1.0] https://github.com/atomist/slack-messages/releases/tag/0.1.0
+[0.1.0]: https://github.com/atomist/slack-messages/releases/tag/0.1.0
 
 ### Added
 
