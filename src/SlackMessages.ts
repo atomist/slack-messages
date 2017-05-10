@@ -182,10 +182,10 @@ export interface ActionConfirmation {
 
 type ActionType = "button";
 
-export class ButtonSpec {
-    public text: string;
-    public style?: string;
-    public confirm?: ActionConfirmation;
+export interface ButtonSpec {
+    text: string;
+    style?: string;
+    confirm?: ActionConfirmation;
 }
 
 /** Construct Slack button that will execute provided rug instruction. */
