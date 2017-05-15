@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Added explicit `atChannel` that renders as `@channel` in Slack
 
 ### Fixed
--   Fixes #8 (TypeError: key.charAt is not a function)
+-   Fixes [#8](https://github.com/atomist/slack-messages/issues/8) (TypeError: key.charAt is not a function)
 -   Slack helper function will render empty string when given undefined values
 
 ### Changed
