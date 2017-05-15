@@ -1,5 +1,8 @@
 import { Attachment, emptyString, render } from "./SlackMessages";
 import { MessageMimeTypes, ResponseMessage } from "@atomist/rug/operations/Handlers";
+/**
+ *
+ */
 
 export function renderError(msg: string, correlationId?: string): ResponseMessage {
     try {
@@ -28,6 +31,6 @@ export function renderSuccess(msg: string): ResponseMessage {
         const slackMessage = { text: msg };
         return new ResponseMessage(render(slackMessage), MessageMimeTypes.SLACK_JSON);
     } catch (ex) {
-        return new ResponseMessage(`Error rendering success message ${ex}`);
+        return renderError(`Error rendering success message ${ex}`);
     }
 }

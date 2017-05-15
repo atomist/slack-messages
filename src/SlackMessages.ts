@@ -6,17 +6,21 @@ import { Presentable } from "@atomist/rug/operations/Handlers";
  * messages with rug actions.
  */
 
+export function emptyString(str: string) {
+    return !str || str === "" || str === undefined;
+}
+
 /**
  * Escapes special Slack characters.
  */
 export function escape(text: string): string {
-    if (text && text !== "") {
+    if (!emptyString(text)) {
         return text
             .replace(/&/, "&amp;")
             .replace(/</, "&lt;")
             .replace(/>/, "&gt;");
     } else {
-        return text;
+        return "";
     }
 }
 
@@ -25,43 +29,47 @@ export function escape(text: string): string {
  * Label is automatically escaped.
  */
 export function url(fullUrl: string, label?: string) {
-    if (label && label !== "") {
+    if (!emptyString(fullUrl) && !emptyString(label)) {
         return `<${fullUrl}|${escape(label)}>`;
-    } else {
+    } else if (!emptyString(fullUrl)) {
         return `<${fullUrl}>`;
+    } else {
+        return "";
     }
-}
-
-export function emptyString(str: string) {
-    return !str || str === "";
 }
 
 /**
  * Mentions user (e.g. @anna).
  * When userName is provided will add readable user name.
  */
-export function atUser(userId: string, userName?: string) {
-    if (!emptyString(userName)) {
+export function user(userId: string, userName?: string) {
+    if (!emptyString(userId) && !emptyString(userName)) {
         return `<@${userId}|${userName}>`;
-    } else {
+    } else if (!emptyString(userId)) {
         return `<@${userId}>`;
+    } else {
+        return "";
     }
 }
 
 /**
  * Mentions channel (e.g. #general).
- * When both userId and channelName are omitted will render @channel.
- * Otherwise will mention specific channel by channelId.
+ * Will mention specific channel by channelId.
  * When channelName is provided will add readable channel name.
  */
-export function atChannel(channelId?: string, channelName?: string) {
-    if (emptyString(channelId) && emptyString(channelName)) {
-        return "<!channel>";
-    } else if (emptyString(channelName)) {
+export function channel(channelId: string, channelName?: string) {
+    if (!emptyString(channelId) && !emptyString(channelName)) {
+        return `<#${channelId}|${channelName}>`;
+    } else if (!emptyString(channelId)) {
         return `<#${channelId}>`;
     } else {
-        return `<#${channelId}|${channelName}>`;
+        return "";
     }
+}
+
+/** Mentions @channel */
+export function atChannel() {
+    return "<!channel>";
 }
 
 /** Mentions here (@here) */
@@ -76,13 +84,7 @@ export function atEveryone() {
 
 /** Renders JSON representation of slack message. */
 export function render(message: SlackMessage, pretty: boolean = false): string {
-    return JSON.stringify(message, (key, val) => {
-        if (key.charAt(0) !== "_") {
-            return val;
-        } else {
-            return undefined;
-        }
-    }, pretty ? 4 : 0);
+    return JSON.stringify(message, null, pretty ? 4 : 0);
 }
 
 /** Render emoji by name */
@@ -92,32 +94,56 @@ export function emoji(name: string) {
 
 /** Render bold text */
 export function bold(text: string) {
-    return `*${text}*`;
+    if (!emptyString(text)) {
+        return `*${text}*`;
+    } else {
+        return "";
+    }
 }
 
 /** Render italic text */
 export function italic(text: string) {
-    return `_${text}_`;
+    if (!emptyString(text)) {
+        return `_${text}_`;
+    } else {
+        return "";
+    }
 }
 
 /** Render strike-through text */
 export function strikethrough(text: string) {
-    return `~${text}~`;
+    if (!emptyString(text)) {
+        return `~${text}~`;
+    } else {
+        return "";
+    }
 }
 
 /** Render single line code block */
 export function codeLine(text: string) {
-    return "`" + text + "`";
+    if (!emptyString(text)) {
+        return "`" + text + "`";
+    } else {
+        return "";
+    }
 }
 
 /** Render multiline code block */
 export function codeBlock(text: string) {
-    return "```" + text + "```";
+    if (!emptyString(text)) {
+        return "```" + text + "```";
+    } else {
+        return "";
+    }
 }
 
 /** Render bullet list item */
 export function listItem(item: string) {
-    return `• ${item}`;
+    if (!emptyString(item)) {
+        return `• ${item}`;
+    } else {
+        return "•";
+    }
 }
 
 /** Represents slack message object. */

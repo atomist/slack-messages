@@ -103,11 +103,11 @@ url("https://www.atomist.com", "atomist");
 **User & channel links**
 ```typescript
 // @some-user (Slack will display user name for provided user ID)
-atUser("U123");
+user("U123");
   => "<@U123>"
 
 // #some-channel (Slack will display channel name for provided channel ID)
-atChannel("C123");
+channel("C123");
   => "<#C123>"
 ```
 

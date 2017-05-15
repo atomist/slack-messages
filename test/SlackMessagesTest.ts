@@ -2,8 +2,8 @@ import {
     atChannel,
     atEveryone,
     atHere,
-    atUser,
     bold,
+    channel,
     codeBlock,
     codeLine,
     escape,
@@ -12,6 +12,7 @@ import {
     rugButtonFrom,
     strikethrough,
     url,
+    user,
 } from "../src/SlackMessages";
 
 import assert = require("power-assert");
@@ -106,74 +107,100 @@ describe("Message rendering", () => {
 
 describe("Slack character escaping", () => {
     it("Will escape <, >, &", () => {
-        assert.equal("&lt;this &amp; that&gt;", escape("<this & that>"));
+        assert.equal(escape("<this & that>"), "&lt;this &amp; that&gt;");
+    });
+
+    it("Will return empty string when text is undefined", () => {
+        assert.equal(escape(undefined), "");
+    });
+});
+
+describe("Urls", () => {
+    it("Can render links label", () => {
+        assert.equal(url("http://someplace", "some place"), "<http://someplace|some place>");
+    });
+
+    it("Can render links with undefined label", () => {
+        assert.equal(url("http://someplace", undefined), "<http://someplace>");
+    });
+
+    it("Will return empty string when url is undefined", () => {
+        assert.equal(url(undefined, undefined), "");
     });
 });
 
 describe("User links", () => {
     it("Can mention user by user ID", () => {
-        assert.equal("<@U123>", atUser("U123"));
+        assert.equal(user("U123"), "<@U123>");
     });
 
     it("Can mention user by user ID and name", () => {
-        assert.equal("<@U123|anna>", atUser("U123", "anna"));
+        assert.equal(user("U123", "anna"), "<@U123|anna>");
     });
 
     describe("Given blank user name", () => {
         it("Can mention user by user ID", () => {
-            assert.equal("<@U123>", atUser("U123", ""));
+            assert.equal(user("U123", ""), "<@U123>");
         });
+    });
+
+    it("Will return empty string when userId is undefined", () => {
+        assert.equal(user(undefined, undefined), "");
     });
 });
 
 describe("Channel links", () => {
     it("Can mention channel by channel ID", () => {
-        assert.equal("<#C123>", atChannel("C123"));
+        assert.equal(channel("C123"), "<#C123>");
     });
 
     it("Can mention channel by channel ID and name", () => {
-        assert.equal("<#C123|general>", atChannel("C123", "general"));
+        assert.equal(channel("C123", "general"), "<#C123|general>");
     });
 
     describe("Given blank channel name", () => {
         it("Can mention channel by channel ID", () => {
-            assert.equal("<#C123>", atChannel("C123", ""));
+            assert.equal(channel("C123", ""), "<#C123>");
         });
+    });
+
+    it("Will return empty string when userId is undefined", () => {
+        assert.equal(channel(undefined, undefined), "");
     });
 });
 
 describe("Slack variables", () => {
     it("Can render @channel", () => {
-        assert.equal("<!channel>", atChannel());
+        assert.equal(atChannel(), "<!channel>");
     });
 
     it("Can render @here", () => {
-        assert.equal("<!here>", atHere());
+        assert.equal(atHere(), "<!here>");
     });
 
     it("Can render @everyone", () => {
-        assert.equal("<!everyone>", atEveryone());
+        assert.equal(atEveryone(), "<!everyone>");
     });
 });
 
 describe("Markdown", () => {
     it("Can render bold text", () => {
-        assert.equal("*some text*", bold("some text"));
+        assert.equal(bold("some text"), "*some text*");
     });
 
     it("Can render italic text", () => {
-        assert.equal("_some text_", italic("some text"));
+        assert.equal(italic("some text"), "_some text_");
     });
 
     it("Can render strike-through text", () => {
-        assert.equal("~some text~", strikethrough("some text"));
+        assert.equal(strikethrough("some text"), "~some text~");
     });
 
     it("Can render single line code block", () => {
-        assert.equal("`some text`", codeLine("some text"));
+        assert.equal(codeLine("some text"), "`some text`");
     });
 
     it("Can render multiline line code block", () => {
-        assert.equal("```some text```", codeBlock("some text"));
+        assert.equal(codeBlock("some text"), "```some text```");
     });
 });

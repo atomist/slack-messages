@@ -7,7 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.5.0...HEAD
+
+## [0.5.0]
+
+[0.5.0]: https://github.com/atomist/slack-messages/compare/0.4.0...0.5.0
+
+### Added
+-   Added explicit `atChannel` that renders as `@channel` in Slack
+
+### Fixed
+-   Fixes #8 (TypeError: key.charAt is not a function)
+-   Slack helper function will render empty string when given undefined values
+
+### Changed
+-   **BREAKING** Renamed `atUser` to `user`
+-   **BREAKING** Renamed `atChannel` with channel id, channel name to `channel`
 
 ## [0.4.0] - 2017-05-10
 
