@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.5.0...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.5.1...HEAD
 
-## [0.5.0]
+## [0.5.1] - 2017-05-15
+
+[0.5.1]: https://github.com/atomist/slack-messages/compare/0.5.0...0.5.1
+
+### Fixed
+-   Replace special characters globally: [#9](https://github.com/atomist/slack-messages/issues/9)
+
+## [0.5.0] - 2017-05-15
 
 [0.5.0]: https://github.com/atomist/slack-messages/compare/0.4.0...0.5.0
 

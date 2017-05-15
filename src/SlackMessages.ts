@@ -16,9 +16,9 @@ export function emptyString(str: string) {
 export function escape(text: string): string {
     if (!emptyString(text)) {
         return text
-            .replace(/&/, "&amp;")
-            .replace(/</, "&lt;")
-            .replace(/>/, "&gt;");
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
     } else {
         return "";
     }

@@ -110,6 +110,10 @@ describe("Slack character escaping", () => {
         assert.equal(escape("<this & that>"), "&lt;this &amp; that&gt;");
     });
 
+    it("Will escape all >", () => {
+        assert.equal(escape("this->and->that"), "this-&gt;and-&gt;that");
+    });
+
     it("Will return empty string when text is undefined", () => {
         assert.equal(escape(undefined), "");
     });
