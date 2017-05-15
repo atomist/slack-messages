@@ -27,11 +27,11 @@
     "@types/node": "^7.0.18",
     "@types/power-assert": "^1.4.29",
     "intelli-espower-loader": "^1.0.1",
-    "mocha": "^3.3.0",
+    "mocha": "^3.4.1",
     "power-assert": "^1.4.2",
     "supervisor": "^0.12.0",
     "tslint": "^5.1.0",
-    "typescript": "2.2.2"
+    "typescript": "^2.3.2"
   },
   "dependencies": {
     "@atomist/rug": "^1.0.0-m.3"
