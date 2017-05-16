@@ -1,13 +1,11 @@
-import { Presentable } from "@atomist/rug/operations/Handlers";
-
 /**
  * Construct and render slack messages according to Slack message
  * formatting: https://api.slack.com/docs/message-formatting. Customize
  * messages with rug actions.
  */
 
-export function emptyString(str: string) {
-    return !str || str === "" || str === undefined;
+export function emptyString(str: string): boolean {
+    return str == null || str === "";
 }
 
 /**
@@ -82,8 +80,20 @@ export function atEveryone() {
     return "<!everyone>";
 }
 
+function hasItems(arr: any[]): boolean {
+    return arr != null && arr.length > 0;
+}
+
 /** Renders JSON representation of slack message. */
 export function render(message: SlackMessage, pretty: boolean = false): string {
+    if (hasItems(message.attachments)) {
+        let idx = 1;
+        for (const att of message.attachments) {
+            if (hasItems(att.actions) && att.callback_id == null) {
+                att.callback_id = `cllbck${idx++}`;
+            }
+        }
+    }
     return JSON.stringify(message, null, pretty ? 4 : 0);
 }
 
@@ -142,7 +152,7 @@ export function listItem(item: string) {
     if (!emptyString(item)) {
         return `• ${item}`;
     } else {
-        return "•";
+        return "";
     }
 }
 
@@ -214,8 +224,21 @@ export interface ButtonSpec {
     confirm?: ActionConfirmation;
 }
 
+export interface IdentifiableInstruction {
+    id: string;
+}
+
+export class ValidationError extends Error {
+    constructor(public message: string) {
+        super(message);
+    }
+}
+
 /** Construct Slack button that will execute provided rug instruction. */
-export function rugButtonFrom(action: ButtonSpec, command: Presentable<any>): Action {
+export function rugButtonFrom(action: ButtonSpec, command: IdentifiableInstruction): Action {
+    if (emptyString(command.id)) {
+        throw new ValidationError(`Please provide a valid non-empty command id`);
+    }
     const button: Action = {
         text: action.text,
         type: "button",
