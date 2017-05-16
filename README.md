@@ -67,6 +67,7 @@ This will produce the following JSON string (pretty version):
             "mrkdwn_in": [
                 "text"
             ],
+            "callback_id": "cllbck1",
             "actions": [
                 {
                     "text": "Close issue",
@@ -79,7 +80,8 @@ This will produce the following JSON string (pretty version):
     ]
 }
 ```
-
+Note that `render` function will automatically assign unique `callback_id` to each attachments that has actions.
+But, if you provide your custom `callback_id` it will be preserved as is.
 
 ### Additional helper functions:
 
