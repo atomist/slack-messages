@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.5.1...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.6.0...HEAD
+
+## [0.6.0] - 2017-05-16
+
+[0.6.0]: https://github.com/atomist/slack-messages/compare/0.5.1...0.6.0
+
+### Fixed
+-  Enforce message validation to ensure rendered buttons can be clicked: 
+   [#10](https://github.com/atomist/slack-messages/issues/10)
 
 ## [0.5.1] - 2017-05-15
 

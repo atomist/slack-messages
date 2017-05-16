@@ -1,6 +1,6 @@
 {
   "name": "@atomist/slack-messages",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "author": "Atomist, Inc",
   "directories": {
     "test": "build/test"
