@@ -24,14 +24,14 @@ https://api.slack.com/docs/message-formatting
 
 ```typescript
 // A very simple message
-const msg = { text: "Simple message" };
+const msg: SlackMessage = { text: "Simple message" };
 ```
 
 ```typescript
 // Here is an example of a message with a Slack action (button) that launches
 // a rug instruction when clicked.
 // This assumes user, issue and instruction objects are defined elsewhere.
-const msg = {
+const msg: SlackMessage = {
                 text: `${url(user.url, "@" + user.name)} opened issue: ${url(issue.url, issue.title)}`,
                 attachments: [
                     {
