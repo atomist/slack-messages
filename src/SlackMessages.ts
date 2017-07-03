@@ -4,13 +4,12 @@
  * messages with rug actions.
  */
 
-export function emptyString(str: string): boolean {
-    return str == null || str === "";
-}
-
 /**
  * Escapes special Slack characters.
  */
+
+import { emptyString } from "./Common";
+
 export function escape(text: string): string {
     if (!emptyString(text)) {
         return text
