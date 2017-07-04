@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.7.0...HEAD
+
+## [0.7.0] - 2017-07-04
+
+[0.7.0]: https://github.com/atomist/slack-messages/compare/0.6.0...0.7.0
 
 ### Breaking
 -  Moved emptyString from SlackMessages to Common
