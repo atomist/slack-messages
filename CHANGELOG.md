@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [Unreleased]: https://github.com/atomist/slack-messages/compare/0.6.0...HEAD
 
+### Breaking
+-  Moved emptyString from SlackMessages to Common
+
+### Added
+-  Support conversion of GitHub markdown to Slack markdown
+
 ## [0.6.0] - 2017-05-16
 
 [0.6.0]: https://github.com/atomist/slack-messages/compare/0.5.1...0.6.0
