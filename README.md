@@ -162,6 +162,15 @@ listItem("Item 1");
   => "• Item 1"
 ```
 
+## GitHub to Slack markdown conversion
+
+GitHub and Slack markdown are different enough to make your GitHub issues or GitHub PRs look quite bad in Slack by default. You can use `githubToSlack` function from `Markdown` to convert text that uses GitHub markdown to text that will look good in Slack:
+
+```typescript
+githubToSlack("* list item 1\n* list item 2\n\**some bold text** and *some italic text* with a link [click here](http://someplace.com)");
+  => "• list item 1\n• list item 2\n*some bold text* and _some italic text_ with a link <http://someplace.com|click here>"
+```
+
 ## Support
 
 General support questions should be discussed in the `#support`
