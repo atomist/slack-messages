@@ -159,6 +159,8 @@ export function listItem(item: string) {
 export interface SlackMessage {
     text?: string;
     attachments?: Attachment[];
+    unfurl_links?: boolean;
+    unfurl_media?: boolean;
 }
 
 /**
