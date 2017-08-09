@@ -1,7 +1,6 @@
 # @atomist/slack-messages
 
 [![Build Status](https://travis-ci.org/atomist/slack-messages.svg?branch=master)](https://travis-ci.org/atomist/slack-messages)
-[![Slack Status](https://join.atomist.com/badge.svg)](https://join.atomist.com/)
 
 [Node][node] module [`@atomist/slack-messages`][slack-messages] 
 helps rendering well formatted [Slack][slack] messages sent by [`@atomist`][docs] 
