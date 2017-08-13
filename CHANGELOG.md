@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [Unreleased]: https://github.com/atomist/slack-messages/compare/0.7.0...HEAD
 
+### Fixed
+
+-   Improved Markdown to Slack markup conversion [#17][17]
+
+[17]: https://github.com/atomist/slack-messages/issues/17
+
 ## [0.7.0] - 2017-07-04
 
 [0.7.0]: https://github.com/atomist/slack-messages/compare/0.6.0...0.7.0
@@ -24,7 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [0.6.0]: https://github.com/atomist/slack-messages/compare/0.5.1...0.6.0
 
 ### Fixed
--  Enforce message validation to ensure rendered buttons can be clicked: 
+-  Enforce message validation to ensure rendered buttons can be clicked:
    [#10](https://github.com/atomist/slack-messages/issues/10)
 
 ## [0.5.1] - 2017-05-15
@@ -58,7 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     import statements:
 
     before: `import { ... } from "@atomist/slack-messages/build/src/RugMessages";`
-    
+
     after: `import { ... } from "@atomist/slack-messages/RugMessages";`
 
 ## [0.3.1] - 2017-05-10
@@ -73,7 +79,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [0.3.0]: https://github.com/atomist/slack-messages/compare/0.2.0...0.3.0
 
 ### Changed
--   **BREAKING** `Action` fields `name` and `type` are now required in order 
+-   **BREAKING** `Action` fields `name` and `type` are now required in order
     to match Slack required fields
 
 ## [0.2.0] - 2017-05-09
@@ -98,4 +104,4 @@ Initial release
 ### Added
 
 -   Add Slack message rendering and most common rendering helper functions
--   Add support for Slack action buttons that execute rug instructions 
+-   Add support for Slack action buttons that execute rug instructions
