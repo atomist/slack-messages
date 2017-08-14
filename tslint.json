@@ -5,18 +5,16 @@
     ],
     "jsRules": {},
     "rules": {
+        "arrow-parens": [
+            true,
+            "ban-single-arg-parens"
+        ],
         "interface-name": [
             true,
             "never-prefix"
         ],
         "max-classes-per-file": false,
-        "object-literal-sort-keys": false,
-        "ordered-imports": [
-            true,
-            {
-                "import-sources-order": "any"
-            }
-        ]
+        "object-literal-sort-keys": false
     },
     "rulesDirectory": []
 }

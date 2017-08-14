@@ -1,6 +1,6 @@
+import { MessageMimeTypes, ResponseMessage } from "@atomist/rug/operations/Handlers";
 import { emptyString } from "./Common";
 import { Attachment, render } from "./SlackMessages";
-import { MessageMimeTypes, ResponseMessage } from "@atomist/rug/operations/Handlers";
 /**
  *
  */
