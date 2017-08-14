@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@atomist/rug": "^1.0.0-m.5",
+    "deprecated-decorator": "^0.1.6",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
