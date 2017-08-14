@@ -4,7 +4,7 @@
 set -o pipefail
 
 declare Pkg=travis-build-node
-declare Version=0.1.0
+declare Version=0.2.0
 
 function msg() {
     echo "$Pkg: $*"
@@ -17,20 +17,20 @@ function err() {
 # usage: main "$@"
 function main () {
     msg "running tslint"
-    if ! tslint '**/*.ts' --exclude 'node_modules/**'; then
+    if ! npm run lint; then
         err "tslint failed"
         return 1
     fi
 
     msg "compiling typescript"
-    if ! tsc -p .; then
+    if ! npm run compile; then
         err "typescript compilation failed"
         return 1
     fi
 
     msg "running tests"
-    if ! yarn test; then
-        err "yarn test failed"
+    if ! npm test; then
+        err "npm test failed"
         return 1
     fi
 
@@ -69,7 +69,11 @@ function main () {
             err "failed to create git tag: $git_tag"
             return 1
         fi
-        if ! git push --quiet --tags "https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG" > /dev/null 2>&1; then
+        local origin=origin
+        if [[ $GITHUB_TOKEN ]]; then
+            origin=https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG
+        fi
+        if ! git push --quiet --tags "$origin" > /dev/null 2>&1; then
             err "failed to push git tags"
             return 1
         fi

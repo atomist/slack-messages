@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 7.9.0
+- 8.3.0
 branches:
   except:
   - "/\\+travis\\d+$/"
@@ -19,7 +19,9 @@ notifications:
     on_start: always
     on_cancel: always
     on_error: always
-cache: yarn
+cache:
+  directories:
+  - "$HOME/.npm"
 deploy:
   provider: releases
   api_key:
