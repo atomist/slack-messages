@@ -20,10 +20,6 @@ import {
 import assert = require("power-assert");
 
 describe("Message rendering", () => {
-    const user = {
-        url: "https://github.com/tanya-coding",
-        name: "tanya-coding",
-    };
     const issue = {
         number: 484,
         title: "This issue has <unsafe> characters & stuff",
@@ -76,8 +72,12 @@ describe("Message rendering", () => {
     });
 
     describe("Given message with attachments and actions", () => {
+        const ghUser = {
+            url: "https://github.com/tanya-coding",
+            name: "tanya-coding",
+        };
         const msg = {
-            text: `${url(user.url, "@" + user.name)} opened issue: ${url(issue.url, issue.title)}`,
+            text: `${url(ghUser.url, "@" + ghUser.name)} opened issue: ${url(issue.url, issue.title)}`,
             attachments: [
                 {
                     text: escape(issue.body),
