@@ -15,6 +15,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [17]: https://github.com/atomist/slack-messages/issues/17
 
+### Added
+
+-   Standard Slack success, error, and warning messages and colors
+
+### Deprecated
+
+-   renderError and renderSuccess have been replaced by errorResponse
+    and successResponse
+
 ## [0.7.0] - 2017-07-04
 
 [0.7.0]: https://github.com/atomist/slack-messages/compare/0.6.0...0.7.0

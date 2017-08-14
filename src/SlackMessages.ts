@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2017 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /**
  * Construct and render slack messages according to Slack message
  * formatting: https://api.slack.com/docs/message-formatting. Customize
@@ -7,11 +23,8 @@
 /**
  * Escapes special Slack characters.
  */
-
-import { emptyString } from "./Common";
-
 export function escape(text: string): string {
-    if (!emptyString(text)) {
+    if (text) {
         return text
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
@@ -26,9 +39,9 @@ export function escape(text: string): string {
  * Label is automatically escaped.
  */
 export function url(fullUrl: string, label?: string) {
-    if (!emptyString(fullUrl) && !emptyString(label)) {
+    if (fullUrl && label) {
         return `<${fullUrl}|${escape(label)}>`;
-    } else if (!emptyString(fullUrl)) {
+    } else if (fullUrl) {
         return `<${fullUrl}>`;
     } else {
         return "";
@@ -44,9 +57,9 @@ export function url(fullUrl: string, label?: string) {
  * @return properly formatted Slack user mention
  */
 export function user(userId: string, userName?: string) {
-    if (!emptyString(userId) && !emptyString(userName)) {
+    if (userId && userName) {
         return `<@${userId}|${userName}>`;
-    } else if (!emptyString(userId)) {
+    } else if (userId) {
         return `<@${userId}>`;
     } else {
         return "";
@@ -59,9 +72,9 @@ export function user(userId: string, userName?: string) {
  * When channelName is provided will add readable channel name.
  */
 export function channel(channelId: string, channelName?: string) {
-    if (!emptyString(channelId) && !emptyString(channelName)) {
+    if (channelId && channelName) {
         return `<#${channelId}|${channelName}>`;
-    } else if (!emptyString(channelId)) {
+    } else if (channelId) {
         return `<#${channelId}>`;
     } else {
         return "";
@@ -92,7 +105,7 @@ export function render(message: SlackMessage, pretty: boolean = false): string {
     if (hasItems(message.attachments)) {
         let idx = 1;
         for (const att of message.attachments) {
-            if (hasItems(att.actions) && att.callback_id == null) {
+            if (hasItems(att.actions) && !att.callback_id) {
                 att.callback_id = `cllbck${idx++}`;
             }
         }
@@ -102,61 +115,37 @@ export function render(message: SlackMessage, pretty: boolean = false): string {
 
 /** Render emoji by name */
 export function emoji(name: string) {
-    return `:${name}:`;
+    return (name) ? `:${name}:` : "";
 }
 
 /** Render bold text */
 export function bold(text: string) {
-    if (!emptyString(text)) {
-        return `*${text}*`;
-    } else {
-        return "";
-    }
+    return (text) ? `*${text}*` : "";
 }
 
 /** Render italic text */
 export function italic(text: string) {
-    if (!emptyString(text)) {
-        return `_${text}_`;
-    } else {
-        return "";
-    }
+    return (text) ? `_${text}_` : "";
 }
 
 /** Render strike-through text */
 export function strikethrough(text: string) {
-    if (!emptyString(text)) {
-        return `~${text}~`;
-    } else {
-        return "";
-    }
+    return (text) ? `~${text}~` : "";
 }
 
 /** Render single line code block */
 export function codeLine(text: string) {
-    if (!emptyString(text)) {
-        return "`" + text + "`";
-    } else {
-        return "";
-    }
+    return (text) ? "`" + text + "`" : "";
 }
 
 /** Render multiline code block */
 export function codeBlock(text: string) {
-    if (!emptyString(text)) {
-        return "```" + text + "```";
-    } else {
-        return "";
-    }
+    return (text) ? "```" + text + "```" : "";
 }
 
 /** Render bullet list item */
 export function listItem(item: string) {
-    if (!emptyString(item)) {
-        return `• ${item}`;
-    } else {
-        return "";
-    }
+    return (item) ? `• ${item}` : "";
 }
 
 /** Represents slack message object. */
@@ -241,7 +230,7 @@ export class ValidationError extends Error {
 
 /** Construct Slack button that will execute provided rug instruction. */
 export function rugButtonFrom(action: ButtonSpec, command: IdentifiableInstruction): Action {
-    if (emptyString(command.id)) {
+    if (!command.id) {
         throw new ValidationError(`Please provide a valid non-empty command id`);
     }
     const button: Action = {

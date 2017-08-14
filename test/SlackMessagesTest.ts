@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2017 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import {
     atChannel,
     atEveryone,
@@ -232,6 +248,10 @@ describe("Slack character escaping", () => {
     it("Will return empty string when text is undefined", () => {
         assert.equal(escape(undefined), "");
     });
+
+    it("Will return empty string when text is empty string", () => {
+        assert.equal(escape(""), "");
+    });
 });
 
 describe("Urls", () => {
@@ -249,6 +269,10 @@ describe("Urls", () => {
 
     it("Will return empty string when url is null", () => {
         assert.equal(url(null), "");
+    });
+
+    it("Will return empty string when url is empty string", () => {
+        assert.equal(url(""), "");
     });
 });
 
@@ -274,6 +298,10 @@ describe("User links", () => {
     it("Will return empty string when userId is null", () => {
         assert.equal(user(null), "");
     });
+
+    it("Will return empty string when userId is empty string", () => {
+        assert.equal(user(""), "");
+    });
 });
 
 describe("Channel links", () => {
@@ -297,6 +325,10 @@ describe("Channel links", () => {
 
     it("Will return empty string when channelId is null", () => {
         assert.equal(channel(null), "");
+    });
+
+    it("Will return empty string when channelId is empty string", () => {
+        assert.equal(channel(""), "");
     });
 });
 
@@ -327,6 +359,10 @@ describe("Markdown", () => {
         assert.equal(bold(null), "");
     });
 
+    it("bold will return empty string when text is empty string", () => {
+        assert.equal(bold(""), "");
+    });
+
     it("Can render italic text", () => {
         assert.equal(italic("some text"), "_some text_");
     });
@@ -337,6 +373,10 @@ describe("Markdown", () => {
 
     it("italic will return empty string when text is null", () => {
         assert.equal(italic(null), "");
+    });
+
+    it("italic will return empty string when text is empty string", () => {
+        assert.equal(italic(""), "");
     });
 
     it("Can render strike-through text", () => {
@@ -351,6 +391,10 @@ describe("Markdown", () => {
         assert.equal(strikethrough(null), "");
     });
 
+    it("strikethrough will return empty string when text is empty string", () => {
+        assert.equal(strikethrough(""), "");
+    });
+
     it("Can render single line code block", () => {
         assert.equal(codeLine("some text"), "`some text`");
     });
@@ -361,6 +405,10 @@ describe("Markdown", () => {
 
     it("codeLine will return empty string when text is null", () => {
         assert.equal(codeLine(null), "");
+    });
+
+    it("codeLine will return empty string when text is empty string", () => {
+        assert.equal(codeLine(""), "");
     });
 
     it("Can render multiline line code block", () => {
@@ -375,6 +423,10 @@ describe("Markdown", () => {
         assert.equal(codeBlock(null), "");
     });
 
+    it("codeBlock will return empty string when text is empty string", () => {
+        assert.equal(codeBlock(""), "");
+    });
+
     it("Can render list item", () => {
         assert.equal(listItem("some text"), "• some text");
     });
@@ -385,5 +437,9 @@ describe("Markdown", () => {
 
     it("listItem will return empty string when text is null", () => {
         assert.equal(listItem(null), "");
+    });
+
+    it("listItem will return empty string when text is empty string", () => {
+        assert.equal(listItem(""), "");
     });
 });

@@ -104,8 +104,8 @@ function convertMarkdown(text: string): string {
                     convertNamedLinks(
                         convertFormat(text)))));
     } catch (e) {
-        // tslint:disable-next-line:no-console
-        console.error(`replace failed: ${e}`);
+        const err = e as Error;
+        console.error(`replace failed:${err.name}:${err.message}:${err.stack}`);
         return text;
     }
 }
