@@ -38,6 +38,10 @@ export function url(fullUrl: string, label?: string) {
 /**
  * Mentions user (e.g. @anna).
  * When userName is provided will add readable user name.
+ *
+ * @param userId Slack user ID
+ * @param userName alternative user name, which Slack seems to ignore
+ * @return properly formatted Slack user mention
  */
 export function user(userId: string, userName?: string) {
     if (!emptyString(userId) && !emptyString(userName)) {
