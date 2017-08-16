@@ -189,6 +189,13 @@ export interface Field {
     short?: boolean;
 }
 
+export interface SelectOption {
+    text: string;
+    value: string;
+}
+
+export type DataSource = "static" | "users" | "channels" | "conversations" | "external";
+
 /**
  * Represents Slack action.
  * Only button is currently supported.
@@ -200,6 +207,8 @@ export interface Action {
     value?: string;
     style?: string;
     confirm?: ActionConfirmation;
+    options?: SelectOption[];
+    data_source?: DataSource;
 }
 
 /** Represents Slack action confirmation. */
@@ -210,7 +219,7 @@ export interface ActionConfirmation {
     dismiss_text?: string;
 }
 
-export type ActionType = "button";
+export type ActionType = "button" | "select";
 
 export interface ButtonSpec {
     text: string;
@@ -220,6 +229,11 @@ export interface ButtonSpec {
 
 export interface IdentifiableInstruction {
     id: string;
+}
+
+export interface SelectableIdentifiableInstruction extends IdentifiableInstruction {
+    id: string;
+    parameterName: string;
 }
 
 export class ValidationError extends Error {
@@ -245,4 +259,40 @@ export function rugButtonFrom(action: ButtonSpec, command: IdentifiableInstructi
         }
     }
     return button;
+}
+
+export interface SelectSpec {
+    text: string;
+    options: SelectOption[] | DataSource;
+}
+
+/** Construct Slack menu that will execute provided rug instruction. */
+export function rugMenuFrom(action: SelectSpec, command: SelectableIdentifiableInstruction): Action {
+
+    if (!command.id) {
+        throw new ValidationError("SelectableIdentifiableInstruction must have id set");
+    }
+
+    if (!command.parameterName) {
+        throw new ValidationError("SelectableIdentifiableInstruction must have parameterName set");
+    }
+
+    const select: Action = {
+        text: action.text,
+        type: "select",
+        name: `rug::${command.id}`,
+    };
+
+    if (typeof action.options === "string") {
+        select.data_source = action.options;
+    } else {
+        select.options = action.options;
+    }
+
+    for (const attr in action) {
+        if (action.hasOwnProperty(attr) && attr !== "options") {
+            select[attr] = action[attr];
+        }
+    }
+    return select;
 }

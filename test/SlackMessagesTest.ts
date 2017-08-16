@@ -28,6 +28,7 @@ import {
     listItem,
     render,
     rugButtonFrom,
+    rugMenuFrom,
     strikethrough,
     url,
     user,
@@ -228,6 +229,66 @@ describe("Message rendering", () => {
             } catch (error) {
                 assert(error.message != null && error.message !== "");
             }
+        });
+    });
+    describe("Given invalid parameterName", () => {
+        it("should refuse to render message", () => {
+            try {
+                render({
+                    attachments: [{
+                        fallback: "test",
+                        actions: [
+                            rugMenuFrom(
+                                { text: "Test", options: "external" },
+                                { id: undefined, parameterName: undefined }),
+                        ],
+                    }],
+                });
+                assert.fail("Should fail to render");
+            } catch (error) {
+                assert(error.message != null && error.message !== "");
+            }
+        });
+    });
+    describe("Given a data source", () => {
+        it("should add it to the rendered message and not add options", () => {
+            const json = render({
+                attachments: [{
+                    fallback: "test",
+                    actions: [
+                        rugMenuFrom(
+                            { text: "Test", options: "external" },
+                            { id: "id1", parameterName: "param1" }),
+                    ],
+                }],
+            });
+            const rendered = JSON.parse(json);
+            assert(rendered.attachments[0].actions[0].text === "Test");
+            assert(rendered.attachments[0].actions[0].type === "select");
+            assert(rendered.attachments[0].actions[0].name === "rug::id1");
+            assert(rendered.attachments[0].actions[0].data_source === "external");
+            assert(!rendered.attachments[0].actions[0].options);
+        });
+    });
+    describe("Given some options...", () => {
+        it("should add it to the rendered message", () => {
+            const json = render({
+                attachments: [{
+                    fallback: "test",
+                    actions: [
+                        rugMenuFrom(
+                            { text: "Test", options: [{ text: "1stText", value: "1stValue" }] },
+                            { id: "id1", parameterName: "param1" }),
+                    ],
+                }],
+            });
+            const rendered = JSON.parse(json);
+            assert(rendered.attachments[0].actions[0].text === "Test");
+            assert(rendered.attachments[0].actions[0].type === "select");
+            assert(rendered.attachments[0].actions[0].name === "rug::id1");
+            assert(!rendered.attachments[0].actions[0].data_source);
+            assert(rendered.attachments[0].actions[0].options[0].text === "1stText");
+            assert(rendered.attachments[0].actions[0].options[0].value === "1stValue");
         });
     });
 });
