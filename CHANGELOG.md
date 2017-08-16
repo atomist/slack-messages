@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [Unreleased]: https://github.com/atomist/slack-messages/compare/0.8.0...HEAD
 
+### Added
+
+-   New function `rugMenuFrom` in SlackMessages for building Slack combo
+    boxes
+
 ## [0.8.0] - 2017-08-14
 
 [0.8.0]: https://github.com/atomist/slack-messages/compare/0.7.0...0.8.0
