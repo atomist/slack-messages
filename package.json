@@ -18,7 +18,7 @@
     "url": "https://github.com/atomist/slack-messages/issues"
   },
   "dependencies": {
-    "@atomist/rug": "^1.0.0-m.5",
+    "@atomist/rug": "^1.0.0-m.6",
     "deprecated-decorator": "^0.1.6",
     "lodash": "^4.17.4"
   },

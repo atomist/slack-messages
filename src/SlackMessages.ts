@@ -194,6 +194,11 @@ export interface SelectOption {
     value: string;
 }
 
+export interface OptionGroup {
+    text: string;
+    options: SelectOption[];
+}
+
 export type DataSource = "static" | "users" | "channels" | "conversations" | "external";
 
 /**
@@ -208,6 +213,7 @@ export interface Action {
     style?: string;
     confirm?: ActionConfirmation;
     options?: SelectOption[];
+    option_groups?: OptionGroup[];
     data_source?: DataSource;
 }
 
@@ -263,7 +269,7 @@ export function rugButtonFrom(action: ButtonSpec, command: IdentifiableInstructi
 
 export interface SelectSpec {
     text: string;
-    options: SelectOption[] | DataSource;
+    options: SelectOption[] | DataSource | OptionGroup[];
 }
 
 /** Construct Slack menu that will execute provided rug instruction. */
@@ -285,8 +291,15 @@ export function rugMenuFrom(action: SelectSpec, command: SelectableIdentifiableI
 
     if (typeof action.options === "string") {
         select.data_source = action.options;
-    } else {
-        select.options = action.options;
+    } else if (action.options.length > 0) {
+        const first = action.options[0] as any;
+        if (first.value) {
+            // then it's normal options
+            select.options = action.options as SelectOption[];
+        } else {
+            // then it's option groups
+            select.option_groups = action.options as OptionGroup[];
+        }
     }
 
     for (const attr in action) {

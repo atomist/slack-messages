@@ -291,6 +291,35 @@ describe("Message rendering", () => {
             assert(rendered.attachments[0].actions[0].options[0].value === "1stValue");
         });
     });
+    describe("Given some options groups", () => {
+        it("should add it to the rendered message", () => {
+            const json = render({
+                attachments: [{
+                    fallback: "test",
+                    actions: [
+                        rugMenuFrom(
+                            {
+                                text: "Test", options: [
+                                    { text: "Options1", options: [{ text: "1stText", value: "1stValue" }] },
+                                    { text: "Options2", options: [{ text: "2ndText", value: "2ndValue" }] }],
+                            },
+                            { id: "id1", parameterName: "param1" }),
+                    ],
+                }],
+            });
+            const rendered = JSON.parse(json);
+            assert(rendered.attachments[0].actions[0].text === "Test");
+            assert(rendered.attachments[0].actions[0].type === "select");
+            assert(rendered.attachments[0].actions[0].name === "rug::id1");
+            assert(!rendered.attachments[0].actions[0].data_source);
+            assert(rendered.attachments[0].actions[0].option_groups[0].text === "Options1");
+            assert(rendered.attachments[0].actions[0].option_groups[1].text === "Options2");
+            assert(rendered.attachments[0].actions[0].option_groups[0].options[0].text === "1stText");
+            assert(rendered.attachments[0].actions[0].option_groups[0].options[0].value === "1stValue");
+            assert(rendered.attachments[0].actions[0].option_groups[1].options[0].text === "2ndText");
+            assert(rendered.attachments[0].actions[0].option_groups[1].options[0].value === "2ndValue");
+        });
+    });
 });
 
 describe("Slack character escaping", () => {
