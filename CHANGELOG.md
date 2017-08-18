@@ -11,8 +11,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+## [0.10.0] - 2017-08-17
+
 -   New function `rugMenuFrom` in SlackMessages for building Slack combo
     boxes
+
+## [0.9.0] - 2017-08-14
+
+-   Add standard formatted Slack messages and ResponseMessage for success,
+    error, and warning to Rug messages.  Add standard colors for each
+    case.
+-   Deprecate renderError
+    and renderSuccess
 
 ## [0.8.0] - 2017-08-14
 
