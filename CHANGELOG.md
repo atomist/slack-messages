@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.10.0...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.11.0...HEAD
+
+## [0.11.0] - 2017-08-17
+
+[0.11.0]: https://github.com/atomist/slack-messages/compare/0.10.0...0.11.0
+
+Option Groups
 
 ### Added
 
