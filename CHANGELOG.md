@@ -7,16 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.8.0...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.10.0...HEAD
 
 ### Added
 
+-   Support for option_groups in menus
+
 ## [0.10.0] - 2017-08-17
+
+[0.10.0]: https://github.com/atomist/slack-messages/compare/0.9.0...0.10.0
+
+Menus
+
+### Added
 
 -   New function `rugMenuFrom` in SlackMessages for building Slack combo
     boxes
 
 ## [0.9.0] - 2017-08-14
+
+[0.8.0]: https://github.com/atomist/slack-messages/compare/0.8.0...0.9.0
+
+Standard messages
+
+### Added
 
 -   Add standard formatted Slack messages and ResponseMessage for success,
     error, and warning to Rug messages.  Add standard colors for each
