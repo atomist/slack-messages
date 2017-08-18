@@ -17,7 +17,7 @@ See the [Atomist Documentation][docs] for more information.
 
 ## Using Slack message builder
 
-Construct message as a plain map following Slack message formatting API:
+Construct a message as a plain map following the Slack message formatting API:
 
 https://api.slack.com/docs/message-formatting
 
@@ -45,11 +45,13 @@ const msg: SlackMessage = {
             };
 ```
 
-And then simply render message.  This will construct JSON string representation of the message:
+And then render the message with SlackMessages.render.  This will construct a JSON string representation of the message:
 ```typescript
+import { render } from "@atomist/slack-messages/SlackMessages"
+
 const renderedMsg = render(msg);
 ```
-Or to produce pretty JSON string:
+Or to produce a pretty JSON string:
 ```typescript
 const renderedMsg = render(msg, true);
 ```
@@ -79,7 +81,7 @@ This will produce the following JSON string (pretty version):
     ]
 }
 ```
-Note that `render` function will automatically assign unique `callback_id` to each attachments that has actions.
+Note that the `render` function will automatically assign a unique `callback_id` to each attachments that has actions.
 But, if you provide your custom `callback_id` it will be preserved as is.
 
 ### Additional helper functions:
@@ -163,9 +165,11 @@ listItem("Item 1");
 
 ## GitHub to Slack markdown conversion
 
-GitHub and Slack markdown are different enough to make your GitHub issues or GitHub PRs look quite bad in Slack by default. You can use `githubToSlack` function from `Markdown` to convert text that uses GitHub markdown to text that will look good in Slack:
+GitHub and Slack markdown are different enough to make your GitHub issues or GitHub PRs look quite bad in Slack by default. You can use the `githubToSlack` function from `Markdown` to convert text that uses GitHub markdown to text that will look good in Slack:
 
 ```typescript
+import { githubToSlack } from "@atomist/slack-messages/Markdown"
+
 githubToSlack("* list item 1\n* list item 2\n\**some bold text** and *some italic text* with a link [click here](http://someplace.com)");
   => "• list item 1\n• list item 2\n*some bold text* and _some italic text_ with a link <http://someplace.com|click here>"
 ```
