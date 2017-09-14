@@ -32,19 +32,13 @@ function main() {
         return 1
     fi
 
-    msg "compiling release version of typescript"
-    if ! tsc -p tsconfig.release.json; then
-        err "typescript release compilation failed"
-        return 1
-    fi
-
     msg "packaging module"
-    if ! cp release/* .; then
+    if ! cp -r build/src/* .; then
         err "packaging module failed"
         return 1
     fi
 
-     # npm honors this
+    # npm honors this
     rm -f .gitignore
 
     if [[ $NPM_TOKEN ]]; then

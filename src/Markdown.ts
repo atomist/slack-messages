@@ -22,7 +22,7 @@ function trailingSpace(match: string, url: string, space: string, offset: number
  */
 export function convertNamedLinks(text: string): string {
     const namedLinksRegExp = /^\[(.+?)\]:\s*(https?:\/\/\S+).*\n/mg;
-    let matches: string[];
+    let matches: string[] | null;
     const links: any = {};
     // tslint:disable-next-line:no-conditional-assignment
     while (matches = namedLinksRegExp.exec(text)) {
@@ -80,8 +80,7 @@ export function convertLinks(text: string): string {
  * @return string with Slack markup
  */
 export function convertFormat(text: string): string {
-    return text.replace(/^(\s*)-(\s+)/mg, "$1•$2")
-        .replace(/^(\s*)\*(\s+)/mg, "$1•$2")
+    return text.replace(/^(\s*)[-*](\s+)/mg, "$1•$2")
         .replace(/(\*|_)\1(\S|\S.*?\S)\1\1(?!\1)/g, "<bdmkd>$2<bdmkd>")
         .replace(/(\*|_)(?!\1)(\S|\S.*?\S)\1(?!\1)/g, "<itmkd>$2<itmkd>")
         .replace(/<bdmkd>/g, "*")

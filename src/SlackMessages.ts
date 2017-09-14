@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import * as _ from "lodash";
+
 /**
  * Construct and render slack messages according to Slack message
  * formatting: https://api.slack.com/docs/message-formatting. Customize
@@ -96,19 +98,19 @@ export function atEveryone() {
     return "<!everyone>";
 }
 
-function hasItems(arr: any[]): boolean {
-    return arr != null && arr.length > 0;
+function hasItems(arr: any[] | undefined): boolean {
+    return !!arr && arr.length > 0;
 }
 
 /** Renders JSON representation of slack message. */
 export function render(message: SlackMessage, pretty: boolean = false): string {
     if (hasItems(message.attachments)) {
         let idx = 1;
-        for (const att of message.attachments) {
+        _.forIn(message.attachments, att => {
             if (hasItems(att.actions) && !att.callback_id) {
                 att.callback_id = `cllbck${idx++}`;
             }
-        }
+        });
     }
     return JSON.stringify(message, null, pretty ? 4 : 0);
 }
@@ -259,11 +261,9 @@ export function rugButtonFrom(action: ButtonSpec, command: IdentifiableInstructi
         name: "rug",
         value: command.id,
     };
-    for (const attr in action) {
-        if (action.hasOwnProperty(attr)) {
-            button[attr] = action[attr];
-        }
-    }
+    _.forOwn(action, (v, k) => {
+        (button as any)[k] = v;
+    });
     return button;
 }
 
@@ -302,10 +302,10 @@ export function rugMenuFrom(action: SelectSpec, command: SelectableIdentifiableI
         }
     }
 
-    for (const attr in action) {
-        if (action.hasOwnProperty(attr) && attr !== "options") {
-            select[attr] = action[attr];
+    _.forOwn(action, (v, k) => {
+        if (k !== "options") {
+            (select as any)[k] = v;
         }
-    }
+    });
     return select;
 }

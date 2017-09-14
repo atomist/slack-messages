@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 8.3.0
+- 8.4.0
 branches:
   except:
   - "/\\+travis\\d+$/"
@@ -8,7 +8,7 @@ env:
   global:
   - secure: EE5nrojV3v7EMpYKL2BM/fAY6Aq+uZolg/ggSUb2sQfYdhR611zbxcsY8PGtuL6vzXG/0aSG6b9hrNwzEVqd7j00qtnzz6+/B+zRwSmDF/k0JObXnzPFYltKMaXR2fIIWPIWVPFwUNb68VhQtnt7zdZTGy1f+PC7UEjvz7WYf0w8mpPQPOmwJxl0/qDIOHzJHPEtAxMXj8pSkb6QZ6U2XAKRQ113Cpi9qtkuOG2Fvdbp0daOdYlL7u4c04bwoINfTU0DSIkJBG0g6lZHfUOgIsMxm8ufROzIMpdJyeCr29Cet70vseNnJK9axunoAGFaA3I1LVTsQomZQtRnlgOgeVks0KGDZjPHH1/3x0hHxxEXdudJ0WmKybm1QSKaGKlviXHZZ7BjKFGbb5+2KoF+diUzht7+mEpgdhZ/jl+9SOh0snKUJ36zWVE2wP35Fz+OMy/tcSmzzHvMz9vpgMbchA5sED/RQGso/zCDuQmLDznsbSn76Ewjayj2TnLI+NRFMeE2msQLdt3j2C5yZKoEsKdoVID+8cd1aREaS43im2L4q8otzaKnCKOFgwWjZR7fCpNhhxlh20g9G0h/UqqAdCN7i1KVh66sejUvDA5y+NGDO2qQFcE0xTr/5qca6McClp0JBTMfgG1BRe7v/zuPzQuZIWw9f7TpWzR3ZTUFRqM=
   - secure: jFWChwMr7++4BM6+3DrlLmr24QLVhhXCddF7i9z8Zm6xx83009nV0OcOdVRxwSUlEcXL9M3ru0XVXqU6cIR2HQNWx4oZn6col9S5Y8WNZy+SFqm0h53wpkwKmJjpVKk0y9qkws4Wfn2cLptyPtmeTxvEYj+6+cPpp6el2b6PO+MdrQ3v3bkaWED18ZNZGHjOI7kAUB3jPBEByjIFI0GRp4jz8EfeeyuDwdIUHv1ROkwpPP2xZTSy7PwXTgcHgdhw3DG2kq2Ap97L/xahrqVDd45xjXM6EIE0qsnQCeFqOkCdKguBQ/4BCEgg5QKYQMLxaCVf4p78hWCsg0w45OpU1mfUthGgIVndy8hcYM3oUfMbvVJwG3lNu9JfNm7xSdui9pzWq5zHstR2NVQnOpXlIEyqNG3c5JaK6KDDAX437gpqqdVdlg40xUKRK+sbQ0MC0DTcjQgK35vPrKeuuRTXO5Z4dVThWVqxKq2ih4BiLrNDThxNyYT2mqPgROwtzjVZhFJMtobS+nFGvVgRTXUWa76P909yccDRksFT2qnzsOtmOeFRInazsksOsZ/OJZl7S+3Kvv0A49b01q/aBFE4qDrwD2ZOiag2/GObsSQAGUeFkxRyEVmu3gZZHlgOXbkyxjMpaHD/x2Zjswf5PX84PovrcYoOT4cuQvRKGb0q96A=
-script: bash travis-build.bash
+script: bash scripts/travis-build.bash
 notifications:
   email: false
   webhooks:
@@ -30,4 +30,5 @@ deploy:
     tags: true
     condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+(-(m|rc)\\.[0-9]+)?$"
 after_deploy:
-- bash npm-publish.bash $TRAVIS_TAG slack-messages
+- bash scripts/npm-publish.bash $TRAVIS_TAG
+- bash scripts/gh-publish.bash $TRAVIS_REPO_SLUG

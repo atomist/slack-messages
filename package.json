@@ -18,7 +18,7 @@
     "url": "https://github.com/atomist/slack-messages/issues"
   },
   "dependencies": {
-    "@atomist/rug": "^1.0.0-m.6",
+    "@atomist/rug": "^1.0.0-m.7",
     "deprecated-decorator": "^0.1.6",
     "lodash": "^4.17.4"
   },
@@ -30,20 +30,25 @@
     "mocha": "^3.4.2",
     "power-assert": "^1.4.4",
     "supervisor": "^0.12.0",
-    "tslint": "^5.4.3",
-    "typescript": "^2.3.2"
+    "tslint": "^5.6.0",
+    "typedoc": "^0.8.0",
+    "typescript": "^2.5.1",
+    "typescript-formatter": "^6.0.0"
   },
   "directories": {
     "test": "test"
   },
   "scripts": {
     "autotest": "supervisor -q -n exit -x npm -- test",
+    "build": "npm run lint && npm run compile && npm test",
     "clean": "npm run clean-js ; rm -rf build",
     "clean-js": "find src test -type f -name '*.js' -print0 | xargs -0 rm -f",
     "compile": "tsc -p .",
     "distclean": "npm run clean ; rm -rf node_modules",
-    "lint": "tslint '**/*.ts' --exclude 'node_modules/**' --exclude 'build/**' -t verbose",
+    "fmt": "tsfmt --replace",
+    "lint": "tslint --format verbose --project . --exclude '{build,node_modules}/**' '**/*.ts'",
     "lint-fix": "npm run lint -- --fix",
-    "test": "mocha --compilers ts:espower-typescript/guess 'test/**/*.ts'"
+    "test": "mocha --compilers ts:espower-typescript/guess 'test/**/*.ts'",
+    "typedoc": "typedoc --mode modules --excludeExternals"
   }
 }

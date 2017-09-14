@@ -16,21 +16,46 @@ function err() {
 
 # usage: main "$@"
 function main () {
-    msg "running tslint"
-    if ! npm run lint; then
-        err "tslint failed"
+    local arg ignore_lint
+    for arg in "$@"; do
+        case "$arg" in
+            --ignore-lint | --ignore-lin | --ignore-li | --ignore-l)
+                ignore_lint=1
+                ;;
+            -*)
+                err "unknown option: $arg"
+                return 2
+                ;;
+        esac
+    done
+
+    msg "running lint"
+    local lint_status
+    npm run lint
+    lint_status=$?
+    if [[ $lint_status -eq 0 ]]; then
+        :
+    elif [[ $lint_status -eq 2 ]]; then
+        err "TypeScript failed to pass linting"
+        if [[ $ignore_lint ]]; then
+            err "ignoring linting failure"
+        else
+            return 1
+        fi
+    else
+        err "tslint errored"
         return 1
     fi
 
-    msg "compiling typescript"
+    msg "compiling TypeScript"
     if ! npm run compile; then
-        err "typescript compilation failed"
+        err "compilation failed"
         return 1
     fi
 
     msg "running tests"
     if ! npm test; then
-        err "npm test failed"
+        err "tests failed"
         return 1
     fi
 
@@ -69,11 +94,11 @@ function main () {
             err "failed to create git tag: $git_tag"
             return 1
         fi
-        local origin=origin
+        local remote=origin
         if [[ $GITHUB_TOKEN ]]; then
-            origin=https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG
+            remote=https://$GITHUB_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git
         fi
-        if ! git push --quiet --tags "$origin" > /dev/null 2>&1; then
+        if ! git push --quiet --tags "$remote" > /dev/null 2>&1; then
             err "failed to push git tags"
             return 1
         fi

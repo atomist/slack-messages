@@ -200,7 +200,7 @@ describe("Message rendering", () => {
                 ],
             };
 
-            const rendered = JSON.parse(render(msg));
+            const rendered = JSON.parse(render(msg as any));
             assert.equal(rendered.attachments[1].callback_id, "custom-id",
                 "Will preserve callback_id specified by user");
             assert(rendered.attachments[0].callback_id != null,
@@ -221,7 +221,7 @@ describe("Message rendering", () => {
                     attachments: [{
                         fallback: "test",
                         actions: [
-                            rugButtonFrom({ text: "Test" }, { id: undefined }),
+                            rugButtonFrom({ text: "Test" }, { id: undefined } as any),
                         ],
                     }],
                 });
@@ -240,7 +240,7 @@ describe("Message rendering", () => {
                         actions: [
                             rugMenuFrom(
                                 { text: "Test", options: "external" },
-                                { id: undefined, parameterName: undefined }),
+                                { id: undefined, parameterName: undefined } as any),
                         ],
                     }],
                 });
@@ -332,11 +332,11 @@ describe("Slack character escaping", () => {
     });
 
     it("Will return empty string when text is null", () => {
-        assert.equal(escape(null), "");
+        assert.equal(escape(null as any), "");
     });
 
     it("Will return empty string when text is undefined", () => {
-        assert.equal(escape(undefined), "");
+        assert.equal(escape(undefined as any), "");
     });
 
     it("Will return empty string when text is empty string", () => {
@@ -354,11 +354,11 @@ describe("Urls", () => {
     });
 
     it("Will return empty string when url is undefined", () => {
-        assert.equal(url(undefined), "");
+        assert.equal(url(undefined as any), "");
     });
 
     it("Will return empty string when url is null", () => {
-        assert.equal(url(null), "");
+        assert.equal(url(null as any), "");
     });
 
     it("Will return empty string when url is empty string", () => {
@@ -382,11 +382,11 @@ describe("User links", () => {
     });
 
     it("Will return empty string when userId is undefined", () => {
-        assert.equal(user(undefined), "");
+        assert.equal(user(undefined as any), "");
     });
 
     it("Will return empty string when userId is null", () => {
-        assert.equal(user(null), "");
+        assert.equal(user(null as any), "");
     });
 
     it("Will return empty string when userId is empty string", () => {
@@ -410,11 +410,11 @@ describe("Channel links", () => {
     });
 
     it("Will return empty string when channelId is undefined", () => {
-        assert.equal(channel(undefined), "");
+        assert.equal(channel(undefined as any), "");
     });
 
     it("Will return empty string when channelId is null", () => {
-        assert.equal(channel(null), "");
+        assert.equal(channel(null as any), "");
     });
 
     it("Will return empty string when channelId is empty string", () => {
@@ -442,11 +442,11 @@ describe("Markdown", () => {
     });
 
     it("bold will return empty string when text is undefined", () => {
-        assert.equal(bold(undefined), "");
+        assert.equal(bold(undefined as any), "");
     });
 
     it("bold will return empty string when text is null", () => {
-        assert.equal(bold(null), "");
+        assert.equal(bold(null as any), "");
     });
 
     it("bold will return empty string when text is empty string", () => {
@@ -458,11 +458,11 @@ describe("Markdown", () => {
     });
 
     it("italic will return empty string when text is undefined", () => {
-        assert.equal(italic(undefined), "");
+        assert.equal(italic(undefined as any), "");
     });
 
     it("italic will return empty string when text is null", () => {
-        assert.equal(italic(null), "");
+        assert.equal(italic(null as any), "");
     });
 
     it("italic will return empty string when text is empty string", () => {
@@ -474,11 +474,11 @@ describe("Markdown", () => {
     });
 
     it("strikethrough will return empty string when text is undefined", () => {
-        assert.equal(strikethrough(undefined), "");
+        assert.equal(strikethrough(undefined as any), "");
     });
 
     it("strikethrough will return empty string when text is null", () => {
-        assert.equal(strikethrough(null), "");
+        assert.equal(strikethrough(null as any), "");
     });
 
     it("strikethrough will return empty string when text is empty string", () => {
@@ -490,11 +490,11 @@ describe("Markdown", () => {
     });
 
     it("codeLine will return empty string when text is undefined", () => {
-        assert.equal(codeLine(undefined), "");
+        assert.equal(codeLine(undefined as any), "");
     });
 
     it("codeLine will return empty string when text is null", () => {
-        assert.equal(codeLine(null), "");
+        assert.equal(codeLine(null as any), "");
     });
 
     it("codeLine will return empty string when text is empty string", () => {
@@ -506,11 +506,11 @@ describe("Markdown", () => {
     });
 
     it("codeBlock will return empty string when text is undefined", () => {
-        assert.equal(codeBlock(undefined), "");
+        assert.equal(codeBlock(undefined as any), "");
     });
 
     it("codeBlock will return empty string when text is null", () => {
-        assert.equal(codeBlock(null), "");
+        assert.equal(codeBlock(null as any), "");
     });
 
     it("codeBlock will return empty string when text is empty string", () => {
@@ -522,11 +522,11 @@ describe("Markdown", () => {
     });
 
     it("listItem will return empty string when text is undefined", () => {
-        assert.equal(listItem(undefined), "");
+        assert.equal(listItem(undefined as any), "");
     });
 
     it("listItem will return empty string when text is null", () => {
-        assert.equal(listItem(null), "");
+        assert.equal(listItem(null as any), "");
     });
 
     it("listItem will return empty string when text is empty string", () => {
