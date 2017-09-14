@@ -17,6 +17,19 @@
 import * as _ from "lodash";
 
 /**
+ * Type defining the MIME types that the Slack message API accepts.
+ */
+export type MessageMimeType = "application/x-atomist-slack+json" | "text/plain";
+
+/**
+ * Helper constants for the MIME types the Slack message API accepts.
+ */
+export abstract class MessageMimeTypes {
+    public static SlackJson: MessageMimeType = "application/x-atomist-slack+json";
+    public static PlainText: MessageMimeType = "text/plain";
+}
+
+/**
  * Construct and render slack messages according to Slack message
  * formatting: https://api.slack.com/docs/message-formatting. Customize
  * messages with rug actions.

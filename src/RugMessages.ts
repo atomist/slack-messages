@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { MessageMimeTypes, ResponseMessage } from "@atomist/rug/operations/Handlers";
-
 import { deprecated } from "deprecated-decorator";
 
 import {
     Attachment,
+    MessageMimeType,
+    MessageMimeTypes,
     render,
     SlackMessage,
     url,
@@ -28,6 +28,112 @@ import {
 export const ErrorColor = "#D94649";
 export const SuccessColor = "#45B254";
 export const WarningColor = "#FFCC00";
+
+export interface RugCoordinate {
+    readonly name: string;
+    readonly group: string;
+    readonly artifact: string;
+}
+
+export type InstructionKind = "generate" | "edit" | "execute" | "respond" | "command";
+
+export interface Instruction<T extends InstructionKind> {
+    readonly name: string | RugCoordinate;
+    readonly parameters?: {};
+    readonly kind: T;
+}
+
+// because in a message, we may not know project name yet
+export interface PresentableGenerate extends Instruction<"generate"> {
+    project?: string;
+}
+
+// because in a message, we may not know project name yet
+export interface PresentableEdit extends Instruction<"edit"> {
+    project?: string;
+}
+
+export class Identifiable<T extends InstructionKind> {
+    public instruction: Instruction<T> | PresentableGenerate | PresentableEdit;
+    public parameterName?: string;
+    public id?: string;
+}
+
+export type MessageKind = "response" | "directed";
+
+export interface Message<T extends MessageKind> {
+    kind: T;
+}
+
+export class UserAddress {
+    constructor(public username: string) { }
+}
+
+export class ChannelAddress {
+    constructor(public channelName: string) { }
+}
+
+export type MessageAddress = UserAddress | ChannelAddress;
+
+/**
+ * A Rug message parent class for response and direct messages.
+ */
+export abstract class LocallyRenderedMessage<T extends MessageKind> implements Message<T> {
+    public kind: T;
+
+    public contentType: MessageMimeType = MessageMimeTypes.PlainText;
+    public body: string;
+    public instructions: Array<Identifiable<any>> = [];
+}
+
+/**
+ * Represents the response to the bot from a command.
+ */
+export class ResponseMessage extends LocallyRenderedMessage<"response"> {
+    public kind: "response" = "response";
+
+    constructor(body: string, contentType?: MessageMimeType) {
+        super();
+        this.body = body;
+        if (contentType) {
+            this.contentType = contentType;
+        }
+    }
+}
+
+/**
+ * Message unrelated to extant communications with the bot.
+ */
+export class DirectedMessage extends LocallyRenderedMessage<"directed"> {
+
+    public kind: "directed" = "directed";
+
+    public usernames: string[] = [];
+    public channelNames: string[] = [];
+
+    constructor(body: string, address: MessageAddress, contentType?: MessageMimeType) {
+        super();
+        this.body = body;
+        if (contentType) {
+            this.contentType = contentType;
+        }
+        this.addAddress(address);
+    }
+
+    public addAddress(address: MessageAddress): this {
+        if (address instanceof UserAddress) {
+            this.usernames.push(address.username);
+        } else {
+            this.channelNames.push(address.channelName);
+        }
+        return this;
+    }
+
+    public addAction(instruction: Identifiable<any>): this {
+        this.instructions.push(instruction);
+        return this;
+    }
+}
 
 interface StandardAttachmentDefaults {
     kind: string;
@@ -134,7 +240,7 @@ export function warningMessage(attachment: Attachment): SlackMessage {
 export function errorResponse(attachment: Attachment, correlationId?: string): ResponseMessage {
     try {
         const slackMessage = errorMessage(attachment, correlationId);
-        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SLACK_JSON);
+        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SlackJson);
     } catch (e) {
         const err = e as Error;
         console.error(`failed to render message '${attachment}':${err.name}:${err.message}:${err.stack}`);
@@ -152,7 +258,7 @@ export function errorResponse(attachment: Attachment, correlationId?: string): R
 export function successResponse(attachment: Attachment): ResponseMessage {
     try {
         const slackMessage = successMessage(attachment);
-        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SLACK_JSON);
+        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SlackJson);
     } catch (e) {
         const err = e as Error;
         console.error(`failed to render message '${attachment}':${err.name}:${err.message}:${err.stack}`);
@@ -170,7 +276,7 @@ export function successResponse(attachment: Attachment): ResponseMessage {
 export function warningResponse(attachment: Attachment): ResponseMessage {
     try {
         const slackMessage = warningMessage(attachment);
-        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SLACK_JSON);
+        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SlackJson);
     } catch (e) {
         const err = e as Error;
         console.error(`failed to render message '${attachment}':${err.name}:${err.message}:${err.stack}`);
@@ -198,7 +304,7 @@ export const renderError = deprecated({
         const slackMessage = {
             attachments: [error],
         };
-        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SLACK_JSON);
+        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SlackJson);
     } catch (ex) {
         return new ResponseMessage(`Error rendering error message ${ex}`);
     }
@@ -210,7 +316,7 @@ export const renderSuccess = deprecated({
 }, function renderSuccess(msg: string): ResponseMessage {
     try {
         const slackMessage = { text: msg };
-        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SLACK_JSON);
+        return new ResponseMessage(render(slackMessage), MessageMimeTypes.SlackJson);
     } catch (ex) {
         return renderError(`Error rendering success message ${ex}`);
     }

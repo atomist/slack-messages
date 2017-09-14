@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { MessageMimeTypes } from "@atomist/rug/operations/Handlers";
 import {
     ErrorColor,
     errorMessage,
@@ -28,7 +27,7 @@ import {
     warningMessage,
     warningResponse,
 } from "../src/RugMessages";
-import { Attachment, SlackMessage } from "../src/SlackMessages";
+import { Attachment, MessageMimeTypes, SlackMessage } from "../src/SlackMessages";
 
 import assert = require("power-assert");
 
@@ -228,7 +227,7 @@ describe("Standard Responses", () => {
             }],
         };
         const response = errorResponse(a, c);
-        assert(response.contentType === MessageMimeTypes.SLACK_JSON);
+        assert(response.contentType === MessageMimeTypes.SlackJson);
         const body = JSON.parse(response.body) as SlackMessage;
         assert.deepEqual(body, e);
     });
@@ -249,7 +248,7 @@ describe("Standard Responses", () => {
             }],
         };
         const response = successResponse(a);
-        assert(response.contentType === MessageMimeTypes.SLACK_JSON);
+        assert(response.contentType === MessageMimeTypes.SlackJson);
         const body = JSON.parse(response.body) as SlackMessage;
         assert.deepEqual(body, e);
     });
@@ -270,7 +269,7 @@ describe("Standard Responses", () => {
             }],
         };
         const response = warningResponse(a);
-        assert(response.contentType === MessageMimeTypes.SLACK_JSON);
+        assert(response.contentType === MessageMimeTypes.SlackJson);
         const body = JSON.parse(response.body) as SlackMessage;
         assert.deepEqual(body, e);
     });
