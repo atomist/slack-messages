@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [Unreleased][]
 
 [Unreleased]: https://github.com/atomist/slack-messages/compare/0.11.0...HEAD
 
-## [0.11.0] - 2017-08-17
+## [0.11.0][] - 2017-08-17
 
 [0.11.0]: https://github.com/atomist/slack-messages/compare/0.10.0...0.11.0
 
@@ -19,7 +19,7 @@ Option Groups
 
 -   Support for option_groups in menus
 
-## [0.10.0] - 2017-08-17
+## [0.10.0][] - 2017-08-17
 
 [0.10.0]: https://github.com/atomist/slack-messages/compare/0.9.0...0.10.0
 
@@ -30,9 +30,9 @@ Menus
 -   New function `rugMenuFrom` in SlackMessages for building Slack combo
     boxes
 
-## [0.9.0] - 2017-08-14
+## [0.9.0][] - 2017-08-14
 
-[0.8.0]: https://github.com/atomist/slack-messages/compare/0.8.0...0.9.0
+[0.9.0]: https://github.com/atomist/slack-messages/compare/0.8.0...0.9.0
 
 Standard messages
 
