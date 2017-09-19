@@ -2,20 +2,21 @@
 
 [![Build Status](https://travis-ci.org/atomist/slack-messages.svg?branch=master)](https://travis-ci.org/atomist/slack-messages)
 
-[Node][node] module [`@atomist/slack-messages`][slack-messages] 
-helps rendering well formatted [Slack][slack] messages sent by [`@atomist`][docs] 
-from your [Rug][rug] event and command handlers. This module also lets you add 
-actions to your [Slack][slack] messages that execute [Rug][rug] instructions.
-See the [Atomist Documentation][docs] for more information.
+[Node][node] module [`@atomist/slack-messages`][slack-messages] helps
+rendering well formatted [Slack][slack] messages sent
+by [`@atomist`][docs] from your [Rug][rug] event and command
+handlers. This module also lets you add actions to your [Slack][slack]
+messages that execute [Rug][rug] instructions.  See
+the [reference documentation][docs] for more information.
 
-[node]: https://nodejs.org/en/
-[slack]: https://slack.com/
-[rug]: https://github.com/atomist/rug
-[slack-messages]: https://www.npmjs.com/package/@atomist/slack-messages
-[ts]: https://www.typescriptlang.org/
-[docs]: http://docs.atomist.com/
+[node]: https://nodejs.org/ (Node.js)
+[slack]: https://slack.com/ (Slack)
+[rug]: https://github.com/atomist/rug (Atomist Rug)
+[slack-messages]: https://www.npmjs.com/package/@atomist/slack-messages (@atomist/slack-messages Node Module)
+[ts]: https://www.typescriptlang.org/ (TypeScript)
+[docs]: https://atomist.github.io/slack-messages/ (@atomist/slack-messages TypeDoc)
 
-## Using Slack message builder
+## Using
 
 Construct a message as a plain map following the Slack message formatting API:
 
@@ -86,13 +87,15 @@ But, if you provide your custom `callback_id` it will be preserved as is.
 
 ### Additional helper functions:
 
-**Special characters**
+#### Special characters
+
 ```typescript
 escape("Slack requires you to escape <, > and &");
   => "Slack requires you to escape &lt;, &gt; and &amp;"
 ```
 
-**Links**
+#### Links
+
 ```typescript
 // Simple link
 url("https://www.atomist.com");
@@ -103,7 +106,8 @@ url("https://www.atomist.com", "atomist");
   => "<https://www.atomist.com|atomist>"
 ```
 
-**User & channel links**
+#### User & channel links
+
 ```typescript
 // @some-user (Slack will display user name for provided user ID)
 user("U123");
@@ -114,7 +118,8 @@ channel("C123");
   => "<#C123>"
 ```
 
-**Special variables**
+#### Special variables
+
 ```typescript
 // @channel
 atChannel();
@@ -129,14 +134,14 @@ atEveryone();
   => "<!everyone>"
 ```
 
-**Emoji**
+#### Emoji
 
 ```typescript
 emoji("smile");
   => ":smile:";
 ```
 
-**Markdown**
+#### Markdown
 
 Slack will render markdown if field where markdown is present is included in `mrkdwn_in` array.
 
@@ -163,7 +168,7 @@ listItem("Item 1");
   => "• Item 1"
 ```
 
-## GitHub to Slack markdown conversion
+### GitHub to Slack markdown conversion
 
 GitHub and Slack markdown are different enough to make your GitHub issues or GitHub PRs look quite bad in Slack by default. You can use the `githubToSlack` function from `Markdown` to convert text that uses GitHub markdown to text that will look good in Slack:
 
@@ -186,29 +191,18 @@ If you find a problem, please create an [issue][].
 
 ## Development
 
-### Notable conventions ###
-* [tslint](https://palantir.github.io/tslint/rules/) with a modified rule set
-* [mocha](https://mochajs.org/) test example
-* [power asserts](https://github.com/power-assert-js/power-assert) with proper configuration
-* a directory structure separating source, test, and compiled .js
-* [yarn](https://yarnpkg.com/en/).lock file
+You will need to install [node][] to build and test this project.
 
-You will need to install [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm), [yarn](https://yarnpkg.com/en/docs/install), and [TypeScript](https://www.typescriptlang.org/) so that you can run the following commands from the command line.
+### Build and Test
 
-Command | Reason 
---- | --- 
-`$ yarn` | to install all the required packages
-`$ tsc -w` | to continually compile your TypeScript files (run in a different terminal)
-`$ yarn test` | to run tests and ensure everything is working
-`$ yarn autotest` | run tests continuously (you also need to run `tsc -w`)
-
-### Test
-
-Test using the standard approach for Node modules.
-
-```
-$ yarn test
-```
+Command | Reason
+------- | ------
+`npm install` | to install all the required packages
+`npm run lint` | to run tslint against the TypeScript
+`npm run compile` | to compile all TypeScript into JavaScript
+`npm test` | to run tests and ensure everything is working
+`npm run autotest` | run tests continuously (you may also need to run `tsc -w`)
+`npm run clean` | remove stray compiled JavaScript files and build directory
 
 ### Release
 
@@ -231,6 +225,7 @@ name for the release and the comment provided on the annotated tag as
 the contents of the release notes.
 
 ---
+
 Created by [Atomist][atomist].
 Need Help?  [Join our Slack team][slack].
 
