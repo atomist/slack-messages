@@ -28,9 +28,7 @@ const msg: SlackMessage = { text: "Simple message" };
 ```
 
 ```typescript
-// Here is an example of a message with a Slack action (button) that launches
-// a rug instruction when clicked.
-// This assumes user, issue and instruction objects are defined elsewhere.
+// Here is an example of a message with a Slack action (button).
 const msg: SlackMessage = {
                 text: `${url(user.url, "@" + user.name)} opened issue: ${url(issue.url, issue.title)}`,
                 attachments: [
@@ -39,8 +37,14 @@ const msg: SlackMessage = {
                         fallback: escape(issue.title),
                         mrkdwn_in: ["text"],
                         actions: [
-                            rugButtonFrom({ text: "Close issue" }, instruction),
-                        ],
+                        {
+                            text: "Close issue",
+                            type: "button",
+                            name: "closeissue",
+                            value: "somebuttonid",
+                        },
+                    ],
+                    callback_id: "cllbck1",
                     },
                 ],
             };
