@@ -18,6 +18,7 @@ import {
     atChannel,
     atEveryone,
     atHere,
+    Attachment,
     bold,
     channel,
     codeBlock,
@@ -105,7 +106,6 @@ describe("Message rendering", () => {
                             value: "somebuttonid",
                         },
                     ],
-                    callback_id: "cllbck1",
                 },
             ],
         };
@@ -133,6 +133,115 @@ describe("Message rendering", () => {
             JSON.parse(render(msg));
         });
     });
+
+    describe("Given message with multiple attachments containing actions", () => {
+        it("should assign unique callback_id to each attachment", () => {
+            const attachments: Attachment[] = [];
+            for (let i = 0; i++; i < 20) {
+                attachments.push({
+                    text: "test",
+                    fallback: "test",
+                    actions: [
+                        {
+                            name: "test",
+                            type: "button",
+                            text: "Test",
+                            value: "somebuttonid",
+                        },
+                    ],
+                });
+            }
+            const msg = { attachments };
+
+            const rendered = JSON.parse(render(msg));
+            const ids: string[] = [];
+            for (const att of rendered.attachments) {
+                assert(att.callback_id != null && att.callback_id !== "");
+                if (ids.indexOf(att.callback_id) < 0) {
+                    ids.push(att.callback_id);
+                }
+            }
+            assert.equal(ids.length, rendered.attachments.length,
+                "All callback ids should be unique");
+        });
+    });
+
+    describe("Given message with multiple attachments containing actions and some having callback_id specified", () => {
+        it("should leave specified callback_id as is when it is not undefined or null", () => {
+            const msg = {
+                attachments: [
+                    {
+                        text: "test",
+                        fallback: "test",
+                        actions: [
+                            {
+                                name: "test",
+                                type: "button",
+                                text: "Test",
+                                value: "somebuttonid",
+                            },
+                        ],
+                    },
+                    {
+                        callback_id: "custom-id",
+                        text: "test",
+                        fallback: "test",
+                        actions: [
+                            {
+                                name: "test",
+                                type: "button",
+                                text: "Test",
+                                value: "somebuttonid",
+                            },
+                        ],
+                    },
+                    {
+                        callback_id: undefined,
+                        text: "test",
+                        fallback: "test",
+                        actions: [
+                            {
+                                name: "test",
+                                type: "button",
+                                text: "Test",
+                                value: "somebuttonid",
+                            },
+                        ],
+                    },
+                    {
+                        callback_id: null,
+                        text: "test",
+                        fallback: "test",
+                        actions: [
+                            {
+                                name: "test",
+                                type: "button",
+                                text: "Test",
+                                value: "somebuttonid",
+                            },
+                        ],
+                    },
+                    {
+                        text: "test",
+                        fallback: "test",
+                    },
+                ],
+            };
+
+            const rendered = JSON.parse(render(msg as any));
+            assert.equal(rendered.attachments[1].callback_id, "custom-id",
+                "Will preserve callback_id specified by user");
+            assert(rendered.attachments[0].callback_id != null,
+                "Will assign callback_id when not specified");
+            assert(rendered.attachments[2].callback_id != null,
+                "Will assign callback_id when specified but set to undefined");
+            assert(rendered.attachments[3].callback_id != null,
+                "Will assign callback_id when specified but set to null");
+            assert(rendered.attachments[4].callback_id == null,
+                "Will not assign callback_id when attachment does not have any actions");
+        });
+    });
+
 });
 
 describe("Slack character escaping", () => {
