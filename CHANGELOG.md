@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.11.0...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.12.0...HEAD
+
+## [0.12.0][] - 2017-09-20
+
+[0.12.0]: https://github.com/atomist/slack-messages/compare/0.11.0...0.12.0
+
+Rug removal release
+
+### Removed
+
+-   **BREAKING** `rugButtonFrom` and `rugMenuFrom` have been removed as well as
+    any dependency to `@atomist/rug`.  Similar functionality can now be found
+    in [`@atomist/automation-client`](https://github.com/atomist/automation-client-ts)
 
 ## [0.11.0][] - 2017-08-17
 
