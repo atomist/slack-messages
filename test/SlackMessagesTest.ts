@@ -18,7 +18,6 @@ import {
     atChannel,
     atEveryone,
     atHere,
-    Attachment,
     bold,
     channel,
     codeBlock,
@@ -26,9 +25,7 @@ import {
     escape,
     italic,
     listItem,
-    render,
-    rugButtonFrom,
-    rugMenuFrom,
+    render, SlackMessage,
     strikethrough,
     url,
     user,
@@ -93,7 +90,7 @@ describe("Message rendering", () => {
             url: "https://github.com/tanya-coding",
             name: "tanya-coding",
         };
-        const msg = {
+        const msg: SlackMessage = {
             text: `${url(ghUser.url, "@" + ghUser.name)} opened issue: ${url(issue.url, issue.title)}`,
             attachments: [
                 {
@@ -101,8 +98,14 @@ describe("Message rendering", () => {
                     fallback: escape(issue.title),
                     mrkdwn_in: ["text"],
                     actions: [
-                        rugButtonFrom({ text: "Close issue" }, action),
+                        {
+                            text: "Close issue",
+                            type: "button",
+                            name: "closeissue",
+                            value: "somebuttonid",
+                        },
                     ],
+                    callback_id: "cllbck1",
                 },
             ],
         };
@@ -114,7 +117,7 @@ describe("Message rendering", () => {
                 "characters &amp; stuff>\",\"attachments\":[{\"text\":\"This is a very important issue " +
                 "with &lt;unsafe&gt; characters &amp; stuff\",\"fallback\":\"This issue has &lt;unsafe&gt; " +
                 "characters &amp; stuff\",\"mrkdwn_in\":[\"text\"],\"actions\":" +
-                "[{\"text\":\"Close issue\",\"type\":\"button\",\"name\":\"rug\",\"value\":\"somebuttonid\"}]" +
+                "[{\"text\":\"Close issue\",\"type\":\"button\",\"name\":\"closeissue\",\"value\":\"somebuttonid\"}]" +
                 ",\"callback_id\":\"cllbck1\"}]}",
             );
         });
@@ -128,196 +131,6 @@ describe("Message rendering", () => {
 
         it("should be able to parse JSON back", () => {
             JSON.parse(render(msg));
-        });
-    });
-
-    describe("Given message with multiple attachments containing actions", () => {
-        it("should assign unique callback_id to each attachment", () => {
-            const attachments: Attachment[] = [];
-            for (let i = 0; i++; i < 20) {
-                attachments.push({
-                    text: "test",
-                    fallback: "test",
-                    actions: [
-                        rugButtonFrom({ text: "Test" }, action),
-                    ],
-                });
-            }
-            const msg = { attachments };
-
-            const rendered = JSON.parse(render(msg));
-            const ids: string[] = [];
-            for (const att of rendered.attachments) {
-                assert(att.callback_id != null && att.callback_id !== "");
-                if (ids.indexOf(att.callback_id) < 0) {
-                    ids.push(att.callback_id);
-                }
-            }
-            assert.equal(ids.length, rendered.attachments.length,
-                "All callback ids should be unique");
-        });
-    });
-
-    describe("Given message with multiple attachments containing actions and some having callback_id specified", () => {
-        it("should leave specified callback_id as is when it is not undefined or null", () => {
-            const msg = {
-                attachments: [
-                    {
-                        text: "test",
-                        fallback: "test",
-                        actions: [
-                            rugButtonFrom({ text: "Test" }, action),
-                        ],
-                    },
-                    {
-                        callback_id: "custom-id",
-                        text: "test",
-                        fallback: "test",
-                        actions: [
-                            rugButtonFrom({ text: "Test" }, action),
-                        ],
-                    },
-                    {
-                        callback_id: undefined,
-                        text: "test",
-                        fallback: "test",
-                        actions: [
-                            rugButtonFrom({ text: "Test" }, action),
-                        ],
-                    },
-                    {
-                        callback_id: null,
-                        text: "test",
-                        fallback: "test",
-                        actions: [
-                            rugButtonFrom({ text: "Test" }, action),
-                        ],
-                    },
-                    {
-                        text: "test",
-                        fallback: "test",
-                    },
-                ],
-            };
-
-            const rendered = JSON.parse(render(msg as any));
-            assert.equal(rendered.attachments[1].callback_id, "custom-id",
-                "Will preserve callback_id specified by user");
-            assert(rendered.attachments[0].callback_id != null,
-                "Will assign callback_id when not specified");
-            assert(rendered.attachments[2].callback_id != null,
-                "Will assign callback_id when specified but set to undefined");
-            assert(rendered.attachments[3].callback_id != null,
-                "Will assign callback_id when specified but set to null");
-            assert(rendered.attachments[4].callback_id == null,
-                "Will not assign callback_id when attachment does not have any actions");
-        });
-    });
-
-    describe("Given invalid command id", () => {
-        it("should refuse to render message", () => {
-            try {
-                render({
-                    attachments: [{
-                        fallback: "test",
-                        actions: [
-                            rugButtonFrom({ text: "Test" }, { id: undefined } as any),
-                        ],
-                    }],
-                });
-                assert.fail("Should fail to render");
-            } catch (error) {
-                assert(error.message != null && error.message !== "");
-            }
-        });
-    });
-    describe("Given invalid parameterName", () => {
-        it("should refuse to render message", () => {
-            try {
-                render({
-                    attachments: [{
-                        fallback: "test",
-                        actions: [
-                            rugMenuFrom(
-                                { text: "Test", options: "external" },
-                                { id: undefined, parameterName: undefined } as any),
-                        ],
-                    }],
-                });
-                assert.fail("Should fail to render");
-            } catch (error) {
-                assert(error.message != null && error.message !== "");
-            }
-        });
-    });
-    describe("Given a data source", () => {
-        it("should add it to the rendered message and not add options", () => {
-            const json = render({
-                attachments: [{
-                    fallback: "test",
-                    actions: [
-                        rugMenuFrom(
-                            { text: "Test", options: "external" },
-                            { id: "id1", parameterName: "param1" }),
-                    ],
-                }],
-            });
-            const rendered = JSON.parse(json);
-            assert(rendered.attachments[0].actions[0].text === "Test");
-            assert(rendered.attachments[0].actions[0].type === "select");
-            assert(rendered.attachments[0].actions[0].name === "rug::id1");
-            assert(rendered.attachments[0].actions[0].data_source === "external");
-            assert(!rendered.attachments[0].actions[0].options);
-        });
-    });
-    describe("Given some options...", () => {
-        it("should add it to the rendered message", () => {
-            const json = render({
-                attachments: [{
-                    fallback: "test",
-                    actions: [
-                        rugMenuFrom(
-                            { text: "Test", options: [{ text: "1stText", value: "1stValue" }] },
-                            { id: "id1", parameterName: "param1" }),
-                    ],
-                }],
-            });
-            const rendered = JSON.parse(json);
-            assert(rendered.attachments[0].actions[0].text === "Test");
-            assert(rendered.attachments[0].actions[0].type === "select");
-            assert(rendered.attachments[0].actions[0].name === "rug::id1");
-            assert(!rendered.attachments[0].actions[0].data_source);
-            assert(rendered.attachments[0].actions[0].options[0].text === "1stText");
-            assert(rendered.attachments[0].actions[0].options[0].value === "1stValue");
-        });
-    });
-    describe("Given some options groups", () => {
-        it("should add it to the rendered message", () => {
-            const json = render({
-                attachments: [{
-                    fallback: "test",
-                    actions: [
-                        rugMenuFrom(
-                            {
-                                text: "Test", options: [
-                                    { text: "Options1", options: [{ text: "1stText", value: "1stValue" }] },
-                                    { text: "Options2", options: [{ text: "2ndText", value: "2ndValue" }] }],
-                            },
-                            { id: "id1", parameterName: "param1" }),
-                    ],
-                }],
-            });
-            const rendered = JSON.parse(json);
-            assert(rendered.attachments[0].actions[0].text === "Test");
-            assert(rendered.attachments[0].actions[0].type === "select");
-            assert(rendered.attachments[0].actions[0].name === "rug::id1");
-            assert(!rendered.attachments[0].actions[0].data_source);
-            assert(rendered.attachments[0].actions[0].option_groups[0].text === "Options1");
-            assert(rendered.attachments[0].actions[0].option_groups[1].text === "Options2");
-            assert(rendered.attachments[0].actions[0].option_groups[0].options[0].text === "1stText");
-            assert(rendered.attachments[0].actions[0].option_groups[0].options[0].value === "1stValue");
-            assert(rendered.attachments[0].actions[0].option_groups[1].options[0].text === "2ndText");
-            assert(rendered.attachments[0].actions[0].option_groups[1].options[0].value === "2ndValue");
         });
     });
 });
