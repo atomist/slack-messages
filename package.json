@@ -1,6 +1,6 @@
 {
   "name": "@atomist/slack-messages",
-  "description": "utilities for creating Slack messages",
+  "description": "Utilities for creating Slack messages",
   "version": "0.12.0",
   "author": "Atomist",
   "license": "Apache-2.0",
