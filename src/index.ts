@@ -1,1 +1,1 @@
-export * from "./SlackMessages"
+export * from "./SlackMessages";
