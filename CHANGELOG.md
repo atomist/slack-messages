@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.12.0...HEAD
+[Unreleased]: https://github.com/atomist/slack-messages/compare/0.12.1...HEAD
+
+## [0.12.1][] - 2017-09-20
+
+[0.12.1]: https://github.com/atomist/slack-messages/compare/0.12.0...0.12.1
+
+Add index.ts so you can import SlackMessages with `...from "@atomist/slack-messages"`
+
+### Removed
 
 ### Added
 
