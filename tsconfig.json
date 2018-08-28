@@ -7,7 +7,6 @@
     "jsx": "react",
     "declaration": true,
     "sourceMap": true,
-    "outDir": "build",
     "rootDir": ".",
     "strict": true,
     "experimentalDecorators": true,

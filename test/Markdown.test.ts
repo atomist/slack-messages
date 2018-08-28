@@ -7,7 +7,7 @@ import {
     convertLinks,
     convertNamedLinks,
     githubToSlack,
-} from "../src/Markdown";
+} from "../lib/Markdown";
 
 describe("Markdown", () => {
 

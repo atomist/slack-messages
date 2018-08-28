@@ -26,8 +26,12 @@ import {
     WarningColor,
     warningMessage,
     warningResponse,
-} from "../src/RugMessages";
-import { Attachment, MessageMimeTypes, SlackMessage } from "../src/SlackMessages";
+} from "../lib/RugMessages";
+import {
+    Attachment,
+    MessageMimeTypes,
+    SlackMessage,
+} from "../lib/SlackMessages";
 
 import assert = require("power-assert");
 

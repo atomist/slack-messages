@@ -30,7 +30,7 @@ import {
     strikethrough,
     url,
     user,
-} from "../src/SlackMessages";
+} from "../lib/SlackMessages";
 
 import assert = require("power-assert");
 
