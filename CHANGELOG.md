@@ -1,29 +1,35 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased][]
+## [Unreleased](https://github.com/atomist/slack-messages/compare/0.12.1...HEAD)
 
-[Unreleased]: https://github.com/atomist/slack-messages/compare/0.12.1...HEAD
+### Changed
 
-## [0.12.1][] - 2017-09-20
-
-[0.12.1]: https://github.com/atomist/slack-messages/compare/0.12.0...0.12.1
-
-Add index.ts so you can import SlackMessages with `...from "@atomist/slack-messages"`
+-   **BREAKING** Reorganize into more standard Node.js package layout.
+-   Update TypeScript and its configuration and fix issues.
+-   Update TSLint configuration and fix issues.
+-   Update dependencies.
+-   Update README.
+-   Make sure all functions explicitly declare return type.
 
 ### Removed
 
+-   Travis CI configuration and scripts.
+-   Remove deprecated RugMessages.
+-   Remove lodash dependency.
+
+## [0.12.1](https://github.com/atomist/slack-messages/compare/0.12.0...0.12.1) - 2017-09-20
+
 ### Added
 
--   Publish master and PR builds to Atomist NPM registry
+-   Add index so you can import SlackMessages with `...from "@atomist/slack-messages"`
+-   Publish master and PR builds to Atomist NPM registry.
 
-## [0.12.0][] - 2017-09-20
-
-[0.12.0]: https://github.com/atomist/slack-messages/compare/0.11.0...0.12.0
+## [0.12.0](https://github.com/atomist/slack-messages/compare/0.11.0...0.12.0) - 2017-09-20
 
 Rug removal release
 
@@ -33,9 +39,7 @@ Rug removal release
     any dependency to `@atomist/rug`.  Similar functionality can now be found
     in [`@atomist/automation-client`](https://github.com/atomist/automation-client-ts)
 
-## [0.11.0][] - 2017-08-17
-
-[0.11.0]: https://github.com/atomist/slack-messages/compare/0.10.0...0.11.0
+## [0.11.0](https://github.com/atomist/slack-messages/compare/0.10.0...0.11.0) - 2017-08-17
 
 Option Groups
 
@@ -43,9 +47,7 @@ Option Groups
 
 -   Support for option_groups in menus
 
-## [0.10.0][] - 2017-08-17
-
-[0.10.0]: https://github.com/atomist/slack-messages/compare/0.9.0...0.10.0
+## [0.10.0](https://github.com/atomist/slack-messages/compare/0.9.0...0.10.0) - 2017-08-17
 
 Menus
 

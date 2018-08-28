@@ -1,26 +1,39 @@
 {
-  "compilerOptions": {
-    "newLine": "LF",
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "jsx": "react",
-    "declaration": true,
-    "sourceMap": true,
-    "rootDir": ".",
-    "strict": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  },
-  "exclude": [
-    "build",
-    "node_modules",
-    "typings/browser",
-    "typings/browser.d.ts"
-  ],
-  "compileOnSave": true,
-  "buildOnSave": false,
-  "atom": {
-    "rewriteTsconfig": false
-  }
+    "compilerOptions": {
+        "newLine": "LF",
+        "target": "ES6",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "jsx": "React",
+        "declaration": true,
+        "sourceMap": true,
+        "rootDir": ".",
+        "lib": [
+            "DOM",
+            "ES2017",
+            "DOM.Iterable",
+            "ScriptHost",
+            "esnext.asynciterable"
+        ],
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    },
+    "exclude": [
+        "assets",
+        "build",
+        "doc",
+        "legal",
+        "log",
+        "node_modules",
+        ".#*"
+    ],
+    "compileOnSave": true,
+    "buildOnSave": false,
+    "atom": {
+        "rewriteTsconfig": false
+    }
 }

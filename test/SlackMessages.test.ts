@@ -45,18 +45,6 @@ describe("Message rendering", () => {
         },
         url: "https://github.com/atomisthq/bot-service/issues/484",
     };
-    const action = {
-        id: "somebuttonid",
-        instruction: {
-            kind: "command",
-            name: "CloseGitHubIssue",
-            parameters: {
-                issue: issue.number,
-                owner: issue.repo.owner,
-                repo: issue.repo.name,
-            },
-        },
-    };
 
     describe("Given simple message", () => {
         const msg = { text: "This is some message" };

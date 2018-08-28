@@ -1,11 +1,12 @@
 # @atomist/slack-messages
 
+[![atomist sdm goals](http://badge.atomist.com/T29E48P34/atomist/slack-messages/9e7d7699-14a8-4273-945b-9e5ca08aa38f)](https://app.atomist.com/workspace/T29E48P34)
 [![npm version](https://img.shields.io/npm/v/@atomist/slack-messages.svg)](https://www.npmjs.com/package/@atomist/slack-messages)
 
 [Node.js][node] module that helps to create well-formatted
 [Slack][slackhq] messages sent through the `@atomist` bot from your
 software delivery machine (SDM).  This module also facilitates adding
-actions to your Slack messages that execute commands.
+actions to your Slack messages that execute SDM commands.
 
 See the [Atomist documentation][atomist-doc] for more information on
 what SDMs are and what they can do for you using the Atomist API for
@@ -55,8 +56,8 @@ const msg: SlackMessage = {
 };
 ```
 
-And then render the message with SlackMessages.render.  This will
-construct a JSON string representation of the message:
+And then render the message with `render(msg)`.  This will construct a
+JSON string representation of the message:
 
 ```typescript
 import { render } from "@atomist/slack-messages"
@@ -64,7 +65,7 @@ import { render } from "@atomist/slack-messages"
 const renderedMsg = render(msg);
 ```
 
-Or to produce a pretty JSON string:
+or to produce a pretty JSON string:
 
 ```typescript
 const renderedMsg = render(msg, true);
@@ -187,7 +188,7 @@ listItem("Item 1");
 ### GitHub to Slack markdown conversion
 
 GitHub and Slack markdown are different enough to make your GitHub
-issues or GitHub PRs look quite bad in Slack by default. You can use
+issues or GitHub PRs look quite bad in Slack by default.  You can use
 the `githubToSlack` function from `Markdown` to convert text that uses
 GitHub markdown to text that will look good in Slack:
 
@@ -209,7 +210,8 @@ If you find a problem, please create an [issue][].
 
 ## Development
 
-You will need to install [Node.js][node] to build and test this project.
+You will need to install [Node.js][node] to build and test this
+project.
 
 [node]: https://nodejs.org/ (Node.js)
 

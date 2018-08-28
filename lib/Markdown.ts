@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import * as _ from "lodash";
-
 /**
  * Try to handle adjacent HTML and Markdown elements that cannot be
- * adjacent in Slack markup.  Used a the function in replace.
+ * adjacent in Slack markup.  Used as the function argument of
+ * replace.
  *
  * @param match the full match
  * @param url the URL
@@ -47,13 +46,16 @@ export function convertNamedLinks(text: string): string {
         links[name] = url;
     }
     let linked: string = text;
-    _.forEach(links, (u, n) => {
-        const nameRegExp = new RegExp(`\\[(.+?)\\]\\[${n}\\]|\\[${n}\\]\\[\\]`, "g");
-        linked = linked.replace(nameRegExp, (m, ln) => {
-            const linkName = (ln) ? ln : n;
-            return `[${linkName}](${u})`;
-        });
-    });
+    for (const n in links) {
+        if (links.hasOwnProperty(n)) {
+            const u = links[n];
+            const nameRegExp = new RegExp(`\\[(.+?)\\]\\[${n}\\]|\\[${n}\\]\\[\\]`, "g");
+            linked = linked.replace(nameRegExp, (m, ln) => {
+                const linkName = (ln) ? ln : n;
+                return `[${linkName}](${u})`;
+            });
+        }
+    }
     return linked.replace(namedLinksRegExp, "");
 }
 
@@ -112,17 +114,7 @@ export function convertFormat(text: string): string {
  * @return string converted to Slack markup
  */
 function convertMarkdown(text: string): string {
-    try {
-        return convertLinks(
-            convertImageLinks(
-                convertInlineImages(
-                    convertNamedLinks(
-                        convertFormat(text)))));
-    } catch (e) {
-        const err = e as Error;
-        console.error(`replace failed:${err.name}:${err.message}:${err.stack}`);
-        return text;
-    }
+    return convertLinks(convertImageLinks(convertInlineImages(convertNamedLinks(convertFormat(text)))));
 }
 
 /**

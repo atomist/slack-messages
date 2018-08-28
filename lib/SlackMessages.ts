@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import * as _ from "lodash";
-
 /**
  * Type defining the MIME types that the Slack message API accepts.
  */
@@ -24,10 +22,10 @@ export type MessageMimeType = "application/x-atomist-slack+json" | "text/plain";
 /**
  * Helper constants for the MIME types the Slack message API accepts.
  */
-export abstract class MessageMimeTypes {
-    public static SlackJson: MessageMimeType = "application/x-atomist-slack+json";
-    public static PlainText: MessageMimeType = "text/plain";
-}
+export const MessageMimeTypes: { [key: string]: MessageMimeType } = {
+    SlackJson: "application/x-atomist-slack+json",
+    PlainText: "text/plain",
+};
 
 /**
  * Construct and render slack messages according to Slack message
@@ -53,7 +51,7 @@ export function escape(text: string): string {
  * Constructs slack link.
  * Label is automatically escaped.
  */
-export function url(fullUrl: string, label?: string) {
+export function url(fullUrl: string, label?: string): string {
     if (fullUrl && label) {
         return `<${fullUrl}|${escape(label)}>`;
     } else if (fullUrl) {
@@ -71,7 +69,7 @@ export function url(fullUrl: string, label?: string) {
  * @param userName alternative user name, which Slack seems to ignore
  * @return properly formatted Slack user mention
  */
-export function user(userId: string, userName?: string) {
+export function user(userId: string, userName?: string): string {
     if (userId && userName) {
         return `<@${userId}|${userName}>`;
     } else if (userId) {
@@ -86,7 +84,7 @@ export function user(userId: string, userName?: string) {
  * Will mention specific channel by channelId.
  * When channelName is provided will add readable channel name.
  */
-export function channel(channelId: string, channelName?: string) {
+export function channel(channelId: string, channelName?: string): string {
     if (channelId && channelName) {
         return `<#${channelId}|${channelName}>`;
     } else if (channelId) {
@@ -111,16 +109,12 @@ export function atEveryone() {
     return "<!everyone>";
 }
 
-function hasItems(arr: any[] | undefined): boolean {
-    return !!arr && arr.length > 0;
-}
-
 /** Renders JSON representation of slack message. */
 export function render(message: SlackMessage, pretty: boolean = false): string {
-    if (hasItems(message.attachments)) {
+    if (message.attachments && message.attachments.length > 0) {
         let idx = 1;
-        _.forIn(message.attachments, att => {
-            if (hasItems(att.actions) && !att.callback_id) {
+        message.attachments.forEach(att => {
+            if (att.actions && att.actions.length > 0 && !att.callback_id) {
                 att.callback_id = `cllbck${idx++}`;
             }
         });
@@ -129,37 +123,37 @@ export function render(message: SlackMessage, pretty: boolean = false): string {
 }
 
 /** Render emoji by name */
-export function emoji(name: string) {
+export function emoji(name: string): string {
     return (name) ? `:${name}:` : "";
 }
 
 /** Render bold text */
-export function bold(text: string) {
+export function bold(text: string): string {
     return (text) ? `*${text}*` : "";
 }
 
 /** Render italic text */
-export function italic(text: string) {
+export function italic(text: string): string {
     return (text) ? `_${text}_` : "";
 }
 
 /** Render strike-through text */
-export function strikethrough(text: string) {
+export function strikethrough(text: string): string {
     return (text) ? `~${text}~` : "";
 }
 
 /** Render single line code block */
-export function codeLine(text: string) {
+export function codeLine(text: string): string {
     return (text) ? "`" + text + "`" : "";
 }
 
 /** Render multiline code block */
-export function codeBlock(text: string) {
+export function codeBlock(text: string): string {
     return (text) ? "```" + text + "```" : "";
 }
 
 /** Render bullet list item */
-export function listItem(item: string) {
+export function listItem(item: string): string {
     return (item) ? `• ${item}` : "";
 }
 
