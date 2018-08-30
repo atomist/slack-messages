@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Remove deprecated RugMessages.
 -   Remove lodash dependency.
 
+### Fixed
+
+-   Hyperlinks containing __something__ are mangled incorrectly. [#36](https://github.com/atomist/slack-messages/issues/36)
+
 ## [0.12.1](https://github.com/atomist/slack-messages/compare/0.12.0...0.12.1) - 2017-09-20
 
 ### Added
