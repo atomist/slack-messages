@@ -34,412 +34,412 @@ import {
 
 import assert = require("power-assert");
 
-describe("Message rendering", () => {
-    const issue = {
-        number: 484,
-        title: "This issue has <unsafe> characters & stuff",
-        body: "This is a very important issue with <unsafe> characters & stuff",
-        repo: {
-            owner: "atomisthq",
-            name: "bot-service",
-        },
-        url: "https://github.com/atomisthq/bot-service/issues/484",
-    };
+describe("SlackMessages", () => {
 
-    describe("Given simple message", () => {
-        const msg = { text: "This is some message" };
-
-        it("should render JSON", () => {
-            const rendered = render(msg);
-            assert.equal(rendered, "{\"text\":\"This is some message\"}");
-        });
-
-        it("should be able to parse JSON back", () => {
-            const parsed = JSON.parse(render(msg));
-            assert.deepEqual(parsed, msg);
-        });
-    });
-
-    describe("Given simple message with quotes and slashes", () => {
-        const msg = { text: "This is \"some\" \\message" };
-
-        it("should render JSON with escaped quotes", () => {
-            const rendered = render(msg);
-            assert.equal(rendered, "{\"text\":\"This is \\\"some\\\" \\\\message\"}");
-        });
-
-        it("should be able to parse JSON back", () => {
-            const parsed = JSON.parse(render(msg));
-            assert.deepEqual(parsed, msg);
-        });
-    });
-
-    describe("Given message with attachments and actions", () => {
-        const ghUser = {
-            url: "https://github.com/tanya-coding",
-            name: "tanya-coding",
-        };
-        const msg: SlackMessage = {
-            text: `${url(ghUser.url, "@" + ghUser.name)} opened issue: ${url(issue.url, issue.title)}`,
-            attachments: [
-                {
-                    text: escape(issue.body),
-                    fallback: escape(issue.title),
-                    mrkdwn_in: ["text"],
-                    actions: [
-                        {
-                            text: "Close issue",
-                            type: "button",
-                            name: "closeissue",
-                            value: "somebuttonid",
-                        },
-                    ],
-                },
-            ],
+    describe("Message rendering", () => {
+        const issue = {
+            number: 484,
+            title: "This issue has <unsafe> characters & stuff",
+            body: "This is a very important issue with <unsafe> characters & stuff",
+            repo: {
+                owner: "atomisthq",
+                name: "bot-service",
+            },
+            url: "https://github.com/atomisthq/bot-service/issues/484",
         };
 
-        it("should render JSON", () => {
-            assert.equal(render(msg),
-                "{\"text\":\"<https://github.com/tanya-coding|@tanya-coding> opened issue: " +
-                "<https://github.com/atomisthq/bot-service/issues/484|This issue has &lt;unsafe&gt; " +
-                "characters &amp; stuff>\",\"attachments\":[{\"text\":\"This is a very important issue " +
-                "with &lt;unsafe&gt; characters &amp; stuff\",\"fallback\":\"This issue has &lt;unsafe&gt; " +
-                "characters &amp; stuff\",\"mrkdwn_in\":[\"text\"],\"actions\":" +
-                "[{\"text\":\"Close issue\",\"type\":\"button\",\"name\":\"closeissue\",\"value\":\"somebuttonid\"}]" +
-                ",\"callback_id\":\"cllbck1\"}]}",
-            );
+        describe("Given simple message", () => {
+            const msg = { text: "This is some message" };
+
+            it("should render JSON", () => {
+                const rendered = render(msg);
+                assert.strictEqual(rendered, "{\"text\":\"This is some message\"}");
+            });
+
+            it("should be able to parse JSON back", () => {
+                const parsed = JSON.parse(render(msg));
+                assert.deepEqual(parsed, msg);
+            });
         });
 
-        it("should initialize callback_id when not provided", () => {
-            const rendered = JSON.parse(render(msg));
-            for (const att of rendered.attachments) {
-                assert(att.callback_id != null && att.callback_id !== "");
-            }
+        describe("Given simple message with quotes and slashes", () => {
+            const msg = { text: "This is \"some\" \\message" };
+
+            it("should render JSON with escaped quotes", () => {
+                const rendered = render(msg);
+                assert.strictEqual(rendered, "{\"text\":\"This is \\\"some\\\" \\\\message\"}");
+            });
+
+            it("should be able to parse JSON back", () => {
+                const parsed = JSON.parse(render(msg));
+                assert.deepEqual(parsed, msg);
+            });
         });
 
-        it("should be able to parse JSON back", () => {
-            JSON.parse(render(msg));
-        });
-    });
-
-    describe("Given message with multiple attachments containing actions", () => {
-        it("should assign unique callback_id to each attachment", () => {
-            const attachments: Attachment[] = [];
-            for (let i = 0; i++; i < 20) {
-                attachments.push({
-                    text: "test",
-                    fallback: "test",
-                    actions: [
-                        {
-                            name: "test",
-                            type: "button",
-                            text: "Test",
-                            value: "somebuttonid",
-                        },
-                    ],
-                });
-            }
-            const msg = { attachments };
-
-            const rendered = JSON.parse(render(msg));
-            const ids: string[] = [];
-            for (const att of rendered.attachments) {
-                assert(att.callback_id != null && att.callback_id !== "");
-                if (ids.indexOf(att.callback_id) < 0) {
-                    ids.push(att.callback_id);
-                }
-            }
-            assert.equal(ids.length, rendered.attachments.length,
-                "All callback ids should be unique");
-        });
-    });
-
-    describe("Given message with multiple attachments containing actions and some having callback_id specified", () => {
-        it("should leave specified callback_id as is when it is not undefined or null", () => {
-            const msg = {
+        describe("Given message with attachments and actions", () => {
+            const ghUser = {
+                url: "https://github.com/tanya-coding",
+                name: "tanya-coding",
+            };
+            const msg: SlackMessage = {
+                text: `${url(ghUser.url, "@" + ghUser.name)} opened issue: ${url(issue.url, issue.title)}`,
                 attachments: [
                     {
-                        text: "test",
-                        fallback: "test",
+                        text: escape(issue.body),
+                        fallback: escape(issue.title),
+                        mrkdwn_in: ["text"],
                         actions: [
                             {
-                                name: "test",
+                                text: "Close issue",
                                 type: "button",
-                                text: "Test",
+                                name: "closeissue",
                                 value: "somebuttonid",
                             },
                         ],
-                    },
-                    {
-                        callback_id: "custom-id",
-                        text: "test",
-                        fallback: "test",
-                        actions: [
-                            {
-                                name: "test",
-                                type: "button",
-                                text: "Test",
-                                value: "somebuttonid",
-                            },
-                        ],
-                    },
-                    {
-                        callback_id: undefined,
-                        text: "test",
-                        fallback: "test",
-                        actions: [
-                            {
-                                name: "test",
-                                type: "button",
-                                text: "Test",
-                                value: "somebuttonid",
-                            },
-                        ],
-                    },
-                    {
-                        callback_id: null,
-                        text: "test",
-                        fallback: "test",
-                        actions: [
-                            {
-                                name: "test",
-                                type: "button",
-                                text: "Test",
-                                value: "somebuttonid",
-                            },
-                        ],
-                    },
-                    {
-                        text: "test",
-                        fallback: "test",
                     },
                 ],
             };
 
-            const rendered = JSON.parse(render(msg as any));
-            assert.equal(rendered.attachments[1].callback_id, "custom-id",
-                "Will preserve callback_id specified by user");
-            assert(rendered.attachments[0].callback_id != null,
-                "Will assign callback_id when not specified");
-            assert(rendered.attachments[2].callback_id != null,
-                "Will assign callback_id when specified but set to undefined");
-            assert(rendered.attachments[3].callback_id != null,
-                "Will assign callback_id when specified but set to null");
-            assert(rendered.attachments[4].callback_id == null,
-                "Will not assign callback_id when attachment does not have any actions");
+            it("should render JSON", () => {
+                assert.strictEqual(render(msg),
+                    "{\"text\":\"<https://github.com/tanya-coding|@tanya-coding> opened issue: " +
+                    "<https://github.com/atomisthq/bot-service/issues/484|This issue has &lt;unsafe&gt; " +
+                    "characters &amp; stuff>\",\"attachments\":[{\"text\":\"This is a very important issue " +
+                    "with &lt;unsafe&gt; characters &amp; stuff\",\"fallback\":\"This issue has &lt;unsafe&gt; " +
+                    "characters &amp; stuff\",\"mrkdwn_in\":[\"text\"],\"actions\":" +
+                    "[{\"text\":\"Close issue\",\"type\":\"button\",\"name\":\"closeissue\"," +
+                    "\"value\":\"somebuttonid\"}],\"callback_id\":\"cllbck1\"}]}",
+                );
+            });
+
+            it("should initialize callback_id when not provided", () => {
+                const rendered = JSON.parse(render(msg));
+                for (const att of rendered.attachments) {
+                    assert(att.callback_id != null && att.callback_id !== "");
+                }
+            });
+
+            it("should be able to parse JSON back", () => {
+                JSON.parse(render(msg));
+            });
+        });
+
+        describe("Given message with multiple attachments containing actions", () => {
+            it("should assign unique callback_id to each attachment", () => {
+                const attachments: Attachment[] = [];
+                for (let i = 0; i++; i < 20) {
+                    attachments.push({
+                        text: "test",
+                        fallback: "test",
+                        actions: [
+                            {
+                                name: "test",
+                                type: "button",
+                                text: "Test",
+                                value: "somebuttonid",
+                            },
+                        ],
+                    });
+                }
+                const msg = { attachments };
+
+                const rendered = JSON.parse(render(msg));
+                const ids: string[] = [];
+                for (const att of rendered.attachments) {
+                    assert(att.callback_id != null && att.callback_id !== "");
+                    if (ids.indexOf(att.callback_id) < 0) {
+                        ids.push(att.callback_id);
+                    }
+                }
+                assert.strictEqual(ids.length, rendered.attachments.length,
+                    "All callback ids should be unique");
+            });
+        });
+
+        describe("Given message with attachments containing actions and some having callback_id specified", () => {
+            it("should leave specified callback_id as is when it is not undefined or null", () => {
+                const msg = {
+                    attachments: [
+                        {
+                            text: "test",
+                            fallback: "test",
+                            actions: [
+                                {
+                                    name: "test",
+                                    type: "button",
+                                    text: "Test",
+                                    value: "somebuttonid",
+                                },
+                            ],
+                        },
+                        {
+                            callback_id: "custom-id",
+                            text: "test",
+                            fallback: "test",
+                            actions: [
+                                {
+                                    name: "test",
+                                    type: "button",
+                                    text: "Test",
+                                    value: "somebuttonid",
+                                },
+                            ],
+                        },
+                        {
+                            callback_id: undefined,
+                            text: "test",
+                            fallback: "test",
+                            actions: [
+                                {
+                                    name: "test",
+                                    type: "button",
+                                    text: "Test",
+                                    value: "somebuttonid",
+                                },
+                            ],
+                        },
+                        {
+                            callback_id: null,
+                            text: "test",
+                            fallback: "test",
+                            actions: [
+                                {
+                                    name: "test",
+                                    type: "button",
+                                    text: "Test",
+                                    value: "somebuttonid",
+                                },
+                            ],
+                        },
+                        {
+                            text: "test",
+                            fallback: "test",
+                        },
+                    ],
+                };
+
+                const rendered = JSON.parse(render(msg as any));
+                assert.strictEqual(rendered.attachments[1].callback_id, "custom-id",
+                    "Will preserve callback_id specified by user");
+                assert(rendered.attachments[0].callback_id != null,
+                    "Will assign callback_id when not specified");
+                assert(rendered.attachments[2].callback_id != null,
+                    "Will assign callback_id when specified but set to undefined");
+                assert(rendered.attachments[3].callback_id != null,
+                    "Will assign callback_id when specified but set to null");
+                assert(rendered.attachments[4].callback_id == null,
+                    "Will not assign callback_id when attachment does not have any actions");
+            });
+        });
+
+    });
+
+    describe("Slack character escaping", () => {
+        it("will escape <, >, &", () => {
+            assert.strictEqual(escape("<this & that>"), "&lt;this &amp; that&gt;");
+        });
+
+        it("will escape all >", () => {
+            assert.strictEqual(escape("this->and->that"), "this-&gt;and-&gt;that");
+        });
+
+        it("will return empty string when text is null", () => {
+            assert.strictEqual(escape(null as any), "");
+        });
+
+        it("will return empty string when text is undefined", () => {
+            assert.strictEqual(escape(undefined as any), "");
+        });
+
+        it("will return empty string when text is empty string", () => {
+            assert.strictEqual(escape(""), "");
         });
     });
 
-});
+    describe("Urls", () => {
+        it("can render links label", () => {
+            assert.strictEqual(url("http://someplace", "some place"), "<http://someplace|some place>");
+        });
 
-describe("Slack character escaping", () => {
-    it("Will escape <, >, &", () => {
-        assert.equal(escape("<this & that>"), "&lt;this &amp; that&gt;");
-    });
+        it("can render links with undefined label", () => {
+            assert.strictEqual(url("http://someplace", undefined), "<http://someplace>");
+        });
 
-    it("Will escape all >", () => {
-        assert.equal(escape("this->and->that"), "this-&gt;and-&gt;that");
-    });
+        it("will return empty string when url is undefined", () => {
+            assert.strictEqual(url(undefined as any), "");
+        });
 
-    it("Will return empty string when text is null", () => {
-        assert.equal(escape(null as any), "");
-    });
+        it("will return empty string when url is null", () => {
+            assert.strictEqual(url(null as any), "");
+        });
 
-    it("Will return empty string when text is undefined", () => {
-        assert.equal(escape(undefined as any), "");
-    });
-
-    it("Will return empty string when text is empty string", () => {
-        assert.equal(escape(""), "");
-    });
-});
-
-describe("Urls", () => {
-    it("Can render links label", () => {
-        assert.equal(url("http://someplace", "some place"), "<http://someplace|some place>");
-    });
-
-    it("Can render links with undefined label", () => {
-        assert.equal(url("http://someplace", undefined), "<http://someplace>");
-    });
-
-    it("Will return empty string when url is undefined", () => {
-        assert.equal(url(undefined as any), "");
-    });
-
-    it("Will return empty string when url is null", () => {
-        assert.equal(url(null as any), "");
-    });
-
-    it("Will return empty string when url is empty string", () => {
-        assert.equal(url(""), "");
-    });
-});
-
-describe("User links", () => {
-    it("Can mention user by user ID", () => {
-        assert.equal(user("U123"), "<@U123>");
-    });
-
-    it("Can mention user by user ID and name", () => {
-        assert.equal(user("U123", "anna"), "<@U123|anna>");
-    });
-
-    describe("Given blank user name", () => {
-        it("Can mention user by user ID", () => {
-            assert.equal(user("U123", ""), "<@U123>");
+        it("will return empty string when url is empty string", () => {
+            assert.strictEqual(url(""), "");
         });
     });
 
-    it("Will return empty string when userId is undefined", () => {
-        assert.equal(user(undefined as any), "");
-    });
+    describe("User links", () => {
+        it("can mention user by user ID", () => {
+            assert.strictEqual(user("U123"), "<@U123>");
+        });
 
-    it("Will return empty string when userId is null", () => {
-        assert.equal(user(null as any), "");
-    });
+        it("can mention user by user ID and name", () => {
+            assert.strictEqual(user("U123", "anna"), "<@U123|anna>");
+        });
 
-    it("Will return empty string when userId is empty string", () => {
-        assert.equal(user(""), "");
-    });
-});
+        it("can mention user by user ID without name", () => {
+            assert.strictEqual(user("U123", ""), "<@U123>");
+        });
 
-describe("Channel links", () => {
-    it("Can mention channel by channel ID", () => {
-        assert.equal(channel("C123"), "<#C123>");
-    });
+        it("will return empty string when userId is undefined", () => {
+            assert.strictEqual(user(undefined as any), "");
+        });
 
-    it("Can mention channel by channel ID and name", () => {
-        assert.equal(channel("C123", "general"), "<#C123|general>");
-    });
+        it("will return empty string when userId is null", () => {
+            assert.strictEqual(user(null as any), "");
+        });
 
-    describe("Given blank channel name", () => {
-        it("Can mention channel by channel ID", () => {
-            assert.equal(channel("C123", ""), "<#C123>");
+        it("will return empty string when userId is empty string", () => {
+            assert.strictEqual(user(""), "");
         });
     });
 
-    it("Will return empty string when channelId is undefined", () => {
-        assert.equal(channel(undefined as any), "");
+    describe("Channel links", () => {
+        it("can mention channel by channel ID", () => {
+            assert.strictEqual(channel("C123"), "<#C123>");
+        });
+
+        it("can mention channel by channel ID and name", () => {
+            assert.strictEqual(channel("C123", "general"), "<#C123|general>");
+        });
+
+        it("can mention channel by channel ID without name", () => {
+            assert.strictEqual(channel("C123", ""), "<#C123>");
+        });
+
+        it("will return empty string when channelId is undefined", () => {
+            assert.strictEqual(channel(undefined as any), "");
+        });
+
+        it("will return empty string when channelId is null", () => {
+            assert.strictEqual(channel(null as any), "");
+        });
+
+        it("will return empty string when channelId is empty string", () => {
+            assert.strictEqual(channel(""), "");
+        });
     });
 
-    it("Will return empty string when channelId is null", () => {
-        assert.equal(channel(null as any), "");
+    describe("Slack variables", () => {
+        it("can render @channel", () => {
+            assert.strictEqual(atChannel(), "<!channel>");
+        });
+
+        it("can render @here", () => {
+            assert.strictEqual(atHere(), "<!here>");
+        });
+
+        it("can render @everyone", () => {
+            assert.strictEqual(atEveryone(), "<!everyone>");
+        });
     });
 
-    it("Will return empty string when channelId is empty string", () => {
-        assert.equal(channel(""), "");
-    });
-});
+    describe("Slack Markup", () => {
+        it("can render bold text", () => {
+            assert.strictEqual(bold("some text"), "*some text*");
+        });
 
-describe("Slack variables", () => {
-    it("Can render @channel", () => {
-        assert.equal(atChannel(), "<!channel>");
-    });
+        it("bold will return empty string when text is undefined", () => {
+            assert.strictEqual(bold(undefined as any), "");
+        });
 
-    it("Can render @here", () => {
-        assert.equal(atHere(), "<!here>");
-    });
+        it("bold will return empty string when text is null", () => {
+            assert.strictEqual(bold(null as any), "");
+        });
 
-    it("Can render @everyone", () => {
-        assert.equal(atEveryone(), "<!everyone>");
-    });
-});
+        it("bold will return empty string when text is empty string", () => {
+            assert.strictEqual(bold(""), "");
+        });
 
-describe("Markdown", () => {
-    it("Can render bold text", () => {
-        assert.equal(bold("some text"), "*some text*");
-    });
+        it("can render italic text", () => {
+            assert.strictEqual(italic("some text"), "_some text_");
+        });
 
-    it("bold will return empty string when text is undefined", () => {
-        assert.equal(bold(undefined as any), "");
-    });
+        it("italic will return empty string when text is undefined", () => {
+            assert.strictEqual(italic(undefined as any), "");
+        });
 
-    it("bold will return empty string when text is null", () => {
-        assert.equal(bold(null as any), "");
-    });
+        it("italic will return empty string when text is null", () => {
+            assert.strictEqual(italic(null as any), "");
+        });
 
-    it("bold will return empty string when text is empty string", () => {
-        assert.equal(bold(""), "");
-    });
+        it("italic will return empty string when text is empty string", () => {
+            assert.strictEqual(italic(""), "");
+        });
 
-    it("Can render italic text", () => {
-        assert.equal(italic("some text"), "_some text_");
-    });
+        it("can render strike-through text", () => {
+            assert.strictEqual(strikethrough("some text"), "~some text~");
+        });
 
-    it("italic will return empty string when text is undefined", () => {
-        assert.equal(italic(undefined as any), "");
-    });
+        it("strikethrough will return empty string when text is undefined", () => {
+            assert.strictEqual(strikethrough(undefined as any), "");
+        });
 
-    it("italic will return empty string when text is null", () => {
-        assert.equal(italic(null as any), "");
-    });
+        it("strikethrough will return empty string when text is null", () => {
+            assert.strictEqual(strikethrough(null as any), "");
+        });
 
-    it("italic will return empty string when text is empty string", () => {
-        assert.equal(italic(""), "");
-    });
+        it("strikethrough will return empty string when text is empty string", () => {
+            assert.strictEqual(strikethrough(""), "");
+        });
 
-    it("Can render strike-through text", () => {
-        assert.equal(strikethrough("some text"), "~some text~");
-    });
+        it("can render single line code block", () => {
+            assert.strictEqual(codeLine("some text"), "`some text`");
+        });
 
-    it("strikethrough will return empty string when text is undefined", () => {
-        assert.equal(strikethrough(undefined as any), "");
-    });
+        it("codeLine will return empty string when text is undefined", () => {
+            assert.strictEqual(codeLine(undefined as any), "");
+        });
 
-    it("strikethrough will return empty string when text is null", () => {
-        assert.equal(strikethrough(null as any), "");
-    });
+        it("codeLine will return empty string when text is null", () => {
+            assert.strictEqual(codeLine(null as any), "");
+        });
 
-    it("strikethrough will return empty string when text is empty string", () => {
-        assert.equal(strikethrough(""), "");
-    });
+        it("codeLine will return empty string when text is empty string", () => {
+            assert.strictEqual(codeLine(""), "");
+        });
 
-    it("Can render single line code block", () => {
-        assert.equal(codeLine("some text"), "`some text`");
-    });
+        it("can render multiline line code block", () => {
+            assert.strictEqual(codeBlock("some text"), "```some text```");
+        });
 
-    it("codeLine will return empty string when text is undefined", () => {
-        assert.equal(codeLine(undefined as any), "");
-    });
+        it("codeBlock will return empty string when text is undefined", () => {
+            assert.strictEqual(codeBlock(undefined as any), "");
+        });
 
-    it("codeLine will return empty string when text is null", () => {
-        assert.equal(codeLine(null as any), "");
-    });
+        it("codeBlock will return empty string when text is null", () => {
+            assert.strictEqual(codeBlock(null as any), "");
+        });
 
-    it("codeLine will return empty string when text is empty string", () => {
-        assert.equal(codeLine(""), "");
-    });
+        it("codeBlock will return empty string when text is empty string", () => {
+            assert.strictEqual(codeBlock(""), "");
+        });
 
-    it("Can render multiline line code block", () => {
-        assert.equal(codeBlock("some text"), "```some text```");
-    });
+        it("can render list item", () => {
+            assert.strictEqual(listItem("some text"), "• some text");
+        });
 
-    it("codeBlock will return empty string when text is undefined", () => {
-        assert.equal(codeBlock(undefined as any), "");
-    });
+        it("listItem will return empty string when text is undefined", () => {
+            assert.strictEqual(listItem(undefined as any), "");
+        });
 
-    it("codeBlock will return empty string when text is null", () => {
-        assert.equal(codeBlock(null as any), "");
-    });
+        it("listItem will return empty string when text is null", () => {
+            assert.strictEqual(listItem(null as any), "");
+        });
 
-    it("codeBlock will return empty string when text is empty string", () => {
-        assert.equal(codeBlock(""), "");
+        it("listItem will return empty string when text is empty string", () => {
+            assert.strictEqual(listItem(""), "");
+        });
     });
 
-    it("Can render list item", () => {
-        assert.equal(listItem("some text"), "• some text");
-    });
-
-    it("listItem will return empty string when text is undefined", () => {
-        assert.equal(listItem(undefined as any), "");
-    });
-
-    it("listItem will return empty string when text is null", () => {
-        assert.equal(listItem(null as any), "");
-    });
-
-    it("listItem will return empty string when text is empty string", () => {
-        assert.equal(listItem(""), "");
-    });
 });

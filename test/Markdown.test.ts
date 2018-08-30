@@ -626,12 +626,12 @@ can be abbreviated [MVHK](http://gbv.com/mvhk.html).
 
     describe("Just GitHub to Slack markdown conversion", () => {
         it("should convert list item expressed with -", () => {
-            assert.equal(githubToSlack("- list item 1\n - list item 2"),
+            assert.strictEqual(githubToSlack("- list item 1\n - list item 2"),
                 "• list item 1\n • list item 2");
         });
 
         it("should convert list item expressed with *", () => {
-            assert.equal(githubToSlack("* list item 1\n * list item 2"),
+            assert.strictEqual(githubToSlack("* list item 1\n * list item 2"),
                 "• list item 1\n • list item 2");
         });
 
@@ -646,27 +646,27 @@ can be abbreviated [MVHK](http://gbv.com/mvhk.html).
         });
 
         it("should not confuse italic with list item", () => {
-            assert.equal(githubToSlack("*list item* 1\n * list item 2"),
+            assert.strictEqual(githubToSlack("*list item* 1\n * list item 2"),
                 "_list item_ 1\n • list item 2");
         });
 
         it("given simple image link should leave URL", () => {
-            assert.equal(githubToSlack("<img  width=\"345\" src=\"http://someplace.com\">"),
+            assert.strictEqual(githubToSlack("<img  width=\"345\" src=\"http://someplace.com\">"),
                 "http://someplace.com");
         });
 
         it("given image link with other attributes should leave URL", () => {
-            assert.equal(githubToSlack("<img  width=\"345\" src=\"http://someplace.com\" alt=\"screen shot\">"),
+            assert.strictEqual(githubToSlack("<img  width=\"345\" src=\"http://someplace.com\" alt=\"screen shot\">"),
                 "http://someplace.com");
         });
 
         it("given encoded image link should leave URL", () => {
-            assert.equal(githubToSlack("&lt;img  width=\"345\" src=\"http://someplace.com\"&gt;"),
+            assert.strictEqual(githubToSlack("&lt;img  width=\"345\" src=\"http://someplace.com\"&gt;"),
                 "http://someplace.com");
         });
 
         it("given link will convert it", () => {
-            assert.equal(githubToSlack("[click here](http://someplace.com)"),
+            assert.strictEqual(githubToSlack("[click here](http://someplace.com)"),
                 "<http://someplace.com|click here>");
         });
     });
