@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Update dependencies.
 -   Update README.
 -   Make sure all functions explicitly declare return type.
--   Recognize links that are not expressed as markdown. [#16](https://github.com/atomist/slack-messages/issues/16)
 
 ### Removed
 
