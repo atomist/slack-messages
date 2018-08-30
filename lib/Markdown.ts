@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+    splitProcessor,
+} from "./splitProcessor";
+
 /**
  * Try to handle adjacent HTML and Markdown elements that cannot be
  * adjacent in Slack markup.  Used as the function argument of
@@ -115,12 +119,8 @@ export function convertFormat(text: string): string {
  */
 function convertMarkdown(text: string): string {
     const relinked = convertLinks(convertImageLinks(convertInlineImages(convertNamedLinks(text))));
-    const splitRegex = /(<.*>|https?:\/\/\S+)/g;
-    const hunks = relinked.split(splitRegex);
-    for (let i = 0; i < hunks.length; i += 2) {
-        hunks[i] = convertFormat(hunks[i]);
-    }
-    return hunks.join("");
+    const urlSplitter = /(<.*>|https?:\/\/\S+)/g;
+    return splitProcessor(relinked, convertFormat, urlSplitter);
 }
 
 /**
@@ -132,10 +132,5 @@ function convertMarkdown(text: string): string {
  * @return string with Slack markup
  */
 export function githubToSlack(text: string): string {
-    const splitRegex = /(```[\S\s]*?```(?!`)|`.*?`)/mg;
-    const hunks = text.split(splitRegex);
-    for (let i = 0; i < hunks.length; i += 2) {
-        hunks[i] = convertMarkdown(hunks[i]);
-    }
-    return hunks.join("");
+    return splitProcessor(text, convertMarkdown);
 }

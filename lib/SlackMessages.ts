@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+    splitProcessor,
+} from "./splitProcessor";
+
 /**
  * Type defining the MIME types that the Slack message API accepts.
  */
@@ -38,10 +42,7 @@ export const MessageMimeTypes: { [key: string]: MessageMimeType } = {
  */
 export function escape(text: string): string {
     if (text) {
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
+        return splitProcessor(text, i => i.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
     } else {
         return "";
     }

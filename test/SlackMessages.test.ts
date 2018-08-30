@@ -254,6 +254,33 @@ describe("SlackMessages", () => {
         it("will return empty string when text is empty string", () => {
             assert.strictEqual(escape(""), "");
         });
+
+        it("will not escape characters in inline code", () => {
+            ["&", "<", ">"].forEach(c => {
+                const i = `Inline \`code ${c} whatnot\` should be safe`;
+                assert(escape(i) === i);
+            });
+        });
+
+        it("will not escape characters in code blocks", () => {
+            ["&", "<", ">"].forEach(c => {
+                const i = `Code blocks such as this:
+
+\`\`\`
+function first(s: string): string {
+    if (s === "${c}") {
+        return "${c}";
+    } else {
+        return \`not ${c}\`;
+    }
+}
+\`\`\`
+
+should be safe
+`;
+                assert(escape(i) === i);
+            });
+        });
     });
 
     describe("Urls", () => {
