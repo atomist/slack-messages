@@ -24,8 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
--   Hyperlinks containing **something** are mangled incorrectly. [#36](https://github.com/atomist/slack-messages/issues/36)
--   Markdown conversion incorrectly converts `-&gt;` to `->` in code. [#28](https://github.com/atomist/slack-messages/issues/28)
+-   Hyperlinks containing `__something__` are mangled. [#36](https://github.com/atomist/slack-messages/issues/36)
+-   Markdown conversion incorrectly converts `->` to `-&gt;`. [#28](https://github.com/atomist/slack-messages/issues/28)
 
 ## [0.12.1](https://github.com/atomist/slack-messages/compare/0.12.0...0.12.1) - 2017-09-20
 
