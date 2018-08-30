@@ -114,7 +114,13 @@ export function convertFormat(text: string): string {
  * @return string converted to Slack markup
  */
 function convertMarkdown(text: string): string {
-    return convertLinks(convertImageLinks(convertInlineImages(convertNamedLinks(convertFormat(text)))));
+    const relinked = convertLinks(convertImageLinks(convertInlineImages(convertNamedLinks(text))));
+    const splitRegex = /(<.*>|https?:\/\/\S+)/g;
+    const hunks = relinked.split(splitRegex);
+    for (let i = 0; i < hunks.length; i += 2) {
+        hunks[i] = convertFormat(hunks[i]);
+    }
+    return hunks.join("");
 }
 
 /**

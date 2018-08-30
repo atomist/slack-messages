@@ -390,6 +390,7 @@ There are many more.
             const expected = `<https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwj98P7fwNTVAhUKjVQKHUwJAkcQFggoMAA&url=http%3A%2F%2Fwww.gbv.com%2F&usg=AFQjCNF85PQImFGH5_nHSKg8ZZk0Hj57ow|Google &mdash; Guided By Voices>`;
             assert(convertLinks(md) === expected);
         });
+        /* tslint:enable:max-line-length */
 
         it("should convert multiple links on one line", () => {
             const md = `[GBV](http://www.gbv.com/) [My Valuable Hunting Knife](http://gbv.com/mvhk)
@@ -398,7 +399,6 @@ There are many more.
 `;
             assert(convertLinks(md) === expected);
         });
-        /* tslint:enable:max-line-length */
 
         it("should convert links", () => {
             const md = `[GBV](http://www.gbv.com/)
@@ -489,7 +489,7 @@ There are many more.
             assert(convertNamedLinks(md) === expected);
         });
 
-        it("should convert a named link with optional space", /* () => {
+        it.skip("should convert a named link with optional space", () => {
             const md = `[My Valuable Hunting Knife] [mvhk]
 
 [mvhk]: http://gbv.com/mvhk.html
@@ -498,7 +498,7 @@ There are many more.
 
 `;
             assert(convertNamedLinks(md) === expected);
-        }*/);
+        });
 
         it("should convert a named link with (alt)", () => {
             const md = `[My Valuable Hunting Knife][mvhk]
@@ -737,6 +737,27 @@ Here is how the above list was created using Markdown:
 `;
             assert(githubToSlack(md) === expected);
         });
+
+        /* tslint:disable:max-line-length */
+        it("should not mangle urls", () => {
+            const md = `This is *some* markdown.  It has __some__ URLs.
+[UTBUTS](https://gbv.com/__under-the-bushes__under-the-stars/)
+For example, https://github.com/graphql/graphql-js/blob/master/src/utilities/__tests__/buildClientSchema-test.js#L821 caused
+problems.
+Named [links][sih] too.
+
+[sih]: http://www.gbv.org/song/Smothered*in*hugs.html (GbV - Smothered in Hugs)
+`;
+            const expected = `This is _some_ markdown.  It has *some* URLs.
+<https://gbv.com/__under-the-bushes__under-the-stars/|UTBUTS>
+For example, https://github.com/graphql/graphql-js/blob/master/src/utilities/__tests__/buildClientSchema-test.js#L821 caused
+problems.
+Named <http://www.gbv.org/song/Smothered*in*hugs.html|links> too.
+
+`;
+            assert(githubToSlack(md) === expected);
+        });
+        /* tslint:enable:max-line-length */
 
     });
 });
