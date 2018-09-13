@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/slack-messages/compare/1.0.0...HEAD)
 
+### Added
+
+-   Add SlackFileJson and ApplicationJson MIME types.
+
 ## [1.0.0](https://github.com/atomist/slack-messages/compare/0.12.1...1.0.0) - 2018-08-30
 
 ### Changed

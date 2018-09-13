@@ -21,14 +21,20 @@ import {
 /**
  * Type defining the MIME types that the Slack message API accepts.
  */
-export type MessageMimeType = "application/x-atomist-slack+json" | "text/plain";
+export type MessageMimeType =
+    "application/x-atomist-slack+json" |
+    "application/x-atomist-slack-file+json" |
+    "text/plain" |
+    "application/json";
 
 /**
  * Helper constants for the MIME types the Slack message API accepts.
  */
 export const MessageMimeTypes: { [key: string]: MessageMimeType } = {
     SlackJson: "application/x-atomist-slack+json",
+    SlackFileJson: "application/x-atomist-slack-file+json",
     PlainText: "text/plain",
+    ApplicationJson: "application/json",
 };
 
 /**
