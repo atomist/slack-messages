@@ -1,4 +1,6 @@
-# @atomist/slack-messages
+# `@atomist/slack-messages`
+
+`@atomist/slack-messages` is licensed under Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 This page details all runtime OSS dependencies of `@atomist/slack-messages`.
 
