@@ -44,11 +44,13 @@ export const MessageMimeTypes: { [key: string]: MessageMimeType } = {
  */
 
 /**
- * Escapes special Slack characters.
+ * Encode special Slack characters and HTML entities.
  */
 export function escape(text: string): string {
     if (text) {
-        return splitProcessor(text, i => i.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+        const entify = (i: string) => i.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const htmlEntities = /(&(?:\w+|#\d+);)/;
+        return splitProcessor(text, entify, htmlEntities);
     } else {
         return "";
     }

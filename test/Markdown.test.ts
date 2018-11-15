@@ -182,7 +182,6 @@ describe("Markdown", () => {
             assert(convertImageLinks(md) === expected);
         });
 
-        /* tslint:disable:max-line-length */
         it("should convert img elements to raw links", () => {
             const md = `![I Am a Scientist](http://gbv.com/iaas.jpeg)
 ![Goldheart Mountaintop Queen Directory](http://gbv.com/gmqd.jpeg)![You're Not an Airplane](http://gbv.com/ynaa.jpeg)
@@ -254,7 +253,6 @@ There are many more.
 `;
             assert(convertImageLinks(md) === expected);
         });
-        /* tslint:enable:max-line-length */
 
         it("should convert named image links", () => {
             const md = `The EP "Clown Prince of the Menthol Trailer" has
@@ -739,7 +737,6 @@ Here is how the above list was created using Markdown:
             assert(githubToSlack(md) === expected);
         });
 
-        /* tslint:disable:max-line-length */
         it("should not mangle urls", () => {
             const md = `This is *some* markdown.  It has __some__ URLs.
 [UTBUTS](https://gbv.com/__under-the-bushes__under-the-stars/)
@@ -758,7 +755,32 @@ Named <http://www.gbv.org/song/Smothered*in*hugs.html|links> too.
 `;
             assert(githubToSlack(md) === expected);
         });
-        /* tslint:enable:max-line-length */
+
+        it("should render markup within URL titles", () => {
+            const m = "Markdown with [`code`](http://a.b/), etc.";
+            const e = "Markdown with <http://a.b/|`code`>, etc.";
+            const s = githubToSlack(m);
+            assert(s === e);
+        });
+
+        it("should not render URLs within code", () => {
+            const m = "Markdown with `[code](http://a.b/)`, etc.";
+            const s = githubToSlack(m);
+            assert(s === m);
+        });
+
+        it("should allow backticks adjacent to code blocks", () => {
+            const m = "````code` not code `code````";
+            const s = githubToSlack(m);
+            assert(s === m);
+        });
+
+        it("should match backticks", () => {
+            const m = "````code` not code `code```` __not__ code `*code*`";
+            const s = githubToSlack(m);
+            const e = "````code` not code `code```` *not* code `*code*`";
+            assert(s === e);
+        });
 
     });
 });

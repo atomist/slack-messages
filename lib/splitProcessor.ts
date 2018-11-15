@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-export const codeBlockSplitter = /(```[\S\s]*?```(?!`)|`.*?`)/mg;
-
 /**
  * Perform transformations on input string, skipping sections that match
  * the regular expression.
@@ -26,12 +24,7 @@ export const codeBlockSplitter = /(```[\S\s]*?```(?!`)|`.*?`)/mg;
  *                  and performs transformation
  * @return transformed string, stitched back together
  */
-export function splitProcessor(
-    text: string,
-    transform: (i: string) => string,
-    splitter: RegExp = codeBlockSplitter,
-): string {
-
+export function splitProcessor(text: string, transform: (i: string) => string, splitter: RegExp): string {
     const hunks = text.split(splitter);
     for (let i = 0; i < hunks.length; i += 2) {
         hunks[i] = transform(hunks[i]);

@@ -123,6 +123,36 @@ function convertMarkdown(text: string): string {
     return splitProcessor(relinked, convertFormat, urlSplitter);
 }
 
+/** Provide a unique identifier for later replacement. */
+function codeTag(i: number): string {
+    return `%.%CODE_PROCESSOR_CODE${i}%.%`;
+}
+
+/**
+ * Transform everything but the interior of inline code segments,
+ * i.e., \`code\`, but still be able to process elements that wrap
+ * around inlide code formatting.
+ *
+ * @param text input string
+ * @param transform function that takes the whole string with inline
+ *                  code segments "hidden" and performs transformation
+ * @return transformed string with unchanged inline code segments
+ */
+function codeProcessor(text: string): string {
+    const hunks = text.split(/(`.*?`)/);
+    const codes = new Array<string>(hunks.length);
+    for (let i = 1; i < hunks.length; i += 2) {
+        codes[i] = hunks[i];
+        hunks[i] = codeTag(i);
+    }
+    const transformed = convertMarkdown(hunks.join(""));
+    let restored = transformed;
+    for (let i = 1; i < hunks.length; i += 2) {
+        restored = restored.replace(codeTag(i), codes[i]);
+    }
+    return restored;
+}
+
 /**
  * Convert GitHub-flavored Markdown to Slack message markup.  This is
  * not a complete implementation of a Markdown parser, but it does its
@@ -132,5 +162,6 @@ function convertMarkdown(text: string): string {
  * @return string with Slack markup
  */
 export function githubToSlack(text: string): string {
-    return splitProcessor(text, convertMarkdown);
+    const codeBlock = /(```[\S\s]*?```(?!`))/g;
+    return splitProcessor(text, codeProcessor, codeBlock);
 }

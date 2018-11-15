@@ -258,32 +258,59 @@ describe("SlackMessages", () => {
             assert.strictEqual(escape(""), "");
         });
 
-        it("will not escape characters in inline code", () => {
-            ["&", "<", ">"].forEach(c => {
-                const i = `Inline \`code ${c} whatnot\` should be safe`;
-                assert(escape(i) === i);
-            });
+        it("will escape characters in inline code", () => {
+            const cs: Record<string, string> = { amp: "&", lt: "<", gt: ">" };
+            for (const c in cs) {
+                if (cs.hasOwnProperty(c)) {
+                    const i = `Inline \`code ${cs[c]} whatnot\` should be safe`;
+                    const e = `Inline \`code &${c}; whatnot\` should be safe`;
+                    assert(escape(i) === e);
+                }
+            }
         });
 
-        it("will not escape characters in code blocks", () => {
-            ["&", "<", ">"].forEach(c => {
-                const i = `Code blocks such as this:
+        it("will escape characters in code blocks", () => {
+            const cs: Record<string, string> = { amp: "&", lt: "<", gt: ">" };
+            for (const c in cs) {
+                if (cs.hasOwnProperty(c)) {
+                    const i = `Code blocks such as this:
 
 \`\`\`
 function first(s: string): string {
-    if (s === "${c}") {
-        return "${c}";
+    if (s === "${cs[c]}") {
+        return "${cs[c]}";
     } else {
-        return \`not ${c}\`;
+        return \`not ${cs[c]}\`;
     }
 }
 \`\`\`
 
 should be safe
 `;
-                assert(escape(i) === i);
-            });
+                    const e = `Code blocks such as this:
+
+\`\`\`
+function first(s: string): string {
+    if (s === "&${c};") {
+        return "&${c};";
+    } else {
+        return \`not &${c};\`;
+    }
+}
+\`\`\`
+
+should be safe
+`;
+                    assert(escape(i) === e);
+                }
+            }
         });
+
+        it("will not escape HTML entities", () => {
+            const t = "&lt;this &amp; that&gt;";
+            assert.strictEqual(escape(t), t);
+        });
+
     });
 
     describe("Urls", () => {
