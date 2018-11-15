@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+/* tslint:disable:max-file-line-count */
+
+import assert = require("power-assert");
 import {
     atChannel,
     atEveryone,
@@ -32,8 +35,6 @@ import {
     url,
     user,
 } from "../lib/SlackMessages";
-
-import assert = require("power-assert");
 
 describe("SlackMessages", () => {
 
@@ -116,7 +117,7 @@ describe("SlackMessages", () => {
             it("should initialize callback_id when not provided", () => {
                 const rendered = JSON.parse(render(msg));
                 for (const att of rendered.attachments) {
-                    assert(att.callback_id != null && att.callback_id !== "");
+                    assert(att.callback_id);
                 }
             });
 
@@ -147,7 +148,7 @@ describe("SlackMessages", () => {
                 const rendered = JSON.parse(render(msg));
                 const ids: string[] = [];
                 for (const att of rendered.attachments) {
-                    assert(att.callback_id != null && att.callback_id !== "");
+                    assert(att.callback_id);
                     if (ids.indexOf(att.callback_id) < 0) {
                         ids.push(att.callback_id);
                     }
@@ -200,7 +201,7 @@ describe("SlackMessages", () => {
                             ],
                         },
                         {
-                            callback_id: null,
+                            callback_id: undefined,
                             text: "test",
                             fallback: "test",
                             actions: [
@@ -222,13 +223,13 @@ describe("SlackMessages", () => {
                 const rendered = JSON.parse(render(msg as any));
                 assert.strictEqual(rendered.attachments[1].callback_id, "custom-id",
                     "Will preserve callback_id specified by user");
-                assert(rendered.attachments[0].callback_id != null,
+                assert(rendered.attachments[0].callback_id,
                     "Will assign callback_id when not specified");
-                assert(rendered.attachments[2].callback_id != null,
+                assert(rendered.attachments[2].callback_id,
                     "Will assign callback_id when specified but set to undefined");
-                assert(rendered.attachments[3].callback_id != null,
+                assert(rendered.attachments[3].callback_id,
                     "Will assign callback_id when specified but set to null");
-                assert(rendered.attachments[4].callback_id == null,
+                assert(rendered.attachments[4].callback_id === undefined,
                     "Will not assign callback_id when attachment does not have any actions");
             });
         });
@@ -245,6 +246,7 @@ describe("SlackMessages", () => {
         });
 
         it("will return empty string when text is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(escape(null as any), "");
         });
 
@@ -298,6 +300,7 @@ should be safe
         });
 
         it("will return empty string when url is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(url(null as any), "");
         });
 
@@ -324,6 +327,7 @@ should be safe
         });
 
         it("will return empty string when userId is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(user(null as any), "");
         });
 
@@ -350,6 +354,7 @@ should be safe
         });
 
         it("will return empty string when channelId is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(channel(null as any), "");
         });
 
@@ -382,6 +387,7 @@ should be safe
         });
 
         it("bold will return empty string when text is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(bold(null as any), "");
         });
 
@@ -398,6 +404,7 @@ should be safe
         });
 
         it("italic will return empty string when text is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(italic(null as any), "");
         });
 
@@ -414,6 +421,7 @@ should be safe
         });
 
         it("strikethrough will return empty string when text is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(strikethrough(null as any), "");
         });
 
@@ -430,6 +438,7 @@ should be safe
         });
 
         it("codeLine will return empty string when text is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(codeLine(null as any), "");
         });
 
@@ -446,6 +455,7 @@ should be safe
         });
 
         it("codeBlock will return empty string when text is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(codeBlock(null as any), "");
         });
 
@@ -462,6 +472,7 @@ should be safe
         });
 
         it("listItem will return empty string when text is null", () => {
+            /* tslint:disable-next-line:no-null-keyword */
             assert.strictEqual(listItem(null as any), "");
         });
 

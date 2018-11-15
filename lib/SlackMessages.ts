@@ -102,17 +102,17 @@ export function channel(channelId: string, channelName?: string): string {
 }
 
 /** Mentions @channel */
-export function atChannel() {
+export function atChannel(): string {
     return "<!channel>";
 }
 
 /** Mentions here (@here) */
-export function atHere() {
+export function atHere(): string {
     return "<!here>";
 }
 
 /** Mentions everyone (@everyone) */
-export function atEveryone() {
+export function atEveryone(): string {
     return "<!everyone>";
 }
 
@@ -126,7 +126,7 @@ export function render(message: SlackMessage, pretty: boolean = false): string {
             }
         });
     }
-    return JSON.stringify(message, null, pretty ? 4 : 0);
+    return JSON.stringify(message, undefined, pretty ? 4 : 0);
 }
 
 /** Render emoji by name */

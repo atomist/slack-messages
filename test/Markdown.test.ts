@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import * as assert from "power-assert";
+/* tslint:disable:max-file-line-count */
 
+import * as assert from "power-assert";
 import {
     convertFormat,
     convertImageLinks,
