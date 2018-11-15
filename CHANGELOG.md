@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/slack-messages/compare/1.0.1...HEAD)
 
+### Fixed
+
+-   Code within link names breaks Slack rendering. [#37](https://github.com/atomist/slack-messages/issues/37)
+
 ## [1.0.1](https://github.com/atomist/slack-messages/compare/1.0.0...1.0.1) - 2018-11-09
 
 ### Added
