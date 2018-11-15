@@ -591,19 +591,19 @@ can be abbreviated [MVHK](http://gbv.com/mvhk.html).
             assert(githubToSlack(md) === md);
         });
 
-        it("should ignore code blocks with invalid language hint", /* () => {
+        it("should ignore code blocks with invalid language hint", () => {
             // GitHub seems to allow this
             const md = "```markdown linenum=1\n* list item\n```\n";
-            const expected = "```markdown linenum=1\n• list item\n```\n";
+            const expected = "```markdown linenum=1\n* list item\n```\n";
             assert(githubToSlack(md) === expected);
-        } */ );
+        });
 
-        it("should convert mid-line triple backticks to inline code", /* () => {
+        it.skip("should convert mid-line triple backticks to inline code", () => {
             // GitHub allows inline triple backtick with embedded single backticks
             const md = "This code block ```* list _item_``` is actually inline code\n";
             const expected = "This code block `* list _item_` is actually inline code\n";
             assert(githubToSlack(md) === expected);
-        } */ );
+        });
 
         it("should leave markdown inside inline code as is", () => {
             const md = "`* list _item_`";
