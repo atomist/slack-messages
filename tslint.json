@@ -37,6 +37,7 @@
     "cyclomatic-complexity": {
       "severity": "warning"
     },
+    "deprecation": true,
     "eofline": true,
     "forin": true,
     "import-spacing": true,
@@ -55,7 +56,7 @@
     },
     "max-file-line-count": {
       "severity": "warning",
-      "options": [400]
+      "options": [500]
     },
     "max-line-length": {
       "severity": "warning",
@@ -79,7 +80,9 @@
     "no-duplicate-imports": true,
     "no-duplicate-super": true,
     "no-duplicate-switch-case": true,
-    "no-empty": true,
+    "no-empty": {
+      "options": ["allow-empty-catch", "allow-empty-functions"]
+    },
     "no-empty-interface": true,
     "no-eval": true,
     "no-floating-promises": true,
