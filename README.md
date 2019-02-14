@@ -23,7 +23,7 @@ formatting API][slack-api].
 [slack-api]: https://api.slack.com/docs/message-formatting (Slack message formatting API)
 
 ```typescript
-import { SlackMessage } from "@atomist/slack-message";
+import { SlackMessage } from "@atomist/slack-messages";
 // A very simple message
 const msg: SlackMessage = { text: "Simple message" };
 ```
@@ -33,7 +33,7 @@ import {
     escape,
     SlackMessage,
     url,
-} from "@atomist/slack-message";
+} from "@atomist/slack-messages";
 // Here is an example of a message with a Slack action (button).
 const msg: SlackMessage = {
     text: `${url(user.url, "@" + user.name)} opened issue: ${url(issue.url, issue.title)}`,
