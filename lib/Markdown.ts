@@ -43,22 +43,19 @@ export function convertNamedLinks(text: string): string {
     const namedLinksRegExp = /^\[(.+?)\]:\s*(https?:\/\/\S+).*\n/mg;
     let matches: string[] | null;
     const links: any = {};
-    // tslint:disable-next-line:no-conditional-assignment
-    while (matches = namedLinksRegExp.exec(text)) {
+    while (matches = namedLinksRegExp.exec(text)) { // eslint-disable-line no-cond-assign
         const name = matches[1];
         const url = matches[2];
         links[name] = url;
     }
     let linked: string = text;
-    for (const n in links) {
-        if (links.hasOwnProperty(n)) {
-            const u = links[n];
-            const nameRegExp = new RegExp(`\\[(.+?)\\]\\[${n}\\]|\\[${n}\\]\\[\\]`, "g");
-            linked = linked.replace(nameRegExp, (m, ln) => {
-                const linkName = (ln) ? ln : n;
-                return `[${linkName}](${u})`;
-            });
-        }
+    for (const n of Object.keys(links)) {
+        const u = links[n];
+        const nameRegExp = new RegExp(`\\[(.+?)\\]\\[${n}\\]|\\[${n}\\]\\[\\]`, "g");
+        linked = linked.replace(nameRegExp, (m, ln) => {
+            const linkName = (ln) ? ln : n;
+            return `[${linkName}](${u})`;
+        });
     }
     return linked.replace(namedLinksRegExp, "");
 }

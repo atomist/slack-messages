@@ -48,7 +48,7 @@ export const MessageMimeTypes: { [key: string]: MessageMimeType } = {
  */
 export function escape(text: string): string {
     if (text) {
-        const entify = (i: string) => i.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const entify = (i: string): string => i.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         const htmlEntities = /(&(?:\w+|#\d+);)/;
         return splitProcessor(text, entify, htmlEntities);
     } else {
@@ -119,12 +119,12 @@ export function atEveryone(): string {
 }
 
 /** Renders JSON representation of slack message. */
-export function render(message: SlackMessage, pretty: boolean = false): string {
+export function render(message: SlackMessage, pretty = false): string {
     if (message.attachments && message.attachments.length > 0) {
         let idx = 1;
         message.attachments.forEach(att => {
             if (att.actions && att.actions.length > 0 && !att.callback_id) {
-                att.callback_id = `cllbck${idx++}`;
+                att.callback_id = `cllbck${idx++}`; // eslint-disable-line @typescript-eslint/camelcase
             }
         });
     }

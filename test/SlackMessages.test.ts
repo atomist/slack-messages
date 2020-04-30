@@ -89,7 +89,7 @@ describe("SlackMessages", () => {
                     {
                         text: escape(issue.body),
                         fallback: escape(issue.title),
-                        mrkdwn_in: ["text"],
+                        mrkdwn_in: ["text"], // eslint-disable-line @typescript-eslint/camelcase
                         actions: [
                             {
                                 text: "Close issue",
@@ -175,7 +175,7 @@ describe("SlackMessages", () => {
                             ],
                         },
                         {
-                            callback_id: "custom-id",
+                            callback_id: "custom-id", // eslint-disable-line @typescript-eslint/camelcase
                             text: "test",
                             fallback: "test",
                             actions: [
@@ -188,7 +188,7 @@ describe("SlackMessages", () => {
                             ],
                         },
                         {
-                            callback_id: undefined,
+                            callback_id: undefined, // eslint-disable-line @typescript-eslint/camelcase
                             text: "test",
                             fallback: "test",
                             actions: [
@@ -201,7 +201,7 @@ describe("SlackMessages", () => {
                             ],
                         },
                         {
-                            callback_id: undefined,
+                            callback_id: undefined, // eslint-disable-line @typescript-eslint/camelcase
                             text: "test",
                             fallback: "test",
                             actions: [
@@ -260,20 +260,17 @@ describe("SlackMessages", () => {
 
         it("will escape characters in inline code", () => {
             const cs: Record<string, string> = { amp: "&", lt: "<", gt: ">" };
-            for (const c in cs) {
-                if (cs.hasOwnProperty(c)) {
-                    const i = `Inline \`code ${cs[c]} whatnot\` should be safe`;
-                    const e = `Inline \`code &${c}; whatnot\` should be safe`;
-                    assert(escape(i) === e);
-                }
+            for (const c of Object.keys(cs)) {
+                const i = `Inline \`code ${cs[c]} whatnot\` should be safe`;
+                const e = `Inline \`code &${c}; whatnot\` should be safe`;
+                assert(escape(i) === e);
             }
         });
 
         it("will escape characters in code blocks", () => {
             const cs: Record<string, string> = { amp: "&", lt: "<", gt: ">" };
-            for (const c in cs) {
-                if (cs.hasOwnProperty(c)) {
-                    const i = `Code blocks such as this:
+            for (const c of Object.keys(cs)) {
+                const i = `Code blocks such as this:
 
 \`\`\`
 function first(s: string): string {
@@ -287,7 +284,7 @@ function first(s: string): string {
 
 should be safe
 `;
-                    const e = `Code blocks such as this:
+                const e = `Code blocks such as this:
 
 \`\`\`
 function first(s: string): string {
@@ -301,8 +298,7 @@ function first(s: string): string {
 
 should be safe
 `;
-                    assert(escape(i) === e);
-                }
+                assert(escape(i) === e);
             }
         });
 

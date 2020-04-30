@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/* tslint:disable:max-file-line-count */
-
 import * as assert from "power-assert";
 import {
     convertFormat,
@@ -299,7 +297,6 @@ http://gbv.com/ja.gif on it.
             assert(convertInlineImages(md) === expected);
         });
 
-        /* tslint:disable:max-line-length */
         it("should convert img elements to raw links", () => {
             const md = `<img src="http://gbv.com/iaas.jpeg" alt="I Am a Scientist">
 <img src="http://gbv.com/gmqd.jpeg" alt="Goldheart Mountaintop Queen Directory"><img src="http://gbv.com/ynaa.jpeg" alt="You're Not an Airplane">
@@ -371,7 +368,6 @@ There are many more.
 `;
             assert(convertInlineImages(md) === expected);
         });
-        /* tslint:enable:max-line-length */
 
     });
 
@@ -383,13 +379,11 @@ There are many more.
             assert(convertLinks(md) === expected);
         });
 
-        /* tslint:disable:max-line-length */
         it("should convert a complicated link", () => {
             const md = `[Google &mdash; Guided By Voices](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwj98P7fwNTVAhUKjVQKHUwJAkcQFggoMAA&url=http%3A%2F%2Fwww.gbv.com%2F&usg=AFQjCNF85PQImFGH5_nHSKg8ZZk0Hj57ow)`;
             const expected = `<https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwj98P7fwNTVAhUKjVQKHUwJAkcQFggoMAA&url=http%3A%2F%2Fwww.gbv.com%2F&usg=AFQjCNF85PQImFGH5_nHSKg8ZZk0Hj57ow|Google &mdash; Guided By Voices>`;
             assert(convertLinks(md) === expected);
         });
-        /* tslint:enable:max-line-length */
 
         it("should convert multiple links on one line", () => {
             const md = `[GBV](http://www.gbv.com/) [My Valuable Hunting Knife](http://gbv.com/mvhk)

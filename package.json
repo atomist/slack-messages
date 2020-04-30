@@ -28,6 +28,9 @@
   "devDependencies": {
     "@types/mocha": "^7.0.2",
     "@types/power-assert": "^1.5.3",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "eslint": "^6.8.0",
     "espower-typescript": "^9.0.2",
     "mocha": "^7.1.2",
     "npm-run-all": "^4.1.5",
@@ -35,7 +38,6 @@
     "rimraf": "^3.0.2",
     "supervisor": "^0.12.0",
     "ts-node": "^8.9.1",
-    "tslint": "^5.20.1",
     "typedoc": "^0.17.6",
     "typescript": "^3.8.3"
   },
@@ -54,7 +56,7 @@
     "clean:test": "rimraf .nyc_output coverage",
     "compile": "tsc --project .",
     "doc": "typedoc --mode modules --excludeExternals --ignoreCompilerErrors --exclude \"**/*.d.ts\" --out doc index.ts lib",
-    "lint": "tslint --config tslint.json --format verbose --project .",
+    "lint": "eslint --ext .ts .",
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha --require espower-typescript/guess \"test/**/*.test.ts\"",
     "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.test.ts}\""
