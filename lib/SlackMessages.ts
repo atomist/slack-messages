@@ -339,6 +339,7 @@ export interface Element {
 		| "users_select"
 		| "conversations_select"
 		| "channels_select";
+	action_id?: string;
 }
 
 export interface TextObject {
