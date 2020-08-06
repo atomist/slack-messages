@@ -267,7 +267,8 @@ export interface Block {
 		| "file"
 		| "header"
 		| "image"
-		| "section";
+		| "section"
+		| "input";
 	block_id?: string;
 }
 
@@ -456,4 +457,31 @@ export interface ChannelOptionElement extends Element {
 	initial_channel?: string;
 	confirm?: ConfirmObject;
 	response_url_enabled?: boolean;
+}
+
+export interface SlackModal {
+	type: "modal";
+	title: PlainTextElement;
+	blocks: Block[];
+	close?: PlainTextElement;
+	submit?: PlainTextElement;
+	private_metadata?: string;
+	callback_id?: string;
+	clear_on_close?: boolean;
+	notify_on_close?: boolean;
+	external_id?: boolean;
+}
+
+export interface InputBlock extends Block {
+	type: "input";
+	label: PlainTextElement;
+	element:
+		| PlainTextElement
+		| DatePickerElement
+		| StaticOptionElement
+		| UserOptionElement
+		| ConversationOptionElement
+		| ChannelOptionElement;
+	hint?: PlainTextElement;
+	optional?: boolean;
 }
