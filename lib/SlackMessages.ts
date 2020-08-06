@@ -461,10 +461,10 @@ export interface ChannelOptionElement extends Element {
 
 export interface SlackModal {
 	type: "modal";
-	title: PlainTextElement;
+	title: PlainTextObject;
 	blocks: Block[];
-	close?: PlainTextElement;
-	submit?: PlainTextElement;
+	close?: PlainTextObject;
+	submit?: PlainTextObject;
 	private_metadata?: string;
 	callback_id?: string;
 	clear_on_close?: boolean;
@@ -474,7 +474,7 @@ export interface SlackModal {
 
 export interface InputBlock extends Block {
 	type: "input";
-	label: PlainTextElement;
+	label: PlainTextObject;
 	element:
 		| PlainTextElement
 		| DatePickerElement
@@ -482,6 +482,6 @@ export interface InputBlock extends Block {
 		| UserOptionElement
 		| ConversationOptionElement
 		| ChannelOptionElement;
-	hint?: PlainTextElement;
+	hint?: PlainTextObject;
 	optional?: boolean;
 }
