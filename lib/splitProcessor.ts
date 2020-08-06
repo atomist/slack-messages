@@ -24,10 +24,14 @@
  *                  and performs transformation
  * @return transformed string, stitched back together
  */
-export function splitProcessor(text: string, transform: (i: string) => string, splitter: RegExp): string {
-    const hunks = text.split(splitter);
-    for (let i = 0; i < hunks.length; i += 2) {
-        hunks[i] = transform(hunks[i]);
-    }
-    return hunks.join("");
+export function splitProcessor(
+	text: string,
+	transform: (i: string) => string,
+	splitter: RegExp,
+): string {
+	const hunks = text.split(splitter);
+	for (let i = 0; i < hunks.length; i += 2) {
+		hunks[i] = transform(hunks[i]);
+	}
+	return hunks.join("");
 }

@@ -1,3 +1,2 @@
 *.d.ts
-/events/types.ts
-/lib/typings/types.ts
+**/typings/types.ts

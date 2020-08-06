@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import {
-    splitProcessor,
-} from "./splitProcessor";
+import { splitProcessor } from "./splitProcessor";
 
 /**
  * Try to handle adjacent HTML and Markdown elements that cannot be
@@ -28,9 +26,15 @@ import {
  * @param space trailing space, if it exists
  * @return properly padded replacement string
  */
-function trailingSpace(match: string, url: string, space: string, offset: number, full: string): string {
-    const pad = (offset + match.length === full.length) ? "" : " ";
-    return (space) ? url + space : url + pad;
+function trailingSpace(
+	match: string,
+	url: string,
+	space: string,
+	offset: number,
+	full: string,
+): string {
+	const pad = offset + match.length === full.length ? "" : " ";
+	return space ? url + space : url + pad;
 }
 
 /**
@@ -40,24 +44,28 @@ function trailingSpace(match: string, url: string, space: string, offset: number
  * @return string with explicit links
  */
 export function convertNamedLinks(text: string): string {
-    const namedLinksRegExp = /^\[(.+?)\]:\s*(https?:\/\/\S+).*\n/mg;
-    let matches: string[] | null;
-    const links: any = {};
-    while (matches = namedLinksRegExp.exec(text)) { // eslint-disable-line no-cond-assign
-        const name = matches[1];
-        const url = matches[2];
-        links[name] = url;
-    }
-    let linked: string = text;
-    for (const n of Object.keys(links)) {
-        const u = links[n];
-        const nameRegExp = new RegExp(`\\[(.+?)\\]\\[${n}\\]|\\[${n}\\]\\[\\]`, "g");
-        linked = linked.replace(nameRegExp, (m, ln) => {
-            const linkName = (ln) ? ln : n;
-            return `[${linkName}](${u})`;
-        });
-    }
-    return linked.replace(namedLinksRegExp, "");
+	const namedLinksRegExp = /^\[(.+?)\]:\s*(https?:\/\/\S+).*\n/gm;
+	let matches: string[] | null;
+	const links: any = {};
+	while ((matches = namedLinksRegExp.exec(text))) {
+		// eslint-disable-line no-cond-assign
+		const name = matches[1];
+		const url = matches[2];
+		links[name] = url;
+	}
+	let linked: string = text;
+	for (const n of Object.keys(links)) {
+		const u = links[n];
+		const nameRegExp = new RegExp(
+			`\\[(.+?)\\]\\[${n}\\]|\\[${n}\\]\\[\\]`,
+			"g",
+		);
+		linked = linked.replace(nameRegExp, (m, ln) => {
+			const linkName = ln ? ln : n;
+			return `[${linkName}](${u})`;
+		});
+	}
+	return linked.replace(namedLinksRegExp, "");
 }
 
 /**
@@ -67,8 +75,8 @@ export function convertNamedLinks(text: string): string {
  * @return string with img tags replaced
  */
 export function convertInlineImages(text: string): string {
-    const regex = /(?:&lt;|<)img\s[\S\s]*?\bsrc="(\S+?)"[\S\s]*?(?:&gt;|>)(\s?)/g;
-    return text.replace(regex, trailingSpace);
+	const regex = /(?:&lt;|<)img\s[\S\s]*?\bsrc="(\S+?)"[\S\s]*?(?:&gt;|>)(\s?)/g;
+	return text.replace(regex, trailingSpace);
 }
 
 /**
@@ -78,7 +86,7 @@ export function convertInlineImages(text: string): string {
  * @return string with image URLs
  */
 export function convertImageLinks(text: string): string {
-    return text.replace(/!\[.*?\]\((.+?)\)(\s?)/g, trailingSpace);
+	return text.replace(/!\[.*?\]\((.+?)\)(\s?)/g, trailingSpace);
 }
 
 /**
@@ -88,7 +96,7 @@ export function convertImageLinks(text: string): string {
  * @return string with Slack markup
  */
 export function convertLinks(text: string): string {
-    return text.replace(/\[(.+?)\]\((.+?)\)/g, "<$2|$1>");
+	return text.replace(/\[(.+?)\]\((.+?)\)/g, "<$2|$1>");
 }
 
 /**
@@ -99,11 +107,12 @@ export function convertLinks(text: string): string {
  * @return string with Slack markup
  */
 export function convertFormat(text: string): string {
-    return text.replace(/^(\s*)[-*](\s+)/mg, "$1•$2")
-        .replace(/(\*|_)\1(\S|\S.*?\S)\1\1(?!\1)/g, "<bdmkd>$2<bdmkd>")
-        .replace(/(\*|_)(?!\1)(\S|\S.*?\S)\1(?!\1)/g, "<itmkd>$2<itmkd>")
-        .replace(/<bdmkd>/g, "*")
-        .replace(/<itmkd>/g, "_");
+	return text
+		.replace(/^(\s*)[-*](\s+)/gm, "$1•$2")
+		.replace(/(\*|_)\1(\S|\S.*?\S)\1\1(?!\1)/g, "<bdmkd>$2<bdmkd>")
+		.replace(/(\*|_)(?!\1)(\S|\S.*?\S)\1(?!\1)/g, "<itmkd>$2<itmkd>")
+		.replace(/<bdmkd>/g, "*")
+		.replace(/<itmkd>/g, "_");
 }
 
 /**
@@ -115,14 +124,16 @@ export function convertFormat(text: string): string {
  * @return string converted to Slack markup
  */
 function convertMarkdown(text: string): string {
-    const relinked = convertLinks(convertImageLinks(convertInlineImages(convertNamedLinks(text))));
-    const urlSplitter = /(<.*>|https?:\/\/\S+)/g;
-    return splitProcessor(relinked, convertFormat, urlSplitter);
+	const relinked = convertLinks(
+		convertImageLinks(convertInlineImages(convertNamedLinks(text))),
+	);
+	const urlSplitter = /(<.*>|https?:\/\/\S+)/g;
+	return splitProcessor(relinked, convertFormat, urlSplitter);
 }
 
 /** Provide a unique identifier for later replacement. */
 function codeTag(i: number): string {
-    return `%.%CODE_PROCESSOR_CODE${i}%.%`;
+	return `%.%CODE_PROCESSOR_CODE${i}%.%`;
 }
 
 /**
@@ -136,18 +147,18 @@ function codeTag(i: number): string {
  * @return transformed string with unchanged inline code segments
  */
 function codeProcessor(text: string): string {
-    const hunks = text.split(/(`.*?`)/);
-    const codes = new Array<string>(hunks.length);
-    for (let i = 1; i < hunks.length; i += 2) {
-        codes[i] = hunks[i];
-        hunks[i] = codeTag(i);
-    }
-    const transformed = convertMarkdown(hunks.join(""));
-    let restored = transformed;
-    for (let i = 1; i < hunks.length; i += 2) {
-        restored = restored.replace(codeTag(i), codes[i]);
-    }
-    return restored;
+	const hunks = text.split(/(`.*?`)/);
+	const codes = new Array<string>(hunks.length);
+	for (let i = 1; i < hunks.length; i += 2) {
+		codes[i] = hunks[i];
+		hunks[i] = codeTag(i);
+	}
+	const transformed = convertMarkdown(hunks.join(""));
+	let restored = transformed;
+	for (let i = 1; i < hunks.length; i += 2) {
+		restored = restored.replace(codeTag(i), codes[i]);
+	}
+	return restored;
 }
 
 /**
@@ -159,6 +170,6 @@ function codeProcessor(text: string): string {
  * @return string with Slack markup
  */
 export function githubToSlack(text: string): string {
-    const codeBlock = /(```[\S\s]*?```(?!`))/g;
-    return splitProcessor(text, codeProcessor, codeBlock);
+	const codeBlock = /(```[\S\s]*?```(?!`))/g;
+	return splitProcessor(text, codeProcessor, codeBlock);
 }

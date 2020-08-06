@@ -15,6 +15,4 @@
  */
 
 export * from "./lib/SlackMessages";
-export {
-    githubToSlack,
-} from "./lib/Markdown";
+export { githubToSlack } from "./lib/Markdown";

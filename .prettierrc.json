@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["*.md", "*.markdown"],
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}
