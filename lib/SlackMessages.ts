@@ -353,7 +353,7 @@ export interface ConfirmObject {
 	text: string;
 	confirm: string;
 	deny: string;
-	style: "primary" | "danger";
+	style?: "primary" | "danger";
 }
 
 export interface PlainTextObject extends TextObject {
