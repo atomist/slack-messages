@@ -130,7 +130,13 @@ export function render(message: SlackMessage, pretty = false): string {
 			}
 		});
 	}
-	return JSON.stringify(message, undefined, pretty ? 4 : 0);
+	if (message.blocks && message.blocks.length > 0) {
+		if (!message.text) {
+			message.text = "fallback";
+		}
+		(message as any).blocks = JSON.stringify(message.blocks);
+	}
+	return JSON.stringify(message, undefined, pretty ? 2 : 0);
 }
 
 /** Render emoji by name */
