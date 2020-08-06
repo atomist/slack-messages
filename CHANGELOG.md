@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/slack-messages/compare/1.1.2...HEAD)
 
+### Added
+
+-   Add types for Slack Block messages. [c0d12d1](https://github.com/atomist/slack-messages/commit/c0d12d19b3b7c7bf5382b6a6fa8594d7ace18951)
+
 ## [1.1.2](https://github.com/atomist/slack-messages/compare/1.1.1...1.1.2) - 2020-04-30
 
 ## [1.1.1](https://github.com/atomist/slack-messages/compare/1.1.0...1.1.1) - 2019-06-18
