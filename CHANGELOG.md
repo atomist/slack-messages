@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/slack-messages/compare/1.2.0...HEAD)
 
+### Added
+
+-   Convert Markdown headers to bold text. [0858256](https://github.com/atomist/slack-messages/commit/0858256c13608ff58dcbff3e29d6fb95e87410c6)
+
 ## [1.2.0](https://github.com/atomist/slack-messages/compare/1.1.2...1.2.0) - 2020-10-07
 
 ### Added
