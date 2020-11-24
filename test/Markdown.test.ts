@@ -706,7 +706,7 @@ Here is how the above list was created using Markdown:
 -   \`*Under the Bushes Under the Stars*\`
 \`\`\`
 `;
-			const expected = `# Guided By Voices
+			const expected = `*Guided By Voices*
 
 <https://www.gbv.com|Guided By Voices>, commonly referred to as "_GBV_", is a band from
 Dayton, OH, USA fronted by <https://en.wikipedia.org/wiki/Robert_Pollard|Robert Pollard>.
@@ -714,7 +714,7 @@ Mr. Pollard is a *prolific* songwriter, through GBV and solo efforts
 having released over *_100 albums_*.
 
 
-## Albums
+*Albums*
 
 Here are some <https://www.gbv.com|GBV> albums:
 
@@ -736,7 +736,7 @@ Here is how the above list was created using Markdown:
 -   \`*Under the Bushes Under the Stars*\`
 \`\`\`
 `;
-			assert(githubToSlack(md) === expected);
+			assert.strictEqual(githubToSlack(md), expected);
 		});
 
 		it("should not mangle urls", () => {
