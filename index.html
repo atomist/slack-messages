@@ -1,0 +1,302 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@atomist/slack-messages</title>
+	<meta name="description" content="Documentation for @atomist/slack-messages">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@atomist/slack-messages</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>@atomist/slack-messages</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#atomistslack-messages" id="atomistslack-messages" style="color: inherit; text-decoration: none;">
+					<h1>@atomist/slack-messages</h1>
+				</a>
+				<p><a href="https://app.atomist.com/workspace/T29E48P34"><img src="http://badge.atomist.com/T29E48P34/atomist/slack-messages/9e7d7699-14a8-4273-945b-9e5ca08aa38f" alt="atomist sdm goals"></a>
+				<a href="https://www.npmjs.com/package/@atomist/slack-messages"><img src="https://img.shields.io/npm/v/@atomist/slack-messages.svg" alt="npm version"></a></p>
+				<p><a href="https://nodejs.org/" title="Node.js">Node.js</a> module that helps to create well-formatted
+					<a href="https://slack.com/" title="Slack">Slack</a> messages sent through the <code>@atomist</code> bot from your
+					software delivery machine (SDM).  This module also facilitates adding
+				actions to your Slack messages that execute SDM commands.</p>
+				<p>See the <a href="https://docs.atomist.com/" title="Atomist Documentation">Atomist documentation</a> for more information on
+					what SDMs are and what they can do for you using the Atomist API for
+				software.</p>
+				<a href="#using" id="using" style="color: inherit; text-decoration: none;">
+					<h2>Using</h2>
+				</a>
+				<p>Construct a message as a plain map following the <a href="https://api.slack.com/docs/message-formatting" title="Slack message formatting API">Slack message
+				formatting API</a>.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { SlackMessage } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@atomist/slack-messages&quot;</span>;
+<span class="hljs-comment">// A very simple message</span>
+<span class="hljs-keyword">const</span> msg: SlackMessage = { text: <span class="hljs-string">&quot;Simple message&quot;</span> };</code></pre>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {
+    <span class="hljs-built_in">escape</span>,
+    SlackMessage,
+    url,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@atomist/slack-messages&quot;</span>;
+<span class="hljs-comment">// Here is an example of a message with a Slack action (button).</span>
+<span class="hljs-keyword">const</span> msg: SlackMessage = {
+    text: <span class="hljs-string">`<span class="hljs-subst">${url(user.url, <span class="hljs-string">&quot;@&quot;</span> + user.name)}</span> opened issue: <span class="hljs-subst">${url(issue.url, issue.title)}</span>`</span>,
+    attachments: [
+        {
+            text: <span class="hljs-built_in">escape</span>(issue.body),
+            fallback: <span class="hljs-built_in">escape</span>(issue.title),
+            mrkdwn_in: [<span class="hljs-string">&quot;text&quot;</span>],
+            actions: [
+                {
+                    text: <span class="hljs-string">&quot;Close issue&quot;</span>,
+                    <span class="hljs-keyword">type</span>: <span class="hljs-string">&quot;button&quot;</span>,
+                    name: <span class="hljs-string">&quot;closeissue&quot;</span>,
+                    value: <span class="hljs-string">&quot;somebuttonid&quot;</span>,
+                },
+            ],
+            callback_id: <span class="hljs-string">&quot;cllbck1&quot;</span>,
+        },
+    ],
+};</code></pre>
+				<p>And then render the message with <code>render(msg)</code>.  This will construct a
+				JSON string representation of the message:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@atomist/slack-messages&quot;</span>
+
+<span class="hljs-keyword">const</span> renderedMsg = render(msg);</code></pre>
+				<p>or to produce a pretty JSON string:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> renderedMsg = render(msg, <span class="hljs-literal">true</span>);</code></pre>
+				<p>This will produce the following JSON string (pretty version):</p>
+				<pre><code class="language-json">{
+  <span class="hljs-attr">&quot;text&quot;</span>: <span class="hljs-string">&quot;&lt;https://github.com/anna|@anna&gt; opened issue: &lt;https://github.com/someorg/somerepo/issues/484|This issue title contains &amp;lt;unsafe&amp;gt; characters and &amp;amp;&gt;&quot;</span>,
+  <span class="hljs-attr">&quot;attachments&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;text&quot;</span>: <span class="hljs-string">&quot;This is a very important issue with body containing &amp;lt;unsafe&amp;gt; characters and even &amp;amp;&quot;</span>,
+      <span class="hljs-attr">&quot;fallback&quot;</span>: <span class="hljs-string">&quot;This issue title contains &amp;lt;unsafe&amp;gt; characters and &amp;amp;&quot;</span>,
+      <span class="hljs-attr">&quot;mrkdwn_in&quot;</span>: [
+        <span class="hljs-string">&quot;text&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;callback_id&quot;</span>: <span class="hljs-string">&quot;cllbck1&quot;</span>,
+      <span class="hljs-attr">&quot;actions&quot;</span>: [
+        {
+          <span class="hljs-attr">&quot;text&quot;</span>: <span class="hljs-string">&quot;Close issue&quot;</span>,
+          <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;button&quot;</span>,
+          <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;rug&quot;</span>,
+          <span class="hljs-attr">&quot;value&quot;</span>: <span class="hljs-string">&quot;somebuttonid&quot;</span>
+        }
+      ]
+    }
+  ]
+}</code></pre>
+				<p>Note that the <code>render</code> function will automatically assign a unique
+					<code>callback_id</code> to each attachments that has actions.  But, if you
+				provide your custom <code>callback_id</code> it will be preserved as is.</p>
+				<a href="#additional-helper-functions" id="additional-helper-functions" style="color: inherit; text-decoration: none;">
+					<h3>Additional helper functions</h3>
+				</a>
+				<a href="#special-characters" id="special-characters" style="color: inherit; text-decoration: none;">
+					<h4>Special characters</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-built_in">escape</span>(<span class="hljs-string">&quot;Slack requires you to escape &lt;, &gt; and &amp;&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;Slack requires you to escape &amp;lt;, &amp;gt; and &amp;amp;&quot;</span></code></pre>
+				<a href="#links" id="links" style="color: inherit; text-decoration: none;">
+					<h4>Links</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-comment">// Simple link</span>
+url(<span class="hljs-string">&quot;https://www.atomist.com&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;&lt;https://www.atomist.com&gt;&quot;</span>
+
+<span class="hljs-comment">// Link with label</span>
+url(<span class="hljs-string">&quot;https://www.atomist.com&quot;</span>, <span class="hljs-string">&quot;atomist&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;&lt;https://www.atomist.com|atomist&gt;&quot;</span></code></pre>
+				<a href="#user-amp-channel-links" id="user-amp-channel-links" style="color: inherit; text-decoration: none;">
+					<h4>User &amp; channel links</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-comment">// @some-user (Slack will display user name for provided user ID)</span>
+user(<span class="hljs-string">&quot;U123&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;&lt;@U123&gt;&quot;</span>
+
+<span class="hljs-comment">// #some-channel (Slack will display channel name for provided channel ID)</span>
+channel(<span class="hljs-string">&quot;C123&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;&lt;#C123&gt;&quot;</span></code></pre>
+				<a href="#special-variables" id="special-variables" style="color: inherit; text-decoration: none;">
+					<h4>Special variables</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-comment">// @channel</span>
+atChannel();
+<span class="hljs-comment">// =&gt; &quot;&lt;!channel&gt;&quot;</span>
+
+<span class="hljs-comment">// @here</span>
+atHere();
+<span class="hljs-comment">// =&gt; &quot;&lt;!here&gt;&quot;</span>
+
+<span class="hljs-comment">// @everyone</span>
+atEveryone();
+<span class="hljs-comment">// =&gt; &quot;&lt;!everyone&gt;&quot;</span></code></pre>
+				<a href="#emoji" id="emoji" style="color: inherit; text-decoration: none;">
+					<h4>Emoji</h4>
+				</a>
+				<pre><code class="language-typescript">emoji(<span class="hljs-string">&quot;smile&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;:smile:&quot;;</span></code></pre>
+				<a href="#markdown" id="markdown" style="color: inherit; text-decoration: none;">
+					<h4>Markdown</h4>
+				</a>
+				<p>Slack will render markdown if field where markdown is present is
+				included in <code>mrkdwn_in</code> array.</p>
+				<pre><code class="language-typescript">bold(<span class="hljs-string">&quot;This text will appear bold&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;*This text will appear bold*&quot;</span>
+
+italic(<span class="hljs-string">&quot;This text will appear italic&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;_This text will appear italic_&quot;</span>
+
+strikethrough(<span class="hljs-string">&quot;This text will appear strike-through&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;~This text will appear strike-through~&quot;</span>
+
+<span class="hljs-comment">// Single line code block</span>
+codeLine(<span class="hljs-string">&quot;var a = new A();&quot;</span>);
+<span class="hljs-comment">// =&gt;  &quot;`var a = new A();`&quot;</span>
+
+<span class="hljs-comment">// Multi line code block</span>
+codeBlock(<span class="hljs-string">&quot;var a = new A();\nvar b = new B();&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;```var a = new A();\nvar b = new B();```&quot;</span>
+
+<span class="hljs-comment">// List</span>
+listItem(<span class="hljs-string">&quot;Item 1&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;• Item 1&quot;</span></code></pre>
+				<a href="#github-to-slack-markdown-conversion" id="github-to-slack-markdown-conversion" style="color: inherit; text-decoration: none;">
+					<h3>GitHub to Slack markdown conversion</h3>
+				</a>
+				<p>GitHub and Slack markdown are different enough to make your GitHub
+					issues or GitHub PRs look quite bad in Slack by default.  You can use
+					the <code>githubToSlack</code> function from <code>Markdown</code> to convert text that uses
+				GitHub markdown to text that will look good in Slack:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { githubToSlack } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@atomist/slack-messages&quot;</span>
+
+githubToSlack(<span class="hljs-string">&quot;* list item 1\n* list item 2\n\**some bold text** and *some italic text* with a link [click here](http://someplace.com)&quot;</span>);
+<span class="hljs-comment">// =&gt; &quot;• list item 1\n• list item 2\n*some bold text* and _some italic text_ with a link &lt;http://someplace.com|click here&gt;&quot;</span></code></pre>
+				<a href="#support" id="support" style="color: inherit; text-decoration: none;">
+					<h2>Support</h2>
+				</a>
+				<p>General support questions should be discussed in the <code>#support</code>
+				channel in the <a href="https://join.atomist.com/" title="Atomist Community Slack">Atomist community Slack workspace</a>.</p>
+				<p>If you find a problem, please create an <a href="https://github.com/atomist/slack-messages/issues">issue</a>.</p>
+				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+					<h2>Development</h2>
+				</a>
+				<p>You will need to install <a href="https://nodejs.org/" title="Node.js">Node.js</a> to build and test this
+				project.</p>
+				<a href="#build-and-test" id="build-and-test" style="color: inherit; text-decoration: none;">
+					<h3>Build and test</h3>
+				</a>
+				<p>Install dependencies.</p>
+				<pre><code>$ npm <span class="hljs-keyword">install</span></code></pre>
+				<p>Use the <code>build</code> package script to compile, test, lint, and build the
+				documentation.</p>
+				<pre><code>$ npm <span class="hljs-keyword">run</span><span class="bash"> build</span></code></pre>
+				<a href="#release" id="release" style="color: inherit; text-decoration: none;">
+					<h3>Release</h3>
+				</a>
+				<p>Releases are handled via the <a href="https://github.com/atomist/atomist-sdm" title="Atomist Software Delivery Machine">Atomist SDM</a>.  Just press
+				the &#39;Approve&#39; button in the Atomist dashboard or Slack.</p>
+				<hr>
+				<p>Created by <a href="https://atomist.com/" title="Atomist - How Teams Deliver Software">Atomist</a>.
+				Need Help?  <a href="https://join.atomist.com/" title="Atomist Community Slack">Join our Slack workspace</a>.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_markdown_.html">&quot;lib/<wbr>Markdown&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_slackmessages_.html">&quot;lib/<wbr>Slack<wbr>Messages&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_splitprocessor_.html">&quot;lib/split<wbr>Processor&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
