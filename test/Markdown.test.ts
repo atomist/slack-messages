@@ -783,5 +783,18 @@ Named <http://www.gbv.org/song/Smothered*in*hugs.html|links> too.
 			const e = "````code` not code `code```` *not* code `*code*`";
 			assert(s === e);
 		});
+
+		it("should convert headers", () => {
+			const m = `This some text with 
+## Test
+
+some headers`;
+			const s = githubToSlack(m);
+			const e = `This some text with 
+*Test*
+
+some headers`;
+			assert.strictEqual(s, e);
+		});
 	});
 });

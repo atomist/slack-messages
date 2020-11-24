@@ -112,7 +112,8 @@ export function convertFormat(text: string): string {
 		.replace(/(\*|_)\1(\S|\S.*?\S)\1\1(?!\1)/g, "<bdmkd>$2<bdmkd>")
 		.replace(/(\*|_)(?!\1)(\S|\S.*?\S)\1(?!\1)/g, "<itmkd>$2<itmkd>")
 		.replace(/<bdmkd>/g, "*")
-		.replace(/<itmkd>/g, "_");
+		.replace(/<itmkd>/g, "_")
+		.replace(/^([#]+)\s+(\S+)$/gm, `*$2*`);
 }
 
 /**
