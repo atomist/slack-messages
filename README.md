@@ -201,7 +201,7 @@ githubToSlack("* list item 1\n* list item 2\n\**some bold text** and *some itali
 
 ## Support
 
-General support questions should be discussed in the `#support`
+General support questions should be discussed in the `#help`
 channel in the [Atomist community Slack workspace][slack].
 
 If you find a problem, please create an [issue][].
