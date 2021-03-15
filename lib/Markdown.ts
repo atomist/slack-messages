@@ -96,7 +96,7 @@ export function convertImageLinks(text: string): string {
  * @return string with Slack markup
  */
 export function convertLinks(text: string): string {
-	return text.replace(/\[(.+?)\]\((.+?)\)/g, "<$2|$1>");
+	return text.replace(/\[([^\]]+?)\]\((.+?)\)/g, "<$2|$1>");
 }
 
 /**

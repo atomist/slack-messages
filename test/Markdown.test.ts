@@ -371,6 +371,12 @@ There are many more.
 			assert(convertLinks(md) === expected);
 		});
 
+		it("should not convert text that looks almost like a link", () => {
+			const md = `[Something] Some text [#1804](http://google.com)`;
+			const expected = `[Something] Some text <http://google.com|#1804>`;
+			assert(convertLinks(md) === expected);
+		});
+
 		it("should convert a complicated link", () => {
 			const md = `[Google &mdash; Guided By Voices](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwj98P7fwNTVAhUKjVQKHUwJAkcQFggoMAA&url=http%3A%2F%2Fwww.gbv.com%2F&usg=AFQjCNF85PQImFGH5_nHSKg8ZZk0Hj57ow)`;
 			const expected = `<https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwj98P7fwNTVAhUKjVQKHUwJAkcQFggoMAA&url=http%3A%2F%2Fwww.gbv.com%2F&usg=AFQjCNF85PQImFGH5_nHSKg8ZZk0Hj57ow|Google &mdash; Guided By Voices>`;
