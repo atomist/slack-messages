@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -   Convert Markdown headers to bold text. [0858256](https://github.com/atomist/slack-messages/commit/0858256c13608ff58dcbff3e29d6fb95e87410c6)
 
+### Fixed
+
+-   Fix converting structures that look almost like links. [#48](https://github.com/atomist/slack-messages/issues/48)
+
 ## [1.2.0](https://github.com/atomist/slack-messages/compare/1.1.2...1.2.0) - 2020-10-07
 
 ### Added
