@@ -8,6 +8,8 @@
 software delivery machine (SDM).  This module also facilitates adding
 actions to your Slack messages that execute SDM commands.
 
+Support for sending Slack Block messages is also supported.
+
 See the [Atomist documentation][atomist-doc] for more information on
 what SDMs are and what they can do for you using the Atomist API for
 software.
